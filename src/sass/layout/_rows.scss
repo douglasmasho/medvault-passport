@@ -1,0 +1,131 @@
+.row,
+.row-2{
+    display: flex;
+    padding: 1rem 0.5rem;
+    &--forall{
+        display: flex;
+        @include respond(tab-port){
+            flex-direction: row;
+            justify-content: space-evenly;
+        }
+    }
+    &-justify{
+        @include respond(tab-port){
+            justify-content: center;
+        }
+    }
+    &--end{
+        justify-content: flex-end;
+        @include respond(tab-port){
+            align-items: flex-end;
+        }
+    }
+    &--start{
+        justify-content: flex-start;
+        @include respond(tab-port){
+            align-items: flex-start;
+        }
+    }
+
+
+    &--wrap{
+        flex-wrap: wrap;
+        display: flex;
+        padding: 1rem 0.5rem;
+        justify-content: space-around;
+    }
+    &--space-evenly{
+        justify-content: space-evenly;
+    }
+
+
+
+    &-2{
+        &--child{
+            width: 40%;
+            margin: 2rem;
+            @include respond(phone){
+                width: 100%;
+            }
+
+        }       
+    }
+    &-3{
+        &--child{
+            width: 20%;
+            margin: 2rem;
+            @include respond(phone){
+                width: 100%;
+            }
+        }
+    }
+
+  
+
+    &-7{
+        &--child{
+            width: 15%;
+            @include respond(phone){
+                width: 100%;
+            }
+        }
+    }
+    &-8{
+        &--child{
+            width: 13%;   
+            &:not(:last-child){
+                margin-right: 10px;
+            }
+            @include respond(phone){
+                width: 100%;
+            }
+        }   
+    }
+
+
+    &-9{
+        &--child{
+            width: 6%;
+
+            
+            &:not(:last-child){
+                margin-right: 5px;
+            }
+            @include respond(phone){
+                width: 100%;
+            }
+        }   
+    }
+}
+
+
+.row{
+    @include respond(tab-port){
+        flex-direction: column;
+        justify-content: space-evenly;
+        align-items: center;
+    }
+}
+
+.row-2{
+    @include respond(phone){
+        flex-direction: column;
+    }
+}
+
+.row-tab-col{
+    @include respond(tab-port){
+        flex-direction: column;
+        justify-content: space-evenly;
+        align-items: center;
+    }
+}
+
+.row-dont-center{
+    display: flex;
+    padding: 1rem 0.5rem;
+    @include respond(tab-port){
+        flex-direction: column;
+        justify-content: space-evenly;
+    }
+}

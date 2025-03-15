@@ -1,0 +1,12 @@
+.action-icon{
+    &:hover{
+        color: $red-ish;
+        transition: all .3s;
+    }
+}
+
+.full-on-smallscreens{
+    @include respond(tab-port){
+        width: 100% !important;
+    }
+}

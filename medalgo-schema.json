@@ -1,0 +1,707 @@
+{
+    "modelName": "New model",
+    "collections": [
+        {
+            "collectionName": "Users",
+            "type": "object",
+            "properties": [
+                {
+                    "GUID": "5c2f9be7-78ba-4972-b8ec-3f89228e22df",
+                    "name": "uid",
+                    "type": "reference",
+                    "$ref": "#/definitions/uid",
+                    "refType": "internal",
+                    "ref": "465e31d6-9f33-4e7c-bac4-43a164971894",
+                    "refIdPath": [
+                        "3d074afa-72d4-48f5-bc9f-b3f2374d3133",
+                        "4dc35cbf-6085-46fe-a573-a6ed21f4dc24",
+                        "465e31d6-9f33-4e7c-bac4-43a164971894"
+                    ],
+                    "isActivated": true,
+                    "primaryKey": true,
+                    "hackoladeMeta": {},
+                    "error": {
+                        "primaryKey": false
+                    }
+                },
+                {
+                    "name": "fullName",
+                    "hackoladeMeta": {},
+                    "isActivated": true,
+                    "primaryKey": false,
+                    "type": "string",
+                    "GUID": "f535f35b-a339-4170-a38a-669e3291e9e5",
+                    "error": {
+                        "name": false
+                    }
+                },
+                {
+                    "name": "organization",
+                    "hackoladeMeta": {},
+                    "isActivated": true,
+                    "primaryKey": false,
+                    "type": "string",
+                    "GUID": "34682ea9-8aac-4872-b925-1da57d220397",
+                    "error": {
+                        "name": false
+                    }
+                },
+                {
+                    "name": "profilePic",
+                    "hackoladeMeta": {},
+                    "isActivated": true,
+                    "primaryKey": false,
+                    "type": "string",
+                    "GUID": "23247d01-c109-47d2-b101-dc92b490958e",
+                    "error": {
+                        "name": false
+                    }
+                },
+                {
+                    "name": "email",
+                    "hackoladeMeta": {},
+                    "isActivated": true,
+                    "primaryKey": false,
+                    "type": "string",
+                    "GUID": "6a8cd28d-081d-4ffc-85b4-84ff9ce99dc2",
+                    "error": {}
+                },
+                {
+                    "name": "patients",
+                    "hackoladeMeta": {},
+                    "isActivated": true,
+                    "properties": [
+                        {
+                            "hackoladeMeta": {},
+                            "isActivated": true,
+                            "primaryKey": false,
+                            "properties": [],
+                            "additionalProperties": false,
+                            "childType": "object",
+                            "type": "document",
+                            "documentId": false,
+                            "containerLevelKey": false,
+                            "hasERDDivider": false,
+                            "error": {},
+                            "GUID": "02c62e19-7c24-4f04-a0da-e755d7905428",
+                            "arrayItem": true,
+                            "id": "pid"
+                        }
+                    ],
+                    "primaryKey": false,
+                    "additionalItems": true,
+                    "uniqueItems": false,
+                    "childType": "array",
+                    "type": "array",
+                    "GUID": "f768c595-cd20-41a5-ae10-bc99df1ca21c",
+                    "error": {
+                        "name": false
+                    }
+                },
+                {
+                    "name": "practiceNumber",
+                    "hackoladeMeta": {},
+                    "isActivated": true,
+                    "primaryKey": false,
+                    "type": "string",
+                    "GUID": "4293d88d-c7a3-425f-9be3-1ed466e98c54",
+                    "error": {
+                        "name": false
+                    }
+                },
+                {
+                    "name": "role",
+                    "hackoladeMeta": {},
+                    "isActivated": true,
+                    "primaryKey": false,
+                    "type": "string",
+                    "GUID": "d16ad5e2-3539-40fa-85f1-eb035091ba8c",
+                    "error": {}
+                },
+                {
+                    "hackoladeMeta": {},
+                    "isActivated": true,
+                    "primaryKey": false,
+                    "type": "string",
+                    "GUID": "1ccbac79-d109-4465-9984-8fd59568add3",
+                    "error": {
+                        "name": false
+                    },
+                    "name": "title"
+                }
+            ],
+            "definitions": {
+                "type": "definitions",
+                "properties": [
+                    {
+                        "name": "uid",
+                        "hackoladeMeta": {},
+                        "isActivated": true,
+                        "primaryKey": false,
+                        "type": "string",
+                        "GUID": "465e31d6-9f33-4e7c-bac4-43a164971894",
+                        "error": {
+                            "name": false
+                        },
+                        "definitionRefs": [
+                            [
+                                "3d074afa-72d4-48f5-bc9f-b3f2374d3133",
+                                "5c2f9be7-78ba-4972-b8ec-3f89228e22df"
+                            ]
+                        ]
+                    }
+                ],
+                "GUID": "4dc35cbf-6085-46fe-a573-a6ed21f4dc24"
+            },
+            "isActivated": true,
+            "additionalProperties": false,
+            "collectionUsers": [],
+            "GUID": "3d074afa-72d4-48f5-bc9f-b3f2374d3133",
+            "bucketId": "f1a54ae4-c62a-4a79-93f5-c0924acfe07c"
+        },
+        {
+            "collectionName": "Patients",
+            "type": "object",
+            "properties": [
+                {
+                    "name": "pid",
+                    "hackoladeMeta": {},
+                    "isActivated": true,
+                    "primaryKey": true,
+                    "type": "string",
+                    "GUID": "2a18ca32-a6aa-44aa-a193-8d73552db695",
+                    "error": {
+                        "name": false
+                    },
+                    "childRelationships": [
+                        "fee51f7a-94ca-4d2f-99b1-f7c4e3b62479",
+                        "c0731cfc-e5ed-414d-b146-ba67305c9354"
+                    ]
+                },
+                {
+                    "name": "fullName",
+                    "hackoladeMeta": {},
+                    "isActivated": true,
+                    "primaryKey": false,
+                    "type": "string",
+                    "GUID": "791fa01e-d46f-4844-914f-7f5e894172bc",
+                    "error": {
+                        "name": false
+                    }
+                },
+                {
+                    "name": "DoB",
+                    "hackoladeMeta": {},
+                    "isActivated": true,
+                    "primaryKey": false,
+                    "type": "string",
+                    "GUID": "2c80f852-4fd8-47cd-9d3d-b1a063c23c46",
+                    "error": {
+                        "name": false
+                    }
+                },
+                {
+                    "primaryKey": false,
+                    "type": "string",
+                    "name": "gender",
+                    "isActivated": true,
+                    "GUID": "17cb306b-99d8-4fbe-8a1a-63635e0df29a",
+                    "hackoladeMeta": {
+                        "namingConvention": ""
+                    },
+                    "error": {
+                        "name": false
+                    }
+                },
+                {
+                    "name": "mriScans",
+                    "hackoladeMeta": {},
+                    "isActivated": true,
+                    "properties": [
+                        {
+                            "hackoladeMeta": {},
+                            "isActivated": true,
+                            "primaryKey": false,
+                            "type": "string",
+                            "GUID": "5e06541f-4da8-473a-b1e8-a1c7d787f6f0",
+                            "arrayItem": true
+                        }
+                    ],
+                    "primaryKey": false,
+                    "additionalItems": true,
+                    "uniqueItems": false,
+                    "childType": "array",
+                    "type": "array",
+                    "error": {
+                        "name": false
+                    },
+                    "GUID": "1fa0cadc-e62e-4989-953a-3b392d6704be"
+                },
+                {
+                    "name": "lastDiagnosis",
+                    "hackoladeMeta": {},
+                    "isActivated": true,
+                    "primaryKey": false,
+                    "type": "string",
+                    "GUID": "35839f76-3f67-4e8b-a1d0-f952d0698677",
+                    "error": {
+                        "name": false
+                    }
+                }
+            ],
+            "definitions": {
+                "type": "definitions",
+                "properties": [],
+                "GUID": "ff3abff0-08bc-4cdf-9eb4-7b2dfba181be"
+            },
+            "isActivated": true,
+            "additionalProperties": false,
+            "collectionUsers": [],
+            "GUID": "c86effdf-dd2c-425e-abcd-6c93f8f560bf",
+            "bucketId": "f1a54ae4-c62a-4a79-93f5-c0924acfe07c"
+        },
+        {
+            "collectionName": "DiagnosisSets",
+            "type": "object",
+            "properties": [
+                {
+                    "name": "pid",
+                    "hackoladeMeta": {},
+                    "isActivated": true,
+                    "primaryKey": true,
+                    "type": "string",
+                    "GUID": "9fd0da77-aa76-47f2-b92e-26e69c522b2f",
+                    "foreignCollection": "c86effdf-dd2c-425e-abcd-6c93f8f560bf",
+                    "foreignField": [
+                        "c86effdf-dd2c-425e-abcd-6c93f8f560bf",
+                        "2a18ca32-a6aa-44aa-a193-8d73552db695"
+                    ],
+                    "relationshipType": "Foreign Key",
+                    "parentRelationship": "fee51f7a-94ca-4d2f-99b1-f7c4e3b62479",
+                    "error": {}
+                },
+                {
+                    "name": "detect",
+                    "hackoladeMeta": {},
+                    "isActivated": true,
+                    "properties": [
+                        {
+                            "hackoladeMeta": {},
+                            "isActivated": true,
+                            "primaryKey": false,
+                            "type": "string",
+                            "GUID": "28f7dd30-0d4e-4a80-9fd0-f3773a4a3daa",
+                            "arrayItem": true
+                        }
+                    ],
+                    "primaryKey": false,
+                    "additionalItems": true,
+                    "uniqueItems": false,
+                    "childType": "array",
+                    "type": "array",
+                    "GUID": "a8b9f925-ce48-4b75-9a17-f48b450e92cd",
+                    "error": {
+                        "name": false
+                    }
+                },
+                {
+                    "name": "analyze",
+                    "hackoladeMeta": {},
+                    "isActivated": true,
+                    "properties": [
+                        {
+                            "hackoladeMeta": {},
+                            "isActivated": true,
+                            "primaryKey": false,
+                            "type": "string",
+                            "GUID": "e6f4190c-93cc-4c6b-a2f0-bc4f1618078a",
+                            "arrayItem": true
+                        }
+                    ],
+                    "primaryKey": false,
+                    "additionalItems": true,
+                    "uniqueItems": false,
+                    "childType": "array",
+                    "type": "array",
+                    "GUID": "2b2cbab3-3df2-467d-a7f4-b4a3c7abd86e",
+                    "error": {
+                        "name": false
+                    }
+                }
+            ],
+            "definitions": {
+                "type": "definitions",
+                "properties": [],
+                "GUID": "e5b7562a-4a64-4bf0-afef-1c369deda2d1"
+            },
+            "isActivated": true,
+            "additionalProperties": false,
+            "collectionUsers": [],
+            "GUID": "7061a746-cfb0-4514-9b1f-593b413befd5",
+            "bucketId": "f1a54ae4-c62a-4a79-93f5-c0924acfe07c"
+        },
+        {
+            "collectionName": "diagnosis",
+            "type": "object",
+            "properties": [
+                {
+                    "name": "did",
+                    "hackoladeMeta": {},
+                    "isActivated": true,
+                    "primaryKey": true,
+                    "type": "string",
+                    "GUID": "3edcaa53-d1d8-491c-903b-b7383e50c620",
+                    "error": {}
+                },
+                {
+                    "name": "image",
+                    "hackoladeMeta": {},
+                    "isActivated": true,
+                    "primaryKey": false,
+                    "type": "string",
+                    "GUID": "52503839-2a3c-439a-8c99-a8c8979c9e65",
+                    "error": {
+                        "name": false
+                    }
+                },
+                {
+                    "name": "class_predictions",
+                    "hackoladeMeta": {},
+                    "isActivated": true,
+                    "primaryKey": false,
+                    "type": "string",
+                    "GUID": "92552758-3d60-4f70-9e51-beb93ee5979e",
+                    "error": {
+                        "name": false
+                    }
+                },
+                {
+                    "name": "predicted_class",
+                    "hackoladeMeta": {},
+                    "isActivated": true,
+                    "primaryKey": false,
+                    "type": "string",
+                    "GUID": "0ff049a5-a2c8-449d-b096-7a93cf047a00",
+                    "error": {
+                        "name": false
+                    }
+                },
+                {
+                    "hackoladeMeta": {},
+                    "isActivated": true,
+                    "primaryKey": false,
+                    "type": "string",
+                    "GUID": "7a40faae-6884-4c6e-9a52-3849f92a0a00",
+                    "name": "pid",
+                    "error": {},
+                    "foreignCollection": "c86effdf-dd2c-425e-abcd-6c93f8f560bf",
+                    "foreignField": [
+                        "c86effdf-dd2c-425e-abcd-6c93f8f560bf",
+                        "2a18ca32-a6aa-44aa-a193-8d73552db695"
+                    ],
+                    "relationshipType": "Foreign Key",
+                    "parentRelationship": "c0731cfc-e5ed-414d-b146-ba67305c9354"
+                }
+            ],
+            "definitions": {
+                "type": "definitions",
+                "properties": [],
+                "GUID": "0307c50b-eee2-46a5-869d-7ce9658d9cb4"
+            },
+            "isActivated": true,
+            "additionalProperties": false,
+            "collectionUsers": [],
+            "GUID": "1eddbbbd-cfe0-4927-a012-552d00ec5ada",
+            "bucketId": "f1a54ae4-c62a-4a79-93f5-c0924acfe07c"
+        }
+    ],
+    "buckets": [
+        {
+            "name": "Medalgo Database",
+            "type": "bucket",
+            "collectionIds": [
+                "3d074afa-72d4-48f5-bc9f-b3f2374d3133",
+                "c86effdf-dd2c-425e-abcd-6c93f8f560bf",
+                "7061a746-cfb0-4514-9b1f-593b413befd5",
+                "1eddbbbd-cfe0-4927-a012-552d00ec5ada"
+            ],
+            "backgroundColor": {
+                "r": 216,
+                "g": 0,
+                "b": 115,
+                "a": 1
+            },
+            "show": true,
+            "isActivated": true,
+            "indexes": [],
+            "GUID": "f1a54ae4-c62a-4a79-93f5-c0924acfe07c",
+            "documentIdName": "^[a-zA-Z0-9_.-]{20}$",
+            "documentIdType": "object"
+        }
+    ],
+    "views": [],
+    "relationships": [
+        {
+            "name": "fk_Patients_pid_to_DiagnosisSets_pid",
+            "relationshipType": "Foreign Key",
+            "parentField": [
+                [
+                    "c86effdf-dd2c-425e-abcd-6c93f8f560bf",
+                    "2a18ca32-a6aa-44aa-a193-8d73552db695"
+                ]
+            ],
+            "parentCardinality": "1",
+            "childField": [
+                [
+                    "7061a746-cfb0-4514-9b1f-593b413befd5",
+                    "9fd0da77-aa76-47f2-b92e-26e69c522b2f"
+                ]
+            ],
+            "isActivated": true,
+            "childCardinality": "1",
+            "GUID": "fee51f7a-94ca-4d2f-99b1-f7c4e3b62479",
+            "parentCollection": "c86effdf-dd2c-425e-abcd-6c93f8f560bf",
+            "childCollection": "7061a746-cfb0-4514-9b1f-593b413befd5",
+            "hackoladeStyles": {
+                "GUID": "873795fd-d022-408b-a122-14fbe9f1a134",
+                "autoPositioning": true,
+                "type": "Orthogonal",
+                "thickness": 2,
+                "color": "#79c4ff",
+                "dataType": "",
+                "shape": [
+                    {
+                        "x": 903,
+                        "y": 823.5
+                    },
+                    {
+                        "x": 928,
+                        "y": 823.5
+                    },
+                    {
+                        "x": 928,
+                        "y": 663.6666666666666
+                    },
+                    {
+                        "x": 882,
+                        "y": 663.6666666666666
+                    }
+                ],
+                "sides": [
+                    "right",
+                    "right"
+                ]
+            }
+        },
+        {
+            "name": "fk_Patients_pid_to_diagnosis_pid",
+            "relationshipType": "Foreign Key",
+            "parentField": [
+                [
+                    "c86effdf-dd2c-425e-abcd-6c93f8f560bf",
+                    "2a18ca32-a6aa-44aa-a193-8d73552db695"
+                ]
+            ],
+            "parentCardinality": "1",
+            "childField": [
+                [
+                    "1eddbbbd-cfe0-4927-a012-552d00ec5ada",
+                    "7a40faae-6884-4c6e-9a52-3849f92a0a00"
+                ]
+            ],
+            "isActivated": true,
+            "childCardinality": "1",
+            "GUID": "c0731cfc-e5ed-414d-b146-ba67305c9354",
+            "parentCollection": "c86effdf-dd2c-425e-abcd-6c93f8f560bf",
+            "childCollection": "1eddbbbd-cfe0-4927-a012-552d00ec5ada",
+            "hackoladeStyles": {
+                "GUID": "c4519150-69cf-4366-a89f-fcca9b343f5d",
+                "autoPositioning": true,
+                "type": "Orthogonal",
+                "thickness": 2,
+                "color": "#79c4ff",
+                "dataType": "",
+                "shape": [
+                    {
+                        "x": 998,
+                        "y": 671.5
+                    },
+                    {
+                        "x": 940,
+                        "y": 671.5
+                    },
+                    {
+                        "x": 940,
+                        "y": 611.3333333333334
+                    },
+                    {
+                        "x": 882,
+                        "y": 611.3333333333334
+                    }
+                ],
+                "sides": [
+                    "left",
+                    "right"
+                ]
+            }
+        }
+    ],
+    "users": [],
+    "diagramViews": [],
+    "idToNameHashTable": {
+        "f1a54ae4-c62a-4a79-93f5-c0924acfe07c": "Medalgo Database",
+        "3d074afa-72d4-48f5-bc9f-b3f2374d3133": "Users",
+        "f535f35b-a339-4170-a38a-669e3291e9e5": "fullName",
+        "34682ea9-8aac-4872-b925-1da57d220397": "organization",
+        "23247d01-c109-47d2-b101-dc92b490958e": "profilePic",
+        "465e31d6-9f33-4e7c-bac4-43a164971894": "uid",
+        "5c2f9be7-78ba-4972-b8ec-3f89228e22df": "uid",
+        "6a8cd28d-081d-4ffc-85b4-84ff9ce99dc2": "email",
+        "f768c595-cd20-41a5-ae10-bc99df1ca21c": "patients",
+        "4293d88d-c7a3-425f-9be3-1ed466e98c54": "practiceNumber",
+        "d16ad5e2-3539-40fa-85f1-eb035091ba8c": "role",
+        "1ccbac79-d109-4465-9984-8fd59568add3": "title",
+        "c86effdf-dd2c-425e-abcd-6c93f8f560bf": "Patients",
+        "2a18ca32-a6aa-44aa-a193-8d73552db695": "pid",
+        "791fa01e-d46f-4844-914f-7f5e894172bc": "fullName",
+        "2c80f852-4fd8-47cd-9d3d-b1a063c23c46": "DoB",
+        "17cb306b-99d8-4fbe-8a1a-63635e0df29a": "gender",
+        "7061a746-cfb0-4514-9b1f-593b413befd5": "DiagnosisSets",
+        "9fd0da77-aa76-47f2-b92e-26e69c522b2f": "pid",
+        "fee51f7a-94ca-4d2f-99b1-f7c4e3b62479": "fk_Patients_pid_to_DiagnosisSets_pid",
+        "a8b9f925-ce48-4b75-9a17-f48b450e92cd": "detect",
+        "1fa0cadc-e62e-4989-953a-3b392d6704be": "mriScans",
+        "2b2cbab3-3df2-467d-a7f4-b4a3c7abd86e": "analyze",
+        "1eddbbbd-cfe0-4927-a012-552d00ec5ada": "diagnosis",
+        "3edcaa53-d1d8-491c-903b-b7383e50c620": "did",
+        "52503839-2a3c-439a-8c99-a8c8979c9e65": "image",
+        "92552758-3d60-4f70-9e51-beb93ee5979e": "class_predictions",
+        "0ff049a5-a2c8-449d-b096-7a93cf047a00": "predicted_class",
+        "7a40faae-6884-4c6e-9a52-3849f92a0a00": "pid",
+        "c0731cfc-e5ed-414d-b146-ba67305c9354": "fk_Patients_pid_to_diagnosis_pid",
+        "35839f76-3f67-4e8b-a1d0-f952d0698677": "lastDiagnosis"
+    },
+    "definitions": {
+        "type": "definitions",
+        "properties": [],
+        "GUID": "42f3b1a7-f7c9-4505-8314-f12c4f62aa97"
+    },
+    "polyglotDefinitions": {
+        "type": "polyglotDefinitions",
+        "properties": [],
+        "GUID": "1b5a2b8b-eb24-4f2e-a408-9bdeaeea1f25"
+    },
+    "externalDefinitions": {
+        "type": "externalDefinitions",
+        "properties": [],
+        "GUID": "0477cc5e-3123-4885-acc8-c1ae4579399b"
+    },
+    "sources": [],
+    "decorativeSymbols": [],
+    "dbVendor": "Cloud Firestore",
+    "appTarget": "FIRESTORE",
+    "creationTS": "2024-09-19T07:31:33.243Z",
+    "GUID": "6a9d0cf1-3fad-44b1-99a7-1b71f96b13b4",
+    "isLineageEnabled": false,
+    "lastModifTS": "2024-09-19T08:04:47.414Z",
+    "persistenceSchemaVersion": "7",
+    "isCreatedByPlugin": true,
+    "pluginInformation": {
+        "pluginName": "Firestore",
+        "pluginVersion": "0.2.1",
+        "pluginEngineVersion": "1.0.0"
+    },
+    "applicationInformation": {
+        "version": "7.7.8"
+    },
+    "settings": {
+        "centralPane": {
+            "dbLevel": {
+                "erd": [
+                    {
+                        "GUID": "3d074afa-72d4-48f5-bc9f-b3f2374d3133",
+                        "x": 372,
+                        "y": 551,
+                        "width": 240,
+                        "height": 213,
+                        "color": {}
+                    },
+                    {
+                        "GUID": "c86effdf-dd2c-425e-abcd-6c93f8f560bf",
+                        "x": 689,
+                        "y": 559,
+                        "width": 193,
+                        "height": 157,
+                        "color": {}
+                    },
+                    {
+                        "GUID": "7061a746-cfb0-4514-9b1f-593b413befd5",
+                        "x": 704,
+                        "y": 762,
+                        "width": 199,
+                        "height": 123,
+                        "color": {}
+                    },
+                    {
+                        "GUID": "1eddbbbd-cfe0-4927-a012-552d00ec5ada",
+                        "x": 998,
+                        "y": 610,
+                        "width": 212,
+                        "height": 123,
+                        "color": {}
+                    }
+                ],
+                "erdDefinitions": {
+                    "erd": [],
+                    "rootPath": [],
+                    "entities": [],
+                    "decorativeSymbols": []
+                },
+                "buckets": [
+                    {
+                        "x": 332,
+                        "y": 511,
+                        "GUID": "f1a54ae4-c62a-4a79-93f5-c0924acfe07c"
+                    }
+                ],
+                "collapsedNodes": [],
+                "activeRelationship": "",
+                "activeRelationshipFields": {
+                    "childField": [],
+                    "parentField": []
+                },
+                "selectedCollections": [],
+                "displayColorPicker": false,
+                "graphView": {
+                    "erd": [],
+                    "buckets": [],
+                    "decorativeSymbols": [],
+                    "forceLayout": true,
+                    "defaultLinkLength": 300
+                },
+                "diagramViews": [],
+                "decorativeSymbols": [],
+                "nestedCollectionsLayout": "horizontal",
+                "options": [
+                    {
+                        "autoWidth": true,
+                        "autoHeight": true,
+                        "GUID": "3d074afa-72d4-48f5-bc9f-b3f2374d3133"
+                    },
+                    {
+                        "autoWidth": false,
+                        "autoHeight": false,
+                        "GUID": "c86effdf-dd2c-425e-abcd-6c93f8f560bf"
+                    }
+                ],
+                "relationshipUpdateDisabled": false
+            },
+            "collectionLevel": {},
+            "changed": false
+        },
+        "dtDiagram": {
+            "collapsedNodes": [],
+            "shouldDistributeCollections": false
+        }
+    }
+}

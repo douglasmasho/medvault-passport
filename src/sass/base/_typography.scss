@@ -1,0 +1,173 @@
+body{
+    font-family: "Lexend", sans-serif !important;
+}
+
+.white-text{
+    color: white !important;
+}
+
+.black-text{
+    color: black !important; 
+}
+
+.bold-text{
+    font-weight: bold;
+}
+
+
+
+
+.header-text{
+    font-size: 3.5rem;
+    font-weight: 600;
+    text-transform: capitalize;
+    font-family: "Poppins", sans-serif;
+    // color: $deep-blue;
+    @include respond(tab-land){
+    font-size: 4.5rem;
+    }
+    // @include respond(tab-port){
+    //     font-size: 6rem;
+    // }
+    &--smaller{
+    font-size: 3rem !important;
+    font-family: "Poppins", sans-serif;
+    color: $deep-blue !important;
+    @include respond(tab-port){
+        font-size: 3.5rem !important;
+        }
+        @include respond(phone){
+            font-size: 5rem !important;
+        }
+    }
+}
+.sub-header-text{
+    font-size: 2.5rem;
+    font-weight: 500;
+    text-transform: capitalize;
+    color: $deep-blue;
+
+    @include respond(phone){
+        font-size: 5rem;
+    }
+}
+
+.bigish-text{
+    font-size: 20px;
+}
+
+.red-ish-text{
+    color: $red-ish !important;
+}
+
+.red-ish-light-text{
+    color: $red-ish-light;
+}
+
+.deep-blue-text{
+    color: $deep-blue
+}
+
+.dark-blue-text{
+    color: $deep-blue
+}
+
+.red-text{
+    color: red;
+}
+
+.small-text{
+    font-size: 1.3rem !important;
+}
+
+.smaller-text{
+    font-size: 1.4rem !important;
+    @include respond(tab-port){
+        font-size: 1.5rem !important;
+     }
+    @include respond(phone){
+        font-size: 2rem !important;   
+      }
+}
+.normal-text{
+    font-size: 1.7rem !important;
+    @include respond(tab-port){
+        font-size: 2rem !important;
+     }
+    @include respond(phone){
+        font-size: 3rem !important;  
+      }
+}
+
+.bigger-text{
+    font-size: 1.5rem !important;
+}
+
+.bigger2-text{
+    font-size: 2.2rem;
+    @include respond(tab-port){
+        font-size: 3rem;
+     }
+     @include respond(phone){
+        font-size: 4rem;  
+      }
+}
+
+.align-center{
+    text-align: center;
+}
+
+.center-text{
+    text-align: center;
+}
+
+.capitalize-text{
+    text-transform: capitalize;
+}
+
+.deep-blue-text{
+    color: $deep-blue !important;
+}
+
+.justify-text{
+    text-align: justify;
+}
+
+.green-ish-text{
+    color: $red-ish
+}
+
+.deep-blue-text{
+    color: $deep-blue;
+}
+
+
+
+.align-right{
+    text-align: right;
+}
+
+
+.light-text{
+    font-weight: lighter !important;
+}
+
+.uppercase-text{
+    text-transform: uppercase;
+}
+
+.italic-text{
+    font-style: italic;
+}
+
+.light-blue-text{
+    color: $light-blue;
+}
+
+.blue-text{
+    color: $blue !important;
+}
+
+.medium-text{
+    font-size: 20px;
+}

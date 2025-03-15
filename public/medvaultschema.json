@@ -1,0 +1,700 @@
+{
+  "modelName": "New model",
+  "collections": [
+    {
+      "GUID": "29ef3bde-f4ec-4f80-a782-45175871ee27",
+      "collectionName": "Orgs",
+      "type": "object",
+      "properties": [
+        {
+          "hackoladeMeta": {},
+          "isActivated": true,
+          "primaryKey": false,
+          "type": "string",
+          "GUID": "6dabb73b-ecae-41cf-a832-4f9a5b5d133b",
+          "name": "name",
+          "error": {}
+        },
+        {
+          "name": "providerIDs",
+          "hackoladeMeta": {},
+          "isActivated": true,
+          "properties": [
+            {
+              "hackoladeMeta": {},
+              "isActivated": true,
+              "primaryKey": false,
+              "type": "string",
+              "GUID": "49e00e47-e534-4430-be5a-e69e8f35b880",
+              "arrayItem": true
+            }
+          ],
+          "primaryKey": false,
+          "additionalItems": true,
+          "uniqueItems": false,
+          "childType": "array",
+          "type": "array",
+          "error": {},
+          "GUID": "c7c24953-4a89-4017-82de-0ad1e789aa7f"
+        },
+        {
+          "name": "patientIDs",
+          "hackoladeMeta": {},
+          "isActivated": true,
+          "properties": [
+            {
+              "hackoladeMeta": {},
+              "isActivated": true,
+              "primaryKey": false,
+              "type": "string",
+              "GUID": "f5390010-be73-41ef-85d1-c3af08300acf",
+              "arrayItem": true
+            }
+          ],
+          "primaryKey": false,
+          "additionalItems": true,
+          "uniqueItems": false,
+          "childType": "array",
+          "type": "array",
+          "error": {},
+          "GUID": "431558c2-e98c-44fc-abc4-9c19249ebf46"
+        },
+        {
+          "name": "staffIDs",
+          "hackoladeMeta": {},
+          "isActivated": true,
+          "properties": [
+            {
+              "hackoladeMeta": {},
+              "isActivated": true,
+              "primaryKey": false,
+              "type": "string",
+              "GUID": "33999c25-6304-4246-b850-a2ba969d4a87",
+              "arrayItem": true
+            }
+          ],
+          "primaryKey": false,
+          "additionalItems": true,
+          "uniqueItems": false,
+          "childType": "array",
+          "type": "array",
+          "error": {
+            "name": false
+          },
+          "GUID": "f365604e-08e0-412f-a5d1-33743b208032"
+        },
+        {
+          "name": "notifications",
+          "hackoladeMeta": {},
+          "isActivated": true,
+          "properties": [
+            {
+              "hackoladeMeta": {},
+              "isActivated": true,
+              "primaryKey": false,
+              "type": "string",
+              "GUID": "568dcbf5-f4ff-4dbd-89da-f9085676613f",
+              "arrayItem": true
+            },
+            {
+              "hackoladeMeta": {},
+              "isActivated": true,
+              "primaryKey": false,
+              "type": "string",
+              "GUID": "eefb61d6-7db5-471a-b75c-613d9c1feda6",
+              "arrayItem": true
+            },
+            {
+              "hackoladeMeta": {},
+              "isActivated": true,
+              "primaryKey": false,
+              "type": "string",
+              "GUID": "315d40a8-bc27-47ab-88c1-53c6b6f78db7",
+              "arrayItem": true
+            }
+          ],
+          "primaryKey": false,
+          "additionalItems": true,
+          "uniqueItems": false,
+          "childType": "array",
+          "type": "array",
+          "error": {},
+          "GUID": "60e89380-254e-432a-9817-35cb3caa5083"
+        },
+        {
+          "name": "appointments",
+          "hackoladeMeta": {},
+          "isActivated": true,
+          "properties": [
+            {
+              "hackoladeMeta": {},
+              "isActivated": true,
+              "primaryKey": false,
+              "type": "string",
+              "GUID": "f850266c-2bea-463c-80ef-d490c0301c6f",
+              "arrayItem": true
+            }
+          ],
+          "primaryKey": false,
+          "additionalItems": true,
+          "uniqueItems": false,
+          "childType": "array",
+          "type": "array",
+          "error": {},
+          "GUID": "168ed473-d0c1-4982-8435-69dd2f36fae8"
+        },
+        {
+          "hackoladeMeta": {},
+          "isActivated": true,
+          "primaryKey": true,
+          "type": "string",
+          "GUID": "90995946-135b-475b-8014-dd16e060e125",
+          "name": "orgID",
+          "error": {},
+          "childRelationships": [
+            "4fb6a49f-ca74-444c-a6db-610aab98face"
+          ]
+        }
+      ],
+      "definitions": {
+        "type": "definitions",
+        "properties": [],
+        "GUID": "950af816-cdad-48b8-9e3c-54da324e951c"
+      },
+      "isActivated": true,
+      "additionalProperties": false,
+      "collectionUsers": [],
+      "bucketId": "d4b3f5c2-5d7d-4a5b-9023-6c225089031f"
+    },
+    {
+      "GUID": "3a5a74d3-5f9d-40a4-bc17-da4ff6ee25b6",
+      "collectionName": "Patients",
+      "type": "object",
+      "properties": [
+        {
+          "hackoladeMeta": {},
+          "isActivated": true,
+          "primaryKey": false,
+          "type": "string",
+          "GUID": "e6d495de-264e-4733-93cb-1f49e7e776f8",
+          "name": "Name",
+          "error": {}
+        },
+        {
+          "name": "dob",
+          "hackoladeMeta": {},
+          "isActivated": true,
+          "primaryKey": false,
+          "type": "string",
+          "GUID": "33e8f8b3-c107-4ba5-9181-f9e0d305a57f",
+          "error": {}
+        },
+        {
+          "name": "gender",
+          "hackoladeMeta": {},
+          "isActivated": true,
+          "primaryKey": false,
+          "type": "string",
+          "GUID": "fcb5ccbf-ac28-47e7-b215-b197bf59a14b",
+          "error": {}
+        },
+        {
+          "name": "idNumber",
+          "hackoladeMeta": {},
+          "isActivated": true,
+          "primaryKey": false,
+          "type": "string",
+          "GUID": "d72e442c-c1f4-4262-8b37-00cbf0586a60",
+          "error": {}
+        },
+        {
+          "name": "instanceIDs",
+          "hackoladeMeta": {},
+          "isActivated": true,
+          "properties": [
+            {
+              "hackoladeMeta": {},
+              "isActivated": true,
+              "primaryKey": false,
+              "type": "string",
+              "GUID": "d3e300cb-3d6e-45ac-9b8d-6c50c52fbeff",
+              "arrayItem": true
+            }
+          ],
+          "primaryKey": false,
+          "additionalItems": true,
+          "uniqueItems": false,
+          "childType": "array",
+          "type": "array",
+          "GUID": "0f32fff1-0913-4ebf-873a-f660eb17b3a6",
+          "error": {}
+        },
+        {
+          "hackoladeMeta": {},
+          "isActivated": true,
+          "primaryKey": true,
+          "type": "string",
+          "GUID": "64a20e6a-5cbe-4ff5-adfc-bca68a4b446f",
+          "name": "uid",
+          "error": {
+            "name": false
+          },
+          "childRelationships": [
+            "e8fde749-e9fb-4229-8f05-f296182cb1c9"
+          ]
+        }
+      ],
+      "definitions": {
+        "type": "definitions",
+        "properties": [],
+        "GUID": "5f94c436-0119-423f-860b-ba542e67d231"
+      },
+      "isActivated": true,
+      "additionalProperties": false,
+      "collectionUsers": [],
+      "bucketId": "d4b3f5c2-5d7d-4a5b-9023-6c225089031f"
+    },
+    {
+      "GUID": "87f0e9e8-eb61-4fcf-a386-6d171db7bcb6",
+      "collectionName": "Instance",
+      "type": "object",
+      "properties": [
+        {
+          "hackoladeMeta": {},
+          "isActivated": true,
+          "primaryKey": false,
+          "type": "string",
+          "GUID": "d306ac8f-537e-4b27-8a11-e192a6c7d994",
+          "name": "type",
+          "error": {}
+        },
+        {
+          "hackoladeMeta": {},
+          "isActivated": true,
+          "primaryKey": false,
+          "type": "string",
+          "GUID": "2c50bbfc-269b-4e90-a30f-20ef607a46d2",
+          "name": "Date",
+          "error": {}
+        },
+        {
+          "hackoladeMeta": {},
+          "isActivated": true,
+          "primaryKey": false,
+          "type": "string",
+          "GUID": "714dc04e-4053-4e21-adaa-23fd2304011d",
+          "foreignCollection": "3a5a74d3-5f9d-40a4-bc17-da4ff6ee25b6",
+          "foreignField": [
+            "3a5a74d3-5f9d-40a4-bc17-da4ff6ee25b6",
+            "64a20e6a-5cbe-4ff5-adfc-bca68a4b446f"
+          ],
+          "relationshipType": "Foreign Key",
+          "parentRelationship": "e8fde749-e9fb-4229-8f05-f296182cb1c9",
+          "name": "pID",
+          "error": {}
+        },
+        {
+          "hackoladeMeta": {},
+          "isActivated": true,
+          "primaryKey": true,
+          "type": "string",
+          "GUID": "5d18f1fc-4635-4862-9d43-df619c4f92ec",
+          "name": "iID",
+          "error": {}
+        }
+      ],
+      "definitions": {
+        "type": "definitions",
+        "properties": [],
+        "GUID": "acbae1c4-ce95-4a2e-b80e-65405a5fec27"
+      },
+      "isActivated": true,
+      "additionalProperties": false,
+      "collectionUsers": [],
+      "bucketId": "d4b3f5c2-5d7d-4a5b-9023-6c225089031f"
+    },
+    {
+      "GUID": "fecf7713-df91-494e-8b76-cd2bfe80b197",
+      "collectionName": "Provider",
+      "type": "object",
+      "properties": [
+        {
+          "hackoladeMeta": {},
+          "isActivated": true,
+          "primaryKey": true,
+          "type": "string",
+          "GUID": "db7621a8-f214-4d3c-86e6-b3c7cbe01472",
+          "name": "uid",
+          "error": {
+            "name": false
+          }
+        },
+        {
+          "hackoladeMeta": {},
+          "isActivated": true,
+          "primaryKey": false,
+          "type": "string",
+          "GUID": "f7ab7161-bc41-4042-9b1d-f26ce75e7586",
+          "name": "Name",
+          "error": {}
+        },
+        {
+          "hackoladeMeta": {},
+          "isActivated": true,
+          "primaryKey": false,
+          "type": "string",
+          "GUID": "13754ceb-29ce-47fc-99ec-6b1508edf1c4",
+          "name": "dob",
+          "error": {}
+        },
+        {
+          "hackoladeMeta": {},
+          "isActivated": true,
+          "primaryKey": false,
+          "type": "string",
+          "GUID": "7bea2874-2286-4bd9-b826-c1ad2037c22c",
+          "name": "orgID",
+          "error": {},
+          "foreignCollection": "29ef3bde-f4ec-4f80-a782-45175871ee27",
+          "foreignField": [
+            "29ef3bde-f4ec-4f80-a782-45175871ee27",
+            "90995946-135b-475b-8014-dd16e060e125"
+          ],
+          "relationshipType": "Foreign Key",
+          "parentRelationship": "4fb6a49f-ca74-444c-a6db-610aab98face"
+        }
+      ],
+      "definitions": {
+        "type": "definitions",
+        "properties": [],
+        "GUID": "a75c45f5-df5b-4fbf-8434-5fe9267e3eab"
+      },
+      "isActivated": true,
+      "additionalProperties": false,
+      "collectionUsers": [],
+      "bucketId": "d4b3f5c2-5d7d-4a5b-9023-6c225089031f"
+    }
+  ],
+  "buckets": [
+    {
+      "name": "Medvault",
+      "type": "bucket",
+      "collectionIds": [
+        "29ef3bde-f4ec-4f80-a782-45175871ee27",
+        "3a5a74d3-5f9d-40a4-bc17-da4ff6ee25b6",
+        "87f0e9e8-eb61-4fcf-a386-6d171db7bcb6",
+        "fecf7713-df91-494e-8b76-cd2bfe80b197"
+      ],
+      "backgroundColor": {
+        "r": 216,
+        "g": 0,
+        "b": 115,
+        "a": 1
+      },
+      "show": true,
+      "isActivated": true,
+      "indexes": [],
+      "GUID": "d4b3f5c2-5d7d-4a5b-9023-6c225089031f",
+      "documentIdName": "^[a-zA-Z0-9_.-]{20}$",
+      "documentIdType": "object"
+    }
+  ],
+  "views": [],
+  "relationships": [
+    {
+      "name": "fk_PatientBase_pID_to_Instance_New field2",
+      "relationshipType": "Foreign Key",
+      "parentField": [
+        [
+          "3a5a74d3-5f9d-40a4-bc17-da4ff6ee25b6",
+          "64a20e6a-5cbe-4ff5-adfc-bca68a4b446f"
+        ]
+      ],
+      "parentCardinality": "1",
+      "childField": [
+        [
+          "87f0e9e8-eb61-4fcf-a386-6d171db7bcb6",
+          "714dc04e-4053-4e21-adaa-23fd2304011d"
+        ]
+      ],
+      "isActivated": true,
+      "childCardinality": "1",
+      "GUID": "e8fde749-e9fb-4229-8f05-f296182cb1c9",
+      "parentCollection": "3a5a74d3-5f9d-40a4-bc17-da4ff6ee25b6",
+      "childCollection": "87f0e9e8-eb61-4fcf-a386-6d171db7bcb6",
+      "hackoladeStyles": {
+        "GUID": "c178b38a-8b7c-42fb-9f31-89fb1d04476a",
+        "autoPositioning": true,
+        "type": "Orthogonal",
+        "thickness": 2,
+        "color": "#79c4ff",
+        "dataType": "",
+        "shape": [
+          {
+            "x": 1612,
+            "y": 1305.5
+          },
+          {
+            "x": 1668,
+            "y": 1305.5
+          },
+          {
+            "x": 1668,
+            "y": 1152.5
+          },
+          {
+            "x": 1643,
+            "y": 1152.5
+          }
+        ],
+        "sides": [
+          "right",
+          "right"
+        ]
+      }
+    },
+    {
+      "name": "fk_OrgBase_orgID_to_Provider_orgID",
+      "relationshipType": "Foreign Key",
+      "parentField": [
+        [
+          "29ef3bde-f4ec-4f80-a782-45175871ee27",
+          "90995946-135b-475b-8014-dd16e060e125"
+        ]
+      ],
+      "parentCardinality": "1",
+      "childField": [
+        [
+          "fecf7713-df91-494e-8b76-cd2bfe80b197",
+          "7bea2874-2286-4bd9-b826-c1ad2037c22c"
+        ]
+      ],
+      "isActivated": true,
+      "childCardinality": "1",
+      "GUID": "4fb6a49f-ca74-444c-a6db-610aab98face",
+      "parentCollection": "29ef3bde-f4ec-4f80-a782-45175871ee27",
+      "childCollection": "fecf7713-df91-494e-8b76-cd2bfe80b197",
+      "hackoladeStyles": {
+        "GUID": "3c8fff15-0c1a-4639-a3cb-5863d0dc011a",
+        "autoPositioning": true,
+        "type": "Orthogonal",
+        "thickness": 2,
+        "color": "#79c4ff",
+        "dataType": "",
+        "shape": [
+          {
+            "x": 1180,
+            "y": 1388
+          },
+          {
+            "x": 1298,
+            "y": 1388
+          },
+          {
+            "x": 1298,
+            "y": 1195
+          },
+          {
+            "x": 1273,
+            "y": 1195
+          }
+        ],
+        "sides": [
+          "right",
+          "right"
+        ]
+      }
+    }
+  ],
+  "users": [],
+  "diagramViews": [],
+  "idToNameHashTable": {
+    "d4b3f5c2-5d7d-4a5b-9023-6c225089031f": "Medvault",
+    "29ef3bde-f4ec-4f80-a782-45175871ee27": "Orgs",
+    "6dabb73b-ecae-41cf-a832-4f9a5b5d133b": "name",
+    "c7c24953-4a89-4017-82de-0ad1e789aa7f": "providerIDs",
+    "431558c2-e98c-44fc-abc4-9c19249ebf46": "patientIDs",
+    "60e89380-254e-432a-9817-35cb3caa5083": "notifications",
+    "168ed473-d0c1-4982-8435-69dd2f36fae8": "appointments",
+    "3a5a74d3-5f9d-40a4-bc17-da4ff6ee25b6": "Patients",
+    "e6d495de-264e-4733-93cb-1f49e7e776f8": "Name",
+    "33e8f8b3-c107-4ba5-9181-f9e0d305a57f": "dob",
+    "fcb5ccbf-ac28-47e7-b215-b197bf59a14b": "gender",
+    "d72e442c-c1f4-4262-8b37-00cbf0586a60": "idNumber",
+    "0f32fff1-0913-4ebf-873a-f660eb17b3a6": "instanceIDs",
+    "87f0e9e8-eb61-4fcf-a386-6d171db7bcb6": "Instance",
+    "d306ac8f-537e-4b27-8a11-e192a6c7d994": "type",
+    "2c50bbfc-269b-4e90-a30f-20ef607a46d2": "Date",
+    "714dc04e-4053-4e21-adaa-23fd2304011d": "pID",
+    "64a20e6a-5cbe-4ff5-adfc-bca68a4b446f": "uid",
+    "e8fde749-e9fb-4229-8f05-f296182cb1c9": "fk_PatientBase_pID_to_Instance_New field2",
+    "5d18f1fc-4635-4862-9d43-df619c4f92ec": "iID",
+    "fecf7713-df91-494e-8b76-cd2bfe80b197": "Provider",
+    "db7621a8-f214-4d3c-86e6-b3c7cbe01472": "uid",
+    "f7ab7161-bc41-4042-9b1d-f26ce75e7586": "Name",
+    "13754ceb-29ce-47fc-99ec-6b1508edf1c4": "dob",
+    "7bea2874-2286-4bd9-b826-c1ad2037c22c": "orgID",
+    "90995946-135b-475b-8014-dd16e060e125": "orgID",
+    "4fb6a49f-ca74-444c-a6db-610aab98face": "fk_OrgBase_orgID_to_Provider_orgID",
+    "f365604e-08e0-412f-a5d1-33743b208032": "staffIDs"
+  },
+  "definitions": {
+    "type": "definitions",
+    "properties": [],
+    "GUID": "df255682-4fab-4e4e-b90b-6764711e0c63"
+  },
+  "polyglotDefinitions": {
+    "type": "polyglotDefinitions",
+    "properties": [],
+    "GUID": "889687b7-6685-4ba6-ba6e-1fb9c037161f"
+  },
+  "externalDefinitions": {
+    "type": "externalDefinitions",
+    "properties": [],
+    "GUID": "476e81f8-d55a-4ddd-841b-de31f589620a"
+  },
+  "sources": [],
+  "decorativeSymbols": [
+    {
+      "GUID": "973b6593-d5b4-4da2-8a70-b925775aa685",
+      "name": "New annotation",
+      "type": "annotation",
+      "disableInitialFocus": true,
+      "value": "instance types:\n\nDiagnosis\n\nPrescription\n\nCheck-Up / Consultation\n\nLab Test\n\nTreatment / Procedure"
+    },
+    {
+      "GUID": "132b2f32-87d5-499d-ad12-ed674906c82e",
+      "name": "New annotation1",
+      "type": "annotation",
+      "disableInitialFocus": true,
+      "value": "Diagnosis\nDescription: A record of a patient's diagnosis made by a healthcare provider.\n\nFields:\n\ndiagnosisId (Unique ID) ->iID (instanceID)\n\npatientId (Reference to the patient)\n\ndoctorId (Reference to the diagnosing doctor)\n\ndiagnosisDate (Date of diagnosis)\n\ndiagnosisCode (e.g., ICD-10 code)\n\ndescription (Detailed description of the diagnosis)\n\nnotes (Additional notes)\n\n2. Prescription\nDescription: A record of medication or treatment prescribed to a patient.\n\nFields:\n\nprescriptionId (Unique ID)\n\npatientId (Reference to the patient)\n\ndoctorId (Reference to the prescribing doctor)\n\nprescriptionDate (Date of prescription)\n\nmedicationName (Name of the medication)\n\ndosage (Dosage instructions)\n\nfrequency (How often the medication should be taken)\n\nduration (Duration of the prescription)\n\nnotes (Additional notes)\n\n3. Check-Up / Consultation\nDescription: A record of a routine check-up or consultation.\n\nFields:\n\ncheckUpId (Unique ID)\n\npatientId (Reference to the patient)\n\ndoctorId (Reference to the consulting doctor)\n\ncheckUpDate (Date of the check-up)\n\nreasonForVisit (Reason for the check-up)\n\nfindings (Findings from the check-up)\n\nrecommendations (Recommendations for the patient)\n\nnotes (Additional notes)\n\n4. Lab Test\nDescription: A record of lab tests ordered for a patient.\n\nFields:\n\nlabTestId (Unique ID)\n\npatientId (Reference to the patient)\n\ndoctorId (Reference to the doctor who ordered the test)\n\ntestDate (Date the test was ordered)\n\ntestType (Type of test, e.g., blood test, urine test)\n\ntestResults (Results of the test)\n\nnotes (Additional notes)\n\n5. Treatment / Procedure\nDescription: A record of a medical treatment or procedure performed on a patient.\n\nFields:\n\ntreatmentId (Unique ID)\n\npatientId (Reference to the patient)\n\ndoctorId (Reference to the doctor performing the treatment)\n\ntreatmentDate (Date of the treatment)\n\ntreatmentType (Type of treatment, e.g., surgery, physiotherapy)\n\ndescription (Detailed description of the treatment)\n\noutcome (Outcome of the treatment)\n\nnotes (Additional notes)\n\n"
+    }
+  ],
+  "dbVendor": "Cloud Firestore",
+  "appTarget": "FIRESTORE",
+  "creationTS": "2025-03-04T09:52:43.489Z",
+  "GUID": "aa666991-6ee6-4128-ac8b-f4f298ec509f",
+  "isLineageEnabled": false,
+  "lastModifTS": "2025-03-05T15:12:53.327Z",
+  "persistenceSchemaVersion": "8",
+  "isCreatedByPlugin": true,
+  "pluginInformation": {
+    "pluginName": "Firestore",
+    "pluginVersion": "0.2.1",
+    "pluginEngineVersion": "1.0.0"
+  },
+  "applicationInformation": {
+    "version": "8.0.3"
+  },
+  "hackoladeMeta": {},
+  "settings": {
+    "centralPane": {
+      "dbLevel": {
+        "erd": [
+          {
+            "GUID": "29ef3bde-f4ec-4f80-a782-45175871ee27",
+            "x": 919,
+            "y": 1071,
+            "width": 354,
+            "height": 248,
+            "color": {}
+          },
+          {
+            "GUID": "3a5a74d3-5f9d-40a4-bc17-da4ff6ee25b6",
+            "x": 1352,
+            "y": 1086,
+            "width": 291,
+            "height": 133,
+            "color": {}
+          },
+          {
+            "GUID": "87f0e9e8-eb61-4fcf-a386-6d171db7bcb6",
+            "x": 1443,
+            "y": 1253,
+            "width": 169,
+            "height": 105,
+            "color": {}
+          },
+          {
+            "GUID": "fecf7713-df91-494e-8b76-cd2bfe80b197",
+            "x": 952,
+            "y": 1330,
+            "width": 228,
+            "height": 116,
+            "color": {}
+          }
+        ],
+        "erdDefinitions": {
+          "erd": [],
+          "rootPath": [],
+          "entities": [],
+          "decorativeSymbols": []
+        },
+        "buckets": [
+          {
+            "x": 879,
+            "y": 1031,
+            "GUID": "d4b3f5c2-5d7d-4a5b-9023-6c225089031f"
+          }
+        ],
+        "collapsedNodes": [],
+        "activeRelationship": "",
+        "activeRelationshipFields": {
+          "childField": [],
+          "parentField": []
+        },
+        "selectedCollections": [],
+        "displayColorPicker": false,
+        "graphView": {
+          "erd": [],
+          "buckets": [],
+          "decorativeSymbols": [],
+          "forceLayout": true,
+          "defaultLinkLength": 300
+        },
+        "diagramViews": [],
+        "decorativeSymbols": [
+          {
+            "GUID": "973b6593-d5b4-4da2-8a70-b925775aa685",
+            "x": 1841,
+            "y": 1183,
+            "height": 203,
+            "width": 425
+          },
+          {
+            "GUID": "132b2f32-87d5-499d-ad12-ed674906c82e",
+            "x": 1997,
+            "y": 1460,
+            "height": 928,
+            "width": 480
+          }
+        ],
+        "nestedCollectionsLayout": "horizontal",
+        "options": [
+          {
+            "autoWidth": false,
+            "autoHeight": false,
+            "GUID": "29ef3bde-f4ec-4f80-a782-45175871ee27"
+          },
+          {
+            "autoWidth": false,
+            "autoHeight": false,
+            "GUID": "3a5a74d3-5f9d-40a4-bc17-da4ff6ee25b6"
+          },
+          {
+            "autoWidth": false,
+            "autoHeight": false,
+            "GUID": "fecf7713-df91-494e-8b76-cd2bfe80b197"
+          }
+        ],
+        "relationshipUpdateDisabled": false
+      },
+      "collectionLevel": {},
+      "changed": false
+    },
+    "dtDiagram": {
+      "collapsedNodes": [],
+      "shouldDistributeCollections": false
+    }
+  }
+}

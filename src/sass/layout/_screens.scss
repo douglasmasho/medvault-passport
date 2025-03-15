@@ -1,0 +1,39 @@
+.db{
+    &__logo{
+        width: 10rem;
+        @include center;
+        transition: all .3s;
+        animation: fadein .5s forwards;
+    }
+}
+
+.screen{
+    padding: 3rem 1rem 1rem 3rem;
+    min-height: 100%;
+    animation: fadein .5s forwards;
+
+    &__header{
+        font-size: 2.5rem !important;
+        color: rgb(39, 39, 39);
+        font-weight: 500;
+        // display: inline-block;
+        z-index: 5;
+        position: relative;
+        @include respond(phone){
+            text-align: center;
+            font-size: 6rem !important;
+        }
+    }
+
+    &--white{
+        background-color: rgb(238, 238, 238) !important;
+    }
+}
+
+#editorjs{
+    background-color: white;
+}
+
+.animate{
+    animation: fadein .5s forwards;
+}

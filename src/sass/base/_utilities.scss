@@ -1,0 +1,268 @@
+.u-margin-bottom{
+    margin-bottom: 2rem;
+    
+    &-huge{
+      margin-bottom: 12rem !important; 
+    }
+
+    &-big{
+      margin-bottom: 8rem !important; 
+    }
+    &-bigm{
+      @include respond(phone){
+        margin-bottom: 10rem !important; 
+      }
+    }
+    &-small{
+      margin-bottom: 1rem !important; 
+    }
+
+    &-medium{
+      margin-bottom: 3rem !important; 
+    }
+
+    &--mobile{
+      @include respond(phone){
+        margin-bottom: 30px !important;
+      }
+    }
+}
+
+.u-margin-bottom-smallscreen{
+  @include respond(tab-port){
+    margin-bottom: 2.5rem;
+  }
+}
+
+
+.u-margin-top{
+    margin-top: 2.5rem !important;
+
+    &-big{
+      margin-top: 8rem !important;
+    }
+    &-huge{
+      margin-top: 15rem !important;
+    }
+    &-medium{
+      margin-top: 3rem !important; 
+    }
+    &-medium-2{
+      margin-top: 45px !important; 
+    }
+
+    &-small{
+      margin-top: 1.5rem !important;
+    }
+
+    &-on-small{
+      @include respond(tab-port){
+        margin-top: 2.5rem !important;
+      }
+    }
+}
+
+.u-margin-left{
+  margin-left: 2.5rem;
+  &-tiny{
+    margin-left: 5px;
+  }
+  &-small{
+    margin-left: 2rem;
+  }
+
+  &-big{
+    margin-left: 8rem;
+  }
+
+}
+
+.u-padding-top{
+  padding-top: 2rem  !important;
+}
+.u-padding-bottom{
+  padding-bottom: 2rem !important
+}
+
+.u-margin-right-bigscreen{
+  margin-right: 2.5rem;
+  @include respond(tab-port){
+    margin-right: 0;
+  }
+}
+
+.u-margin-right{
+  margin-right: 2.5rem;
+  &-tiny{
+    margin-right: 5px;
+  }
+
+  &-small{
+    margin-right: 1rem;
+  }
+
+  &-big{
+    margin-right: 8rem;
+  }
+
+}
+
+
+
+.u-margin-noleft{
+  margin: 2rem;
+  margin-left: 0rem 
+}
+
+
+.u-width-80{
+  width: 80% !important;
+  margin: 2rem;
+  @include respond(tab-port){
+    width: 100%;
+  }
+}
+
+
+.u-padding{
+  padding: 3rem;
+  &-bottom{
+    &--mobile{
+      @include respond(phone){
+        padding-bottom: 50px !important;
+      }
+      &--huge{
+        @include respond(phone){
+          padding-bottom: 200px !important;
+        } 
+      }
+    }
+  }
+  &-top{
+    &--mobile{
+      @include respond(phone){
+        padding-top: 50px !important;
+      }
+      &--huge{
+        @include respond(phone){
+          padding-top: 100px !important;
+        } 
+      }
+    }
+  }
+  &-small{
+    padding: 2rem;
+  }
+  &-left{
+    padding-left: 2rem;
+    &-bigger{
+      padding-left: 4rem !important;
+    }
+  }
+  &-top{
+    padding-top: 2rem;
+    &-big{
+      padding-top: 5rem;
+    }
+    &-bigm{
+      @include respond(phone){
+        padding-top: 8rem !important;
+      }
+    }
+    &-large{
+      padding-top: 15rem;
+
+    }
+  }
+
+  &-sides{
+    padding-left: 5rem;
+    padding-right: 5rem;
+  }
+}
+
+.u-center-text-on-small{
+  @include respond(tab-port){
+    text-align: center;
+  }
+}
+
+.u-width-full{
+  width: 100% !important;
+}
+
+.u-margin-none{
+  margin-bottom: 0 !important;
+}
+
+
+.u-nopadding{
+   padding: 0px !important
+}
+
+.react-select__control{
+   border-radius: 20px !important;
+   @include respond(phone){
+     padding: 0px !important;
+   }
+}
+
+.u-resize-to-100{
+  width : 50% !important;
+  @include respond(tab-port){
+    width: 100% !important
+  }
+}
+
+.u-100-on-tab{
+  @include respond(tab-port){
+    width: 100% !important;
+  }
+}
+
+.u-nomargin-left-on-tab{
+  @include respond(tab-port){
+    margin-left: 0 !important;
+  }
+}
+
+
+.css-1s2u09g-control{
+  border-radius: 20px !important;
+  border: 1px #4d44ac solid !important;
+  padding: 3px;
+  box-shadow: 1px 1px 21px 0px rgba(0, 0, 0, 0.1);
+  -webkit-box-shadow: 1px 1px 21px 0px rgba(0, 0, 0, 0.1);
+  -moz-box-shadow: 1px 1px 21px 0px rgba(0, 0, 0, 0.1);
+
+  @include respond(tab-port){
+    width: 100% !important;
+  }
+}
+
+.u-nopadding{
+  padding: 0px !important
+}
+
+.u-padding-desktop{
+  width: 70%;
+  margin: auto;
+  @include respond(tab-port){
+    width: auto;
+  }
+}
+
+
+.u-nomargin{
+  margin:0 !important;
+}
+
+.u-center-hrz{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.u-white-bg{
+  background-color: white !important;
+}
