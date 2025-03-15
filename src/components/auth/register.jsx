@@ -19,6 +19,7 @@ const Register = () => {
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setconfirmPassword] = useState("");
+  const [idNumber, setIdNumber] = useState("");
   const [isRegistering, setIsRegistering] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [fullName, setFullName] = useState("");
@@ -49,6 +50,11 @@ const Register = () => {
           gender,
           uid,
           bloodType,
+          phone,
+          idNumber,
+          instances: [],
+          orgIDs: [],
+          investigations: [],
           profilePic: "https://i.ibb.co/z6xFjgk/defaultpic.png",
         };
 
@@ -128,6 +134,21 @@ const Register = () => {
                 />
               </div>
               <div>
+                <label className="text-sm font-bold">ID Number</label>
+                <input
+                  type="text"
+                  autoComplete="id-number"
+                  required
+                  value={idNumber}
+                  onChange={(e) => {
+                    setIdNumber(e.target.value);
+                  }}
+                  className={`w-full mt-2 px-3 py-2 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg transition duration-300 ${
+                    isDarkMode ? "text-white" : "text-black"
+                  }`}
+                />
+              </div>
+              <div>
                 <label className="text-sm font-bold">Gender</label>
                 <select
                   required
@@ -154,7 +175,6 @@ const Register = () => {
               <div>
                 <label className="text-sm font-bold">Blood Type (Skip if unknown)</label>
                 <select
-
                   value={bloodType}
                   onChange={(e) => {
                     setBloodType(e.target.value);
@@ -185,7 +205,7 @@ const Register = () => {
                 <PhoneInput
                   placeholder="Enter phone number"
                   value={phone}
-                  onChange={setPhone}/>
+                  onChange={setPhone} required/>
               </div>
               <div>
                 <label className="text-sm font-bold">Email</label>

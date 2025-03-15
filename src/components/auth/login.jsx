@@ -6,6 +6,8 @@ import toast from "react-hot-toast";
 import { useDarkMode } from "../../contexts/darkModeContext"; // Import dark mode context
 import animation from "../../assets/animation/loadingcubes.json";
 import Lottie from "lottie-react";
+import { useUser } from "../../contexts/userContext";
+
 const Login = () => {
   const { userLoggedIn } = useAuth();
   const { isDarkMode } = useDarkMode(); // Access dark mode state
@@ -135,6 +137,16 @@ const Login = () => {
             Don't have an account?{" "}
             <Link to={"/register"} className="hover:underline font-bold">
               Sign up
+            </Link>
+          </p>
+          <p
+            className={`text-center text-sm ${
+              isDarkMode ? "text-gray-300" : "text-gray-700"
+            }`}
+          >
+            Forgot Password?{" "}
+            <Link to={"/forgotpassword"} className="hover:underline font-bold">
+              Click Here
             </Link>
           </p>
         </div>
