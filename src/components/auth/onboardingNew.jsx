@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { Navigate, Link, useParams } from "react-router-dom";
+import { Navigate, Link, useParams, useNavigate } from "react-router-dom";
 import { useAuth } from "../../contexts/authContext/index";
 import { doCreateUserWithEmailAndPassword } from "../../firebase/auth";
 import { db } from "../../firebase/firebase";
-import { doc, setDoc } from "firebase/firestore";
+import { arrayUnion, doc, setDoc, updateDoc } from "firebase/firestore";
 import toast from "react-hot-toast";
 import { useUser } from "../../contexts/userContext";
 import { useDarkMode } from "../../contexts/darkModeContext"; // Import dark mode context
@@ -12,7 +12,7 @@ import animation from "../../assets/animation/loadingcubes.json";
 import 'react-phone-number-input/style.css'
 import PhoneInput from 'react-phone-number-input'
 
-const OnBoardingNew = () => {
+const OnBoardingNew = ({orgID, isRegistering2}) => {
   const { isDarkMode } = useDarkMode(); // Access dark mode state
   const [email, setEmail] = useState("");
   const [bloodType, setBloodType] = useState("");
@@ -28,15 +28,14 @@ const OnBoardingNew = () => {
   const [organization, setOrganization] = useState("");
   const [gender, setGender] = useState("");
   const [practiceNumber, setPracticeNumber] = useState("");
-  const {orgID} = useParams()
-
-  const { currentUser, setCurrentUser } = useUser();
   const { userLoggedIn } = useAuth();
+  const navigate = useNavigate();
 
   const onSubmit = async (e) => {
     e.preventDefault();
     if (!isRegistering) {
       setIsRegistering(true);
+      isRegistering2(true);
       try {
         const userCredential = await doCreateUserWithEmailAndPassword(
           email,
@@ -52,7 +51,6 @@ const OnBoardingNew = () => {
           bloodType,
           phone,
           idNumber,
-          orgIDs: [],
           instances: [],
           investigations: [],
           profilePic: "https://i.ibb.co/z6xFjgk/defaultpic.png",
@@ -60,15 +58,19 @@ const OnBoardingNew = () => {
 
         await setDoc(doc(db, "users", uid), userObj);
         await setDoc(doc(db, "patients", uid), userObj);
-        setCurrentUser(userObj);
-        toast.success("Successfully Created Account");
+        await updateDoc(doc(db, "orgs", orgID), {
+          patientIDs: arrayUnion(uid)
+        })
         localStorage.setItem("currentUser", JSON.stringify(userObj));
+        toast.success("Successfully Created Account");
+        navigate("/")
       } catch (e) {
         console.log(e);
         setErrorMessage(e.code);
         toast.error(e.code);
       } finally {
         setIsRegistering(false);
+      isRegistering2(false);
       }
     }
   };
@@ -217,7 +219,8 @@ const OnBoardingNew = () => {
                 <PhoneInput
                   placeholder="Enter phone number"
                   value={phone}
-                  onChange={setPhone}/>
+                  onChange={setPhone}            
+                 />
               </div>
               <div>
                 <label className="text-sm font-bold">Email</label>

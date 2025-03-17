@@ -21,6 +21,7 @@ const OnBoardingPage = () => {
   const [logo, setLogo] = useState("");
   const [loading, setLoading] = useState(true);
   const { userLoggedIn } = useAuth();
+  const [isRegistering, setIsRegistering] = useState(false);
 
   const {orgID} = useParams();
   const navigate = useNavigate()
@@ -73,13 +74,25 @@ const OnBoardingPage = () => {
       {
         userLoggedIn ? 
         <>
-         <p className={`${textColor} center-text`}>You are registering as a patient under Windhoek Neurosurgical Centre, <br/> If this is not your Medvault account <span style={{color: "#56bb6e", cursor: "pointer"}} onClick={()=>{doSignOut();}}>SIGN OUT</span> and login with your account.</p>
+         <p className={`${textColor} center-text`}>You are registering as a patient under Windhoek Neurosurgical Centre, <br/> If this is not your Medvault account <span style={{color: "#56bb6e", cursor: "pointer"}} onClick={()=>{doSignOut();}}>SIGN OUT</span> and login with your account / create a new account.</p>
          <OnBoardingOld orgID={orgID}/>
-        </> : <>
-        <p className={`${textColor} center-text`}>You are creating a new Medvault account, <br/> if you already have one, please <span style={{color: "#56bb6e", cursor: "pointer"}} onClick={()=>{doSignOut(); navigate("/login")}}>LOGIN</span>.</p>
-         <OnBoardingNew orgID={orgID}/>
-        </>
+        </> : 
+        <>
+        {
+          !isRegistering ?
+         <p className={`${textColor} center-text`}>You are creating a new Medvault account, <br/> if you already have one, please <span style={{color: "#56bb6e", cursor: "pointer"}} onClick={()=>{
+          doSignOut();
+          localStorage.setItem("redirectToOnboarding", "true");
+          localStorage.setItem("onboardingOrgID", orgID)
+          navigate("/login");
+        }}>LOGIN</span>.</p> : null
+        }
+         <OnBoardingNew orgID={orgID} isRegistering2={setIsRegistering}/> 
+         </>
+ 
       }
+       
+     
 
      
       </>

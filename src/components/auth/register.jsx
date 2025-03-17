@@ -53,7 +53,6 @@ const Register = () => {
           phone,
           idNumber,
           instances: [],
-          orgIDs: [],
           investigations: [],
           profilePic: "https://i.ibb.co/z6xFjgk/defaultpic.png",
         };

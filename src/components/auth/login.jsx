@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Navigate, Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { Navigate, Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../contexts/authContext/index";
 import { doSignInWithEmailAndPassword } from "../../firebase/auth";
 import toast from "react-hot-toast";
@@ -16,6 +16,22 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [isSigningIn, setIsSigningIn] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (userLoggedIn) {
+      const shouldRedirect = localStorage.getItem("redirectToOnboarding");
+
+      if (shouldRedirect) {
+        localStorage.removeItem("redirectToOnboarding"); // Clean up
+        const orgID = localStorage.getItem("onboardingOrgID");
+        localStorage.removeItem("onboardingOrgID");
+        navigate(`/onboarding/${orgID}`, { replace: true });
+      } else {
+        navigate("/", { replace: true });
+      }
+    }
+  }, [userLoggedIn, navigate]);
 
   const onSubmit = async (e) => {
     e.preventDefault();
@@ -39,7 +55,7 @@ const Login = () => {
         isDarkMode ? "bg-gray-900" : "bg-white"
       }`}
     >
-      {userLoggedIn && <Navigate to="/" replace={true} />}
+      {/* {userLoggedIn ? <Navigate to="/" replace={true} /> : null} */}
       <main className="w-full h-screen flex self-center place-content-center place-items-center white-text">
         <div
           className={`w-96 space-y-5 p-4 shadow-xl border rounded-xl ${

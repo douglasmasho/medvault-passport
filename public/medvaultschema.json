@@ -3,7 +3,7 @@
   "collections": [
     {
       "GUID": "29ef3bde-f4ec-4f80-a782-45175871ee27",
-      "collectionName": "Orgs",
+      "collectionName": "Org",
       "type": "object",
       "properties": [
         {
@@ -34,7 +34,9 @@
           "uniqueItems": false,
           "childType": "array",
           "type": "array",
-          "error": {},
+          "error": {
+            "name": false
+          },
           "GUID": "c7c24953-4a89-4017-82de-0ad1e789aa7f"
         },
         {
@@ -168,7 +170,7 @@
     },
     {
       "GUID": "3a5a74d3-5f9d-40a4-bc17-da4ff6ee25b6",
-      "collectionName": "Patients",
+      "collectionName": "Patient",
       "type": "object",
       "properties": [
         {
@@ -208,28 +210,6 @@
           "error": {}
         },
         {
-          "name": "instanceIDs",
-          "hackoladeMeta": {},
-          "isActivated": true,
-          "properties": [
-            {
-              "hackoladeMeta": {},
-              "isActivated": true,
-              "primaryKey": false,
-              "type": "string",
-              "GUID": "d3e300cb-3d6e-45ac-9b8d-6c50c52fbeff",
-              "arrayItem": true
-            }
-          ],
-          "primaryKey": false,
-          "additionalItems": true,
-          "uniqueItems": false,
-          "childType": "array",
-          "type": "array",
-          "GUID": "0f32fff1-0913-4ebf-873a-f660eb17b3a6",
-          "error": {}
-        },
-        {
           "hackoladeMeta": {},
           "isActivated": true,
           "primaryKey": true,
@@ -242,6 +222,93 @@
           "childRelationships": [
             "e8fde749-e9fb-4229-8f05-f296182cb1c9"
           ]
+        },
+        {
+          "name": "instances",
+          "hackoladeMeta": {},
+          "isActivated": true,
+          "properties": [
+            {
+              "hackoladeMeta": {},
+              "isActivated": true,
+              "properties": [
+                {
+                  "hackoladeMeta": {},
+                  "isActivated": true,
+                  "primaryKey": false,
+                  "type": "string",
+                  "GUID": "de228f97-acd3-4c95-9054-d27ae6a4e6f1",
+                  "arrayItem": true,
+                  "displayName": "instances come here",
+                  "error": {}
+                }
+              ],
+              "primaryKey": false,
+              "additionalItems": true,
+              "uniqueItems": false,
+              "childType": "array",
+              "type": "array",
+              "error": {},
+              "GUID": "730abd16-081e-4263-a780-44ddfb8c4ffe",
+              "arrayItem": true,
+              "displayName": "orgID"
+            }
+          ],
+          "primaryKey": false,
+          "additionalItems": true,
+          "uniqueItems": false,
+          "childType": "array",
+          "type": "array",
+          "error": {
+            "name": false
+          },
+          "GUID": "a5049a6c-ed4a-4afd-895c-e1f564e78ae6"
+        },
+        {
+          "name": "investigations",
+          "hackoladeMeta": {},
+          "isActivated": true,
+          "properties": [
+            {
+              "hackoladeMeta": {},
+              "isActivated": true,
+              "primaryKey": false,
+              "type": "string",
+              "GUID": "fe6b0de1-6689-4b1e-8877-8019e940ee7f",
+              "arrayItem": true
+            }
+          ],
+          "primaryKey": false,
+          "additionalItems": true,
+          "uniqueItems": false,
+          "childType": "array",
+          "type": "array",
+          "error": {
+            "name": false
+          },
+          "GUID": "c843749c-a077-42f2-a1d1-c71e516b16cc"
+        },
+        {
+          "name": "orgs",
+          "hackoladeMeta": {},
+          "isActivated": true,
+          "properties": [
+            {
+              "hackoladeMeta": {},
+              "isActivated": true,
+              "primaryKey": false,
+              "type": "string",
+              "GUID": "73be877a-0193-4258-92d8-4e9dcec3864c",
+              "arrayItem": true
+            }
+          ],
+          "primaryKey": false,
+          "additionalItems": true,
+          "uniqueItems": false,
+          "childType": "array",
+          "type": "array",
+          "error": {},
+          "GUID": "b71b0b53-3102-4b9c-b969-11959c067780"
         }
       ],
       "definitions": {
@@ -280,7 +347,7 @@
         {
           "hackoladeMeta": {},
           "isActivated": true,
-          "primaryKey": false,
+          "primaryKey": true,
           "type": "string",
           "GUID": "714dc04e-4053-4e21-adaa-23fd2304011d",
           "foreignCollection": "3a5a74d3-5f9d-40a4-bc17-da4ff6ee25b6",
@@ -294,12 +361,12 @@
           "error": {}
         },
         {
+          "name": "orgID-check if they match",
           "hackoladeMeta": {},
           "isActivated": true,
-          "primaryKey": true,
+          "primaryKey": false,
           "type": "string",
-          "GUID": "5d18f1fc-4635-4862-9d43-df619c4f92ec",
-          "name": "iID",
+          "GUID": "95d6f69f-5f7e-4272-b38a-7d65aa53484e",
           "error": {}
         }
       ],
@@ -431,24 +498,24 @@
         "dataType": "",
         "shape": [
           {
-            "x": 1612,
-            "y": 1305.5
+            "x": 1922.0476190476213,
+            "y": 1372.7857142857144
           },
           {
-            "x": 1668,
-            "y": 1305.5
+            "x": 1890.9285714285747,
+            "y": 1372.7857142857144
           },
           {
-            "x": 1668,
-            "y": 1152.5
+            "x": 1890.9285714285747,
+            "y": 1194.7809523809526
           },
           {
-            "x": 1643,
-            "y": 1152.5
+            "x": 1859.8095238095284,
+            "y": 1194.7809523809526
           }
         ],
         "sides": [
-          "right",
+          "left",
           "right"
         ]
       }
@@ -483,52 +550,90 @@
         "dataType": "",
         "shape": [
           {
-            "x": 1180,
-            "y": 1388
+            "x": 1492.1904761904743,
+            "y": 1407.04761904762
           },
           {
-            "x": 1298,
-            "y": 1388
+            "x": 1378.0952380952372,
+            "y": 1407.04761904762
           },
           {
-            "x": 1298,
-            "y": 1195
+            "x": 1378.0952380952372,
+            "y": 1254.5
           },
           {
-            "x": 1273,
-            "y": 1195
+            "x": 1264,
+            "y": 1254.5
           }
         ],
         "sides": [
-          "right",
+          "left",
           "right"
         ]
       }
+    },
+    {
+      "name": "New Relationship",
+      "relationshipType": "Foreign Key",
+      "parentField": [],
+      "parentCardinality": "1",
+      "childField": [],
+      "isActivated": true,
+      "childCardinality": "1",
+      "GUID": "b4e8b2df-d48c-4907-9dea-777926c13ed4"
+    },
+    {
+      "name": "New Relationship1",
+      "relationshipType": "Foreign Key",
+      "parentField": [],
+      "parentCardinality": "1",
+      "childField": [],
+      "isActivated": true,
+      "childCardinality": "1",
+      "GUID": "e3dd512d-9129-4bb5-ba2e-bc052c7b1a4e"
+    },
+    {
+      "name": "New Relationship2",
+      "relationshipType": "Foreign Key",
+      "parentField": [],
+      "parentCardinality": "1",
+      "childField": [],
+      "isActivated": true,
+      "childCardinality": "1",
+      "GUID": "78dcaa61-8990-4498-ba88-d8bf2138fd71"
+    },
+    {
+      "name": "New Relationship3",
+      "relationshipType": "Foreign Key",
+      "parentField": [],
+      "parentCardinality": "1",
+      "childField": [],
+      "isActivated": true,
+      "childCardinality": "1",
+      "GUID": "13066e16-31c6-4efc-8ddc-d856a71f1976"
     }
   ],
   "users": [],
   "diagramViews": [],
   "idToNameHashTable": {
     "d4b3f5c2-5d7d-4a5b-9023-6c225089031f": "Medvault",
-    "29ef3bde-f4ec-4f80-a782-45175871ee27": "Orgs",
+    "29ef3bde-f4ec-4f80-a782-45175871ee27": "Org",
     "6dabb73b-ecae-41cf-a832-4f9a5b5d133b": "name",
     "c7c24953-4a89-4017-82de-0ad1e789aa7f": "providerIDs",
     "431558c2-e98c-44fc-abc4-9c19249ebf46": "patientIDs",
     "60e89380-254e-432a-9817-35cb3caa5083": "notifications",
     "168ed473-d0c1-4982-8435-69dd2f36fae8": "appointments",
-    "3a5a74d3-5f9d-40a4-bc17-da4ff6ee25b6": "Patients",
+    "3a5a74d3-5f9d-40a4-bc17-da4ff6ee25b6": "Patient",
     "e6d495de-264e-4733-93cb-1f49e7e776f8": "Name",
     "33e8f8b3-c107-4ba5-9181-f9e0d305a57f": "dob",
     "fcb5ccbf-ac28-47e7-b215-b197bf59a14b": "gender",
     "d72e442c-c1f4-4262-8b37-00cbf0586a60": "idNumber",
-    "0f32fff1-0913-4ebf-873a-f660eb17b3a6": "instanceIDs",
     "87f0e9e8-eb61-4fcf-a386-6d171db7bcb6": "Instance",
     "d306ac8f-537e-4b27-8a11-e192a6c7d994": "type",
     "2c50bbfc-269b-4e90-a30f-20ef607a46d2": "Date",
     "714dc04e-4053-4e21-adaa-23fd2304011d": "pID",
     "64a20e6a-5cbe-4ff5-adfc-bca68a4b446f": "uid",
     "e8fde749-e9fb-4229-8f05-f296182cb1c9": "fk_PatientBase_pID_to_Instance_New field2",
-    "5d18f1fc-4635-4862-9d43-df619c4f92ec": "iID",
     "fecf7713-df91-494e-8b76-cd2bfe80b197": "Provider",
     "db7621a8-f214-4d3c-86e6-b3c7cbe01472": "uid",
     "f7ab7161-bc41-4042-9b1d-f26ce75e7586": "Name",
@@ -536,7 +641,15 @@
     "7bea2874-2286-4bd9-b826-c1ad2037c22c": "orgID",
     "90995946-135b-475b-8014-dd16e060e125": "orgID",
     "4fb6a49f-ca74-444c-a6db-610aab98face": "fk_OrgBase_orgID_to_Provider_orgID",
-    "f365604e-08e0-412f-a5d1-33743b208032": "staffIDs"
+    "f365604e-08e0-412f-a5d1-33743b208032": "staffIDs",
+    "b4e8b2df-d48c-4907-9dea-777926c13ed4": "New Relationship",
+    "e3dd512d-9129-4bb5-ba2e-bc052c7b1a4e": "New Relationship1",
+    "78dcaa61-8990-4498-ba88-d8bf2138fd71": "New Relationship2",
+    "13066e16-31c6-4efc-8ddc-d856a71f1976": "New Relationship3",
+    "a5049a6c-ed4a-4afd-895c-e1f564e78ae6": "instances",
+    "95d6f69f-5f7e-4272-b38a-7d65aa53484e": "orgID-check if they match",
+    "c843749c-a077-42f2-a1d1-c71e516b16cc": "investigations",
+    "b71b0b53-3102-4b9c-b969-11959c067780": "orgs"
   },
   "definitions": {
     "type": "definitions",
@@ -575,7 +688,7 @@
   "creationTS": "2025-03-04T09:52:43.489Z",
   "GUID": "aa666991-6ee6-4128-ac8b-f4f298ec509f",
   "isLineageEnabled": false,
-  "lastModifTS": "2025-03-05T15:12:53.327Z",
+  "lastModifTS": "2025-03-15T13:28:34.692Z",
   "persistenceSchemaVersion": "8",
   "isCreatedByPlugin": true,
   "pluginInformation": {
@@ -584,7 +697,7 @@
     "pluginEngineVersion": "1.0.0"
   },
   "applicationInformation": {
-    "version": "8.0.3"
+    "version": "8.0.5"
   },
   "hackoladeMeta": {},
   "settings": {
@@ -595,30 +708,30 @@
             "GUID": "29ef3bde-f4ec-4f80-a782-45175871ee27",
             "x": 919,
             "y": 1071,
-            "width": 354,
-            "height": 248,
+            "width": 345,
+            "height": 367,
             "color": {}
           },
           {
             "GUID": "3a5a74d3-5f9d-40a4-bc17-da4ff6ee25b6",
-            "x": 1352,
-            "y": 1086,
-            "width": 291,
-            "height": 133,
+            "x": 1557.8095238095284,
+            "y": 1084.7809523809526,
+            "width": 302,
+            "height": 220,
             "color": {}
           },
           {
             "GUID": "87f0e9e8-eb61-4fcf-a386-6d171db7bcb6",
-            "x": 1443,
-            "y": 1253,
-            "width": 169,
-            "height": 105,
+            "x": 1922.0476190476213,
+            "y": 1295.2857142857144,
+            "width": 282,
+            "height": 155,
             "color": {}
           },
           {
             "GUID": "fecf7713-df91-494e-8b76-cd2bfe80b197",
-            "x": 952,
-            "y": 1330,
+            "x": 1492.1904761904743,
+            "y": 1349.04761904762,
             "width": 228,
             "height": 116,
             "color": {}
@@ -656,15 +769,15 @@
         "decorativeSymbols": [
           {
             "GUID": "973b6593-d5b4-4da2-8a70-b925775aa685",
-            "x": 1841,
-            "y": 1183,
+            "x": 3380.619047619046,
+            "y": 1076.7142857142865,
             "height": 203,
             "width": 425
           },
           {
             "GUID": "132b2f32-87d5-499d-ad12-ed674906c82e",
-            "x": 1997,
-            "y": 1460,
+            "x": 3393.380952380951,
+            "y": 1492.7619047619044,
             "height": 928,
             "width": 480
           }
@@ -685,6 +798,11 @@
             "autoWidth": false,
             "autoHeight": false,
             "GUID": "fecf7713-df91-494e-8b76-cd2bfe80b197"
+          },
+          {
+            "autoWidth": false,
+            "autoHeight": false,
+            "GUID": "87f0e9e8-eb61-4fcf-a386-6d171db7bcb6"
           }
         ],
         "relationshipUpdateDisabled": false
