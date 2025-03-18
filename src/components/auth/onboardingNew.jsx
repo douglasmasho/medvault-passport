@@ -53,6 +53,7 @@ const OnBoardingNew = ({orgID, isRegistering2}) => {
           idNumber,
           role: "patient",
           profilePic: "https://i.ibb.co/z6xFjgk/defaultpic.png",
+          notifications: []
         };
 
         await setDoc(doc(db, "users", uid), userObj);

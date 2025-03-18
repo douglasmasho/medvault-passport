@@ -36,7 +36,7 @@ const AuthProvider = ({children}) => {
             const docSnap = await getDoc(doc(db, "users", user.uid));
             if(docSnap.data().role !== "patient"){
                 doSignOut();
-                toast.error("Provider Accounts Not Allowed Here")
+                toast.error("Provider/Staff Accounts Not Allowed Here")
                 return;
             }
             localStorage.setItem("currentUser", JSON.stringify(docSnap.data()));
