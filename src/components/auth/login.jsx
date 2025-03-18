@@ -51,12 +51,12 @@ const Login = () => {
 
   return (
     <div
-      className={`w-full h-screen flex self-center place-content-center place-items-center ${
+      className={`w-full flex self-center  place-items-center ${
         isDarkMode ? "bg-gray-900" : "bg-white"
       }`}
     >
       {/* {userLoggedIn ? <Navigate to="/" replace={true} /> : null} */}
-      <main className="w-full h-screen flex self-center place-content-center place-items-center white-text">
+      <main className="w-full flex self-center place-content-center place-items-center white-text">
         <div
           className={`w-96 space-y-5 p-4 shadow-xl border rounded-xl ${
             isDarkMode ? "bg-gray-800 border-gray-700" : "bg-white"

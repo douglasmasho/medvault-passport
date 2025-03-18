@@ -4,12 +4,9 @@ import {
   LayoutDashboard,
   Search,
   BrainCircuit,
-  View,
   User,
   Sun,
   Moon,
-  CircleDot,
-  Brain,
   Users,
   Microscope
 } from "lucide-react";
@@ -29,12 +26,6 @@ const SIDEBAR_ITEMS = [
   },
   { name: "Dashboard", icon: LayoutDashboard, color: "#56BB6E", href: "/overview", submenu: false },
   { name: "Patients", icon: Users, color: "#56BB6E", href: "/patients", submenu: false },
-  // { name: "Brain", icon: Brain, color: "#56BB6E", href: "brain", submenu: true, number: "one"},
-  // { name: "Breast", icon: CircleDot, color: "#56BB6E", href: "breast", submenu: true, number: "two"},
-  // { name: "Biopsy Analysis", icon: Microscope, color: "#56BB6E", href: "skin", submenu: true, number: "three"},
-  // { name: "Detect", icon: Search, color: "#56BB6E", href: "/detect", submenu: false },
-  // { name: "Grade", icon: BrainCircuit, color: "#56BB6E", href: "/analyze" , submenu: false},
-  // { name: "Visualize", icon: View, color: "#56BB6E", href: "/visualize" , submenu: false},
   { name: "Profile", icon: User, color: "#56BB6E", href: "/profile" , submenu: false},
 ];
 
@@ -123,13 +114,13 @@ const Sidebar = () => {
 
   return (
     <motion.div
-      className={`relative z-10 transition-all duration-300 ease-in-out flex-shrink-0 ${
+      className={`relative z-10 sidenav transition-all duration-300 ease-in-out flex-shrink-0 ${
         isSidebarOpen ? "w-64" : "w-20"
       }`}
       animate={{ width: isSidebarOpen ? 256 : 80 }}
     >
       <div
-        className={`h-full ${backgroundColor} bg-opacity-50 backdrop-blur-md p-4 flex flex-col ${borderColor} border-r`}
+        className={`h-full  ${backgroundColor} bg-opacity-50 backdrop-blur-md p-4 flex flex-col ${borderColor} border-r`}
       >
         <div
           style={{

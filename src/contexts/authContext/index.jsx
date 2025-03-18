@@ -5,6 +5,8 @@ import Lottie from "lottie-react";
 import animation from "../../assets/animation/loadingcubes.json"
 import { ReactComponent as Logo } from "../../assets/svg/logowhite.svg";
 import { doc, getDoc } from "firebase/firestore";
+import { doSignOut } from "../../firebase/auth";
+import toast from "react-hot-toast";
 const AuthContext = createContext();
 
 export const useAuth = ()=> useContext(AuthContext);
@@ -21,18 +23,23 @@ const AuthProvider = ({children}) => {
 
     const getUserObj = async(uid)=>{
         try{
-            const docSnap = await getDoc(doc(db, "users", uid));
-            console.log(docSnap.data())
-            localStorage.setItem("currentUser", JSON.stringify(docSnap.data()));
+           
         }catch(e){
             console.log(e)
         }
     }
 
+    //guarding the app
     const initializeUser = async(user)=>{
         console.log(user)
         if(user){
-            getUserObj(user.uid)
+            const docSnap = await getDoc(doc(db, "users", user.uid));
+            if(docSnap.data().role !== "patient"){
+                doSignOut();
+                toast.error("Provider Accounts Not Allowed Here")
+                return;
+            }
+            localStorage.setItem("currentUser", JSON.stringify(docSnap.data()));
             setCurrentUser({...user});
             setUserLoggedIn(true);
         }else{

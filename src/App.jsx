@@ -1,4 +1,4 @@
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useNavigate } from "react-router-dom";
 import Sidebar from "./components/common/Sidebar";
 import OverviewPage from "./pages/Homepage";
 import SettingsPage from "./pages/SettingsPage";
@@ -15,17 +15,45 @@ import PatientPage from "./pages/PatientPage";
 import ForgotPasswordPage from "./pages/ForgotPasswordPage";
 import OnBoarding from "./components/auth/onboardingOld";
 import OnBoardingPage from "./pages/OnBoardingPage";
-
+import { BottomNavigation } from "reactjs-bottom-navigation";
+import {
+  Home,
+  Clock,
+  Bell,
+  User
+} from "lucide-react";
 function App() {
   const [loggedInUser, setLoggedInUser] = useState(null);
+  const navigate = useNavigate();
 
   // useEffect(() => {
   //   console.log(localStorage.getItem("currentUser"))
   //   setLoggedInUser(JSON.parse(localStorage.getItem("currentUser")));
   // }, []);
+  const bottomNavItems = [
+    {
+      title: "Home",
+      onClick: ()=>navigate("/"),
+      icon: <Home />,
+      activeIcon: <Home color="#fff" />
+    },
+    {
+      title: "Appointments",
+      onClick: ()=>navigate("/appointments"),
+      icon: <Clock />,
+      activeIcon: <Clock color="#fff" />
+    },
+    {
+      title: "Profile",
+      onClick: ({ id }) => navigate("/profile"),
+      icon: <User />,
+      activeIcon: <User color="#fff" />
+    },
+  ];
 
   return (
-    <div className="flex h-screen bg-gray-900 text-gray-100 overflow-hidden">
+    <>
+     <div className="flex h-screen bg-gray-900 text-gray-100 overflow-hidden">
       <Toaster />
       {/* BG */}
 
@@ -54,7 +82,20 @@ function App() {
         <Route path="/breast/detect" element={<DetectPage2 />} />
         <Route path="/brain/grade" element={<AnalysisPage />} />
       </Routes>
+      
     </div>
+    <BottomNavigation
+        items={bottomNavItems}
+        selected={0}
+        onItemClick={(item) => console.log(item)}
+        activeBgColor="rgb(86, 187, 110)"
+        activeTextColor="white"
+        hideOnScroll={true}
+        className="custom-bottom-nav bottomnav"
+        style={{ position: "fixed", bottom: 0, width: "100%" }}
+      />
+    </>
+   
   );
 }
 

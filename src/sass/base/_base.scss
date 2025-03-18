@@ -18,3 +18,11 @@ svg{
     margin-left: 20px;
   }
 }
+
+.btnn{
+  margin-right: 8px;
+  @include respond(phone){
+    margin-bottom: 8px;
+    margin-right: 0;
+  }
+}

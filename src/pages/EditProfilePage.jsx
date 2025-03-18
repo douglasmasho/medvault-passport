@@ -184,7 +184,7 @@ const EditProfilePage = () => {
                   />
                   {changingPic ? null : (
                     <button
-                      className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded transition duration-200 w-full sm:w-auto mr-5"
+                      className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded transition duration-200 sm:w-auto mr-5"
                       onClick={() => {
                         setChangingPic(true);
                       }}
@@ -249,7 +249,7 @@ const EditProfilePage = () => {
                 </div>
                 <div className="u-center-hrz">
                   <button
-                    className="u-margin-bottom u-margin-top bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded transition duration-200 w-full sm:w-auto mr-5"
+                    className="u-margin-bottom u-margin-top bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded transition duration-200 sm:w-auto mr-5"
                     onClick={uploadFile}
                   >
                     Change Profile Picture
@@ -343,7 +343,7 @@ const EditProfilePage = () => {
                       />
                     </div>
 
-                    <button className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded transition duration-200 w-full sm:w-auto mr-5">
+                    <button className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded transition duration-200 sm:w-auto mr-5">
                       Change Profile Details
                     </button>
                   </form>

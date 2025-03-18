@@ -6,6 +6,13 @@
         display: flex;
         flex-direction: column;
         align-items: center;  
+        &--on-phone{
+            @include respond(phone){
+                display: flex;
+            flex-direction: column;
+            align-items: center; 
+            }
+        }
     }
     &-small{
         @include respond(tab-port){

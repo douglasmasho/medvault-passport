@@ -84,33 +84,26 @@ const Profile = () => {
               <p className={subTextColor}>{email}</p>
             </div>
           </div>
-          <div className="u-margin-bottom-small">
-            <p className={`text-lg ${whiteTextColor}`}>
-              Role:{" "}
-              <span className="text-base capitalize-text">
-                {role}
-              </span>
-            </p>
-            <p className={`text-lg ${whiteTextColor}`}>
-              Institution / Organization:{" "}
-              <span className="text-base">{organization}</span>
-            </p>
-          </div>
+         
+
+          <div className="center-hrz--col--on-phone">
 
           <button
-            className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded transition duration-200 w-full sm:w-auto mr-5"
+            className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded transition duration-200 sm:w-auto btnn"
             onClick={signOut}
           >
             Sign Out
           </button>
           <button
-            className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded transition duration-200 w-full sm:w-auto"
+            className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded transition duration-200 sm:w-auto btnn"
             onClick={() => {
               navigate("/editprofile");
             }}
           >
             Edit Profile
           </button>
+          </div>
+
         </>
       )}
     </SettingSection>

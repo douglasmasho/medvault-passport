@@ -32,7 +32,7 @@ const WelcomePage = () => {
       ) : (
         <>
           <Header
-            title="Welcome to Medalgo"
+            title="Welcome to Medvault"
             icon={<BadgeInfo style={{ marginRight: "10px" }} color="#56BB6E" />}
           />
 

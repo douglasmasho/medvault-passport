@@ -51,13 +51,16 @@ const OnBoardingNew = ({orgID, isRegistering2}) => {
           bloodType,
           phone,
           idNumber,
-          instances: [],
-          investigations: [],
+          role: "patient",
           profilePic: "https://i.ibb.co/z6xFjgk/defaultpic.png",
         };
 
         await setDoc(doc(db, "users", uid), userObj);
-        await setDoc(doc(db, "patients", uid), userObj);
+        await setDoc(doc(db, "patients", uid), {
+          instances: [],
+          investigations: [],
+          ...userObj
+        });
         await updateDoc(doc(db, "orgs", orgID), {
           patientIDs: arrayUnion(uid)
         })
@@ -105,6 +108,8 @@ const OnBoardingNew = ({orgID, isRegistering2}) => {
             className={`mt-5 mb-5 p-4 shadow-xl border rounded-xl ${
               isDarkMode ? "bg-gray-800 text-white" : "bg-white text-gray-600"
             }`}
+            style={{marginBottom: "70px"}}
+
           >
             <div className="text-center mb-6">
               <h3 className="text-xl font-semibold sm:text-2xl">
