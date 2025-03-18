@@ -54,12 +54,15 @@ const Register = () => {
           idNumber,
           role: "patient",
           profilePic: "https://i.ibb.co/z6xFjgk/defaultpic.png",
+          notifications: [],
+          appointments: [],
         };
 
         await setDoc(doc(db, "users", uid), userObj);
         await setDoc(doc(db, "patients", uid), {
           instances: [],
           investigations: [],
+          questionnaires: [],
           ...userObj
         });
         setCurrentUser(userObj);
