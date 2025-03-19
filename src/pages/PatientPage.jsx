@@ -204,7 +204,7 @@ const PatientPage = () => {
                 </p>
                 <div className="u-margin-top-small" style={{ display: "flex" }}>
                   <motion.button
-                    className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded transition duration-200 w-full sm:w-auto mr-5"
+                    className="bg-green-600 hover:bg-green-700 text-white  py-2 px-4 rounded transition duration-200 w-full sm:w-auto mr-5"
                     style={{ display: "flex", alignItems: "center" }}
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.9 }}
@@ -215,7 +215,7 @@ const PatientPage = () => {
                   </motion.button>
 
                   <motion.button
-                    className="bg-red-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded transition duration-200 w-full sm:w-auto mr-5"
+                    className="bg-red-600 hover:bg-green-700 text-white  py-2 px-4 rounded transition duration-200 w-full sm:w-auto mr-5"
                     style={{ display: "flex", alignItems: "center" }}
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.9 }}
@@ -282,7 +282,7 @@ const PatientPage = () => {
                 />
               }
             >
-              <h2 className="text-2xl font-semibold">Edit Patient</h2>
+              <h2 className="text-2xl ">Edit Patient</h2>
               <EditPatientForm
                 closeModal={onCloseModal}
                 getPatient={getPatient}
@@ -321,7 +321,7 @@ const PatientPage = () => {
               </h3>
               <div style={{ display: "flex" }} className="u-margin-top">
                 <motion.button
-                  className="bg-red-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded transition duration-200 w-full sm:w-auto mr-5"
+                  className="bg-red-600 hover:bg-green-700 text-white  py-2 px-4 rounded transition duration-200 w-full sm:w-auto mr-5"
                   style={{ display: "flex", alignItems: "center" }}
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.9 }}
@@ -331,7 +331,7 @@ const PatientPage = () => {
                   Yes, Delete Diagnosis
                 </motion.button>
                 <motion.button
-                  className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded transition duration-200 w-full sm:w-auto mr-5"
+                  className="bg-green-600 hover:bg-green-700 text-white  py-2 px-4 rounded transition duration-200 w-full sm:w-auto mr-5"
                   style={{ display: "flex", alignItems: "center" }}
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.9 }}

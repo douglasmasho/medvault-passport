@@ -65,7 +65,7 @@ const Login = () => {
           <div className="text-center">
             <div className="mt-2">
               <h3
-                className={`text-xl font-semibold sm:text-2xl ${
+                className={`text-xl  sm:text-2xl ${
                   isDarkMode ? "text-white" : "text-black"
                 }`}
               >
@@ -80,7 +80,7 @@ const Login = () => {
           >
             <div>
               <label
-                className={`text-sm font-bold ${
+                className={`text-sm  ${
                   isDarkMode ? "text-gray-300" : "text-gray-700"
                 }`}
               >
@@ -105,7 +105,7 @@ const Login = () => {
 
             <div>
               <label
-                className={`text-sm font-bold ${
+                className={`text-sm  ${
                   isDarkMode ? "text-gray-300" : "text-gray-700"
                 }`}
               >
@@ -128,9 +128,7 @@ const Login = () => {
             </div>
 
             {errorMessage && (
-              <p className="text-red-600 font-bold center-text">
-                {errorMessage}
-              </p>
+              <p className="text-red-600  center-text">{errorMessage}</p>
             )}
 
             <button
@@ -151,7 +149,7 @@ const Login = () => {
             }`}
           >
             Don't have an account?{" "}
-            <Link to={"/register"} className="hover:underline font-bold">
+            <Link to={"/register"} className="hover:underline ">
               Sign up
             </Link>
           </p>
@@ -161,7 +159,7 @@ const Login = () => {
             }`}
           >
             Forgot Password?{" "}
-            <Link to={"/forgotpassword"} className="hover:underline font-bold">
+            <Link to={"/forgotpassword"} className="hover:underline ">
               Click Here
             </Link>
           </p>

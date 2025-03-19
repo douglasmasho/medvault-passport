@@ -18,7 +18,7 @@ const SettingSection = ({ icon: Icon, title, children }) => {
       <div className="flex items-center mb-4">
         <Icon className="mr-4" color="#56BB6E" size="24" />
         <h2
-          className={`text-xl font-semibold ${
+          className={`text-xl  ${
             isDarkMode ? "text-gray-100" : "text-gray-900"
           }`}
         >

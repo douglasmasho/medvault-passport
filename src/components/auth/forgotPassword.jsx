@@ -1,12 +1,14 @@
 import React, { useState } from "react";
-import { Navigate, Link, useNavigate} from "react-router-dom";
+import { Navigate, Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../contexts/authContext/index";
-import { doSignInWithEmailAndPassword,doPasswordReset } from "../../firebase/auth";
+import {
+  doSignInWithEmailAndPassword,
+  doPasswordReset,
+} from "../../firebase/auth";
 import toast from "react-hot-toast";
 import { useDarkMode } from "../../contexts/darkModeContext"; // Import dark mode context
 import animation from "../../assets/animation/loadingcubes.json";
 import Lottie from "lottie-react";
-
 
 const ForgotPassword = () => {
   const { userLoggedIn } = useAuth();
@@ -23,7 +25,7 @@ const ForgotPassword = () => {
       setIsSigningIn(true);
       await doPasswordReset(email);
       toast.success("Successfully Sent Password Reset Email");
-      navigate("/login")
+      navigate("/login");
     } catch (e) {
       if (e.code === "auth/invalid-credential") {
         setErrorMessage("Invalid Email or Password");
@@ -50,11 +52,11 @@ const ForgotPassword = () => {
           <div className="text-center">
             <div className="mt-2">
               <h3
-                className={`text-xl font-semibold sm:text-2xl ${
+                className={`text-xl  sm:text-2xl ${
                   isDarkMode ? "text-white" : "text-black"
                 }`}
               >
-                Reset Your Password 
+                Reset Your Password
               </h3>
             </div>
           </div>
@@ -65,7 +67,7 @@ const ForgotPassword = () => {
           >
             <div>
               <label
-                className={`text-sm font-bold ${
+                className={`text-sm  ${
                   isDarkMode ? "text-gray-300" : "text-gray-700"
                 }`}
               >
@@ -88,11 +90,8 @@ const ForgotPassword = () => {
               />
             </div>
 
-
             {errorMessage && (
-              <p className="text-red-600 font-bold center-text">
-                {errorMessage}
-              </p>
+              <p className="text-red-600  center-text">{errorMessage}</p>
             )}
 
             <button
@@ -104,8 +103,7 @@ const ForgotPassword = () => {
                   : "bg-green-600 hover:bg-green-700 hover:shadow-xl transition duration-300"
               }`}
             >
-                          {isSigningIn ? "Sending Email..." : "Send Password Reset Email"}
-
+              {isSigningIn ? "Sending Email..." : "Send Password Reset Email"}
             </button>
           </form>
           <p
@@ -114,7 +112,7 @@ const ForgotPassword = () => {
             }`}
           >
             Don't have an account?{" "}
-            <Link to={"/login"} className="hover:underline font-bold">
+            <Link to={"/login"} className="hover:underline ">
               Log In
             </Link>
           </p>

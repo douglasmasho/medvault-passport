@@ -138,10 +138,10 @@ const PatientsTable = ({ isDarkMode }) => {
           transition={{ delay: 0.2 }}
         >
           <div className="flex justify-between items-center mb-6">
-            <h2 className="text-xl font-semibold">Patients</h2>
+            <h2 className="text-xl ">Patients</h2>
             <div style={{ display: "flex" }}>
               <motion.button
-                className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded transition duration-200 w-full sm:w-auto mr-5"
+                className="bg-green-600 hover:bg-green-700 text-white  py-2 px-4 rounded transition duration-200 w-full sm:w-auto mr-5"
                 style={{ display: "flex", alignItems: "center" }}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.9 }}
@@ -209,7 +209,7 @@ const PatientsTable = ({ isDarkMode }) => {
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="flex items-center">
                         <div className="flex-shrink-0 h-10 w-10">
-                          <div className="h-10 w-10 rounded-full bg-gradient-to-r from-purple-400 to-blue-500 flex items-center justify-center text-white font-semibold">
+                          <div className="h-10 w-10 rounded-full bg-gradient-to-r from-purple-400 to-blue-500 flex items-center justify-center text-white ">
                             {user.fullName.charAt(0)}
                           </div>
                         </div>
@@ -235,7 +235,7 @@ const PatientsTable = ({ isDarkMode }) => {
                       </div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-800 text-blue-100">
+                      <span className="px-2 inline-flex text-xs leading-5  rounded-full bg-green-800 text-blue-100">
                         {user.gender}
                       </span>
                     </td>
@@ -285,7 +285,7 @@ const PatientsTable = ({ isDarkMode }) => {
               />
             }
           >
-            <h2 className="text-2xl font-semibold">Add Patient</h2>
+            <h2 className="text-2xl ">Add Patient</h2>
             <AddPatientForm
               closeModal={onCloseModal}
               getPatients={getPatients}

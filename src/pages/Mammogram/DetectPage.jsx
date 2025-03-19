@@ -271,14 +271,14 @@ const DetectPage = () => {
                           }}
                         >
                           <button
-                            className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded transition duration-200 w-full sm:w-auto mx-5"
+                            className="bg-green-600 hover:bg-green-700 text-white  py-2 px-4 rounded transition duration-200 w-full sm:w-auto mx-5"
                             onClick={downloadBlobFromUrl}
                           >
                             Download Image
                           </button>
                           {loggedInUser?.role === "medical" ? (
                             <button
-                              className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded transition duration-200 w-full sm:w-auto mx-5"
+                              className="bg-green-600 hover:bg-green-700 text-white  py-2 px-4 rounded transition duration-200 w-full sm:w-auto mx-5"
                               onClick={onOpenModal}
                             >
                               Save to Patient
@@ -402,9 +402,7 @@ const DetectPage = () => {
         }}
         closeIcon={<CircleX style={{ color: "white" }} />}
       >
-        <h2
-          className={`text-2xl font-semibold ${textColor} u-margin-bottom-small`}
-        >
+        <h2 className={`text-2xl  ${textColor} u-margin-bottom-small`}>
           Choose Patient
         </h2>
         <PatientsTable2

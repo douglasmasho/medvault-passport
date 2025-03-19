@@ -9,10 +9,10 @@ import { useUser } from "../../contexts/userContext";
 import { useDarkMode } from "../../contexts/darkModeContext"; // Import dark mode context
 import Lottie from "lottie-react";
 import animation from "../../assets/animation/loadingcubes.json";
-import 'react-phone-number-input/style.css'
-import PhoneInput from 'react-phone-number-input'
+import "react-phone-number-input/style.css";
+import PhoneInput from "react-phone-number-input";
 
-const OnBoardingOld = ({orgID}) => {
+const OnBoardingOld = ({ orgID }) => {
   const { isDarkMode } = useDarkMode(); // Access dark mode state
   const [email, setEmail] = useState("");
   const [bloodType, setBloodType] = useState("");
@@ -31,12 +31,8 @@ const OnBoardingOld = ({orgID}) => {
 
   const { currentUser } = useAuth();
   const navigate = useNavigate();
-  
 
   const [authorize, setAuthorize] = useState(false);
-  
-
-
 
   const onSubmit = async (e) => {
     e.preventDefault();
@@ -45,8 +41,8 @@ const OnBoardingOld = ({orgID}) => {
       try {
         console.log(currentUser.uid);
         updateDoc(doc(db, "orgs", orgID), {
-          patientIDs: arrayUnion(currentUser.uid)
-        })
+          patientIDs: arrayUnion(currentUser.uid),
+        });
         toast.success("Successfully registered");
         navigate("/");
       } catch (e) {
@@ -59,14 +55,13 @@ const OnBoardingOld = ({orgID}) => {
     }
   };
 
-  useEffect(()=>{
-    console.log(orgID)
-  },[])
+  useEffect(() => {
+    console.log(orgID);
+  }, []);
 
   return (
     <>
       {/* {userLoggedIn && <Navigate to={"/"} replace={true} />} */}
-      
 
       <main
         className={`w-full flex self-center place-content-center ${
@@ -91,19 +86,20 @@ const OnBoardingOld = ({orgID}) => {
             }`}
           >
             <div className="text-center mb-6">
-              <h3 className="text-xl font-semibold sm:text-2xl">
-                Create a New Account
-              </h3>
+              <h3 className="text-xl  sm:text-2xl">Create a New Account</h3>
             </div>
 
             <form
               onSubmit={onSubmit}
               className="space-y-4"
               style={{ width: "90%" }}
-              
             >
-              <div >
-                <label className="text-sm font-bold">By ticking the box below, you authorize Windhoek Neurosurgical Centre to have access to your medical records.</label> <br/>
+              <div>
+                <label className="text-sm ">
+                  By ticking the box below, you authorize Windhoek Neurosurgical
+                  Centre to have access to your medical records.
+                </label>{" "}
+                <br />
                 <input
                   type="checkbox"
                   required
@@ -114,12 +110,12 @@ const OnBoardingOld = ({orgID}) => {
                   className={`mt-2 px-3 mr-3 py-2 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg transition duration-300 ${
                     isDarkMode ? "text-white" : "text-black"
                   }`}
-                />I authorize
+                />
+                I authorize
               </div>
-            
 
               {errorMessage && (
-                <span className="text-red-600 font-bold">{errorMessage}</span>
+                <span className="text-red-600 ">{errorMessage}</span>
               )}
 
               <button
@@ -133,7 +129,6 @@ const OnBoardingOld = ({orgID}) => {
               >
                 {isRegistering ? "Registering..." : "Register"}
               </button>
-             
             </form>
           </div>
         )}

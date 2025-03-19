@@ -66,7 +66,7 @@ const DiagnosisTable = ({ diagnoses, deleteDiagnosis }) => {
       transition={{ delay: 0.2 }}
     >
       <div className="flex justify-between items-center mb-6">
-        <h2 className="text-xl font-semibold">Grade Diagnoses</h2>
+        <h2 className="text-xl ">Grade Diagnoses</h2>
       </div>
 
       <div className="overflow-x-auto">
@@ -119,7 +119,7 @@ const DiagnosisTable = ({ diagnoses, deleteDiagnosis }) => {
                   </div>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
-                  <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-800 text-blue-100 capitalize-text">
+                  <span className="px-2 inline-flex text-xs leading-5  rounded-full bg-green-800 text-blue-100 capitalize-text">
                     {diagnosis.grade === "LGG"
                       ? "Low Grade Glioma"
                       : "High Grade Glioma"}
@@ -169,7 +169,7 @@ const DiagnosisTable = ({ diagnoses, deleteDiagnosis }) => {
         </h3>
         <div style={{ display: "flex" }} className="u-margin-top">
           <motion.button
-            className="bg-red-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded transition duration-200 w-full sm:w-auto mr-5"
+            className="bg-red-600 hover:bg-green-700 text-white  py-2 px-4 rounded transition duration-200 w-full sm:w-auto mr-5"
             style={{ display: "flex", alignItems: "center" }}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.9 }}
@@ -181,7 +181,7 @@ const DiagnosisTable = ({ diagnoses, deleteDiagnosis }) => {
             Yes, Delete Diagnosis
           </motion.button>
           <motion.button
-            className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded transition duration-200 w-full sm:w-auto mr-5"
+            className="bg-green-600 hover:bg-green-700 text-white  py-2 px-4 rounded transition duration-200 w-full sm:w-auto mr-5"
             style={{ display: "flex", alignItems: "center" }}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.9 }}

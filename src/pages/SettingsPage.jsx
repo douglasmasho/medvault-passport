@@ -4,7 +4,7 @@ import DangerZone from "../components/settings/DangerZone";
 import Profile from "../components/settings/Profile";
 import Security from "../components/settings/Security";
 import { useAuth } from "../contexts/authContext";
-import { User } from "lucide-react";
+import { Settings } from "lucide-react";
 import { useDarkMode } from "../contexts/darkModeContext"; // Import dark mode context
 
 const SettingsPage = () => {
@@ -23,8 +23,8 @@ const SettingsPage = () => {
       ) : (
         <>
           <Header
-            title="Profile"
-            icon={<User style={{ marginRight: "10px", color: "#56BB6E" }} />}
+            title="Settings"
+            icon={<Settings style={{ marginRight: "10px", color: "#56BB6E" }} />}
           />
           <main className={`max-w-4xl mx-auto py-6 px-4 lg:px-8 ${textColor}`}>
             <Profile />

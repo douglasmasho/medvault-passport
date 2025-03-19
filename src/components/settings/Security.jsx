@@ -15,7 +15,7 @@ const Security = () => {
 			/> */}
       <div className="mt-4">
         <button
-          className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded 
+          className="bg-green-600 hover:bg-green-700 text-white  py-2 px-4 rounded 
         transition duration-200
         "
         >

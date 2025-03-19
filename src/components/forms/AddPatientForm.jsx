@@ -81,7 +81,7 @@ const AddPatientForm = ({ closeModal, getPatients, isDarkMode }) => {
         >
           <div>
             <label
-              className={`text-sm font-bold ${
+              className={`text-sm  ${
                 isDarkMode ? "text-gray-300" : "text-gray-700"
               }`}
             >
@@ -107,7 +107,7 @@ const AddPatientForm = ({ closeModal, getPatients, isDarkMode }) => {
 
           <div>
             <label
-              className={`text-sm font-bold ${
+              className={`text-sm  ${
                 isDarkMode ? "text-gray-300" : "text-gray-700"
               }`}
             >
@@ -147,7 +147,7 @@ const AddPatientForm = ({ closeModal, getPatients, isDarkMode }) => {
 
           <div>
             <label
-              className={`text-sm font-bold ${
+              className={`text-sm  ${
                 isDarkMode ? "text-gray-300" : "text-gray-700"
               }`}
             >
@@ -170,7 +170,7 @@ const AddPatientForm = ({ closeModal, getPatients, isDarkMode }) => {
           </div>
 
           {errorMessage && (
-            <span className="text-red-600 font-bold">{errorMessage}</span>
+            <span className="text-red-600 ">{errorMessage}</span>
           )}
 
           <button

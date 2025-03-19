@@ -9,8 +9,8 @@ import { useUser } from "../../contexts/userContext";
 import { useDarkMode } from "../../contexts/darkModeContext"; // Import dark mode context
 import Lottie from "lottie-react";
 import animation from "../../assets/animation/loadingcubes.json";
-import 'react-phone-number-input/style.css'
-import PhoneInput from 'react-phone-number-input'
+import "react-phone-number-input/style.css";
+import PhoneInput from "react-phone-number-input";
 
 const Register = () => {
   const { isDarkMode } = useDarkMode(); // Access dark mode state
@@ -63,7 +63,7 @@ const Register = () => {
           instances: [],
           investigations: [],
           questionnaires: [],
-          ...userObj
+          ...userObj,
         });
         setCurrentUser(userObj);
         toast.success("Successfully Created Account");
@@ -96,12 +96,10 @@ const Register = () => {
             className={`mt-5 p-4 shadow-xl border rounded-xl ${
               isDarkMode ? "bg-gray-800 text-white" : "bg-white text-gray-600"
             }`}
-            style={{marginBottom: "70px"}}
+            style={{ marginBottom: "70px" }}
           >
             <div className="text-center mb-6">
-              <h3 className="text-xl font-semibold sm:text-2xl">
-                Create a New Account
-              </h3>
+              <h3 className="text-xl  sm:text-2xl">Create a New Account</h3>
             </div>
 
             <form
@@ -110,7 +108,7 @@ const Register = () => {
               style={{ width: "90%" }}
             >
               <div>
-                <label className="text-sm font-bold">Title</label>
+                <label className="text-sm ">Title</label>
                 <input
                   type="text"
                   autoComplete="title"
@@ -125,7 +123,7 @@ const Register = () => {
                 />
               </div>
               <div>
-                <label className="text-sm font-bold">Full Name</label>
+                <label className="text-sm ">Full Name</label>
                 <input
                   type="text"
                   autoComplete="full-name"
@@ -140,7 +138,7 @@ const Register = () => {
                 />
               </div>
               <div>
-                <label className="text-sm font-bold">ID Number</label>
+                <label className="text-sm ">ID Number</label>
                 <input
                   type="text"
                   autoComplete="id-number"
@@ -155,7 +153,7 @@ const Register = () => {
                 />
               </div>
               <div>
-                <label className="text-sm font-bold">Gender</label>
+                <label className="text-sm ">Gender</label>
                 <select
                   required
                   value={gender}
@@ -179,7 +177,7 @@ const Register = () => {
               </div>
 
               <div>
-                <label className="text-sm font-bold">Blood Type (Skip if unknown)</label>
+                <label className="text-sm ">Blood Type (Skip if unknown)</label>
                 <select
                   value={bloodType}
                   onChange={(e) => {
@@ -192,29 +190,44 @@ const Register = () => {
                   <option value="" disabled>
                     Select an option
                   </option>
-                  <option value="A+" className="black-text">A+</option>
-                  <option value="A-" className="black-text">A-</option>
-                  <option value="B+" className="black-text">B+</option>
-                  <option value="B-" className="black-text">B-</option>
-                  <option value="AB+" className="black-text">AB+</option>
-                  <option value="AB-" className="black-text">AB-</option>
-                  <option value="O+" className="black-text">O+</option>
-                  <option value="O-" className="black-text">O-</option>
-
+                  <option value="A+" className="black-text">
+                    A+
+                  </option>
+                  <option value="A-" className="black-text">
+                    A-
+                  </option>
+                  <option value="B+" className="black-text">
+                    B+
+                  </option>
+                  <option value="B-" className="black-text">
+                    B-
+                  </option>
+                  <option value="AB+" className="black-text">
+                    AB+
+                  </option>
+                  <option value="AB-" className="black-text">
+                    AB-
+                  </option>
+                  <option value="O+" className="black-text">
+                    O+
+                  </option>
+                  <option value="O-" className="black-text">
+                    O-
+                  </option>
                 </select>
               </div>
 
-
-
               <div>
-                <label className="text-sm font-bold">Phone</label>
+                <label className="text-sm ">Phone</label>
                 <PhoneInput
                   placeholder="Enter phone number"
                   value={phone}
-                  onChange={setPhone} required/>
+                  onChange={setPhone}
+                  required
+                />
               </div>
               <div>
-                <label className="text-sm font-bold">Email</label>
+                <label className="text-sm ">Email</label>
                 <input
                   type="email"
                   autoComplete="email"
@@ -230,7 +243,7 @@ const Register = () => {
               </div>
 
               <div>
-                <label className="text-sm font-bold">Password</label>
+                <label className="text-sm ">Password</label>
                 <input
                   disabled={isRegistering}
                   type="password"
@@ -247,7 +260,7 @@ const Register = () => {
               </div>
 
               <div>
-                <label className="text-sm font-bold">Confirm Password</label>
+                <label className="text-sm ">Confirm Password</label>
                 <input
                   disabled={isRegistering}
                   type="password"
@@ -264,7 +277,7 @@ const Register = () => {
               </div>
 
               {errorMessage && (
-                <span className="text-red-600 font-bold">{errorMessage}</span>
+                <span className="text-red-600 ">{errorMessage}</span>
               )}
 
               <button
@@ -280,7 +293,7 @@ const Register = () => {
               </button>
               <div className="text-sm text-center">
                 Already have an account? {"   "}
-                <Link to={"/login"} className="hover:underline font-bold">
+                <Link to={"/login"} className="hover:underline ">
                   Continue
                 </Link>
               </div>

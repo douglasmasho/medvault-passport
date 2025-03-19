@@ -9,10 +9,15 @@ const Header = ({ title, icon }) => {
   const textColor = isDarkMode ? "text-gray-100" : "text-gray-900";
 
   return (
-    <header className={`${backgroundColor} bg-opacity-50 backdrop-blur-md shadow-lg border-b ${borderColor}`}>
-      <div className='max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8' style={{ display: "flex", alignItems: "center" }}>
+    <header
+      className={`${backgroundColor} bg-opacity-50 backdrop-blur-md shadow-lg border-b ${borderColor}`}
+    >
+      <div
+        className="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8"
+        style={{ display: "flex", alignItems: "center" }}
+      >
         {icon}
-        <h1 className={`text-2xl font-semibold ${textColor}`}>{title}</h1>
+        <h1 className={`text-2xl  ${textColor}`}>{title}</h1>
       </div>
     </header>
   );

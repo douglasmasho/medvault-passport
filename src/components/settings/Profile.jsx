@@ -22,7 +22,6 @@ const Profile = () => {
   const [pid, setPid] = useState("");
   const [organization, setOrganization] = useState("");
   const [loading, setLoading] = useState(false);
-  
 
   const { isDarkMode } = useDarkMode(); // Use dark mode context
 
@@ -42,8 +41,8 @@ const Profile = () => {
       setFullName(userObj.fullName);
       setEmail(userObj.email);
       setTitle(userObj.title);
-      setPhone(userObj.phone)
-      setPid(userObj.uid)
+      setPhone(userObj.phone);
+      setPid(userObj.uid);
     } catch (e) {
       toast.error(e.code);
     } finally {
@@ -55,7 +54,6 @@ const Profile = () => {
     getProfileDetails();
   }, []);
 
-  
   const signOut = async () => {
     try {
       await doSignOut();
@@ -79,7 +77,7 @@ const Profile = () => {
               className="rounded-full w-20 h-20 object-cover mr-4"
             />
             <div>
-              <h3 className={`text-lg font-semibold ${textColor}`}>
+              <h3 className={`text-lg  ${textColor}`}>
                 {title} {fullName}
               </h3>
               <p className={subTextColor}>{email}</p>
@@ -87,27 +85,25 @@ const Profile = () => {
           </div>
           <div className="mb-6">
             <p className={subTextColor}>Phone Number: {phone}</p>
-            <p className={subTextColor}>Patient ID: {phone}</p>
+            <p className={subTextColor}>Patient ID: {pid}</p>
           </div>
 
           <div className="center-hrz--col--on-phone">
-
-          <button
-            className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded transition duration-200 sm:w-auto btnn"
-            onClick={signOut}
-          >
-            Sign Out
-          </button>
-          <button
-            className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded transition duration-200 sm:w-auto btnn"
-            onClick={() => {
-              navigate("/editprofile");
-            }}
-          >
-            Edit Profile
-          </button>
+            <button
+              className="bg-green-600 hover:bg-green-700 text-white  py-2 px-4 rounded transition duration-200 sm:w-auto btnn"
+              onClick={signOut}
+            >
+              Sign Out
+            </button>
+            <button
+              className="bg-green-600 hover:bg-green-700 text-white  py-2 px-4 rounded transition duration-200 sm:w-auto btnn"
+              onClick={() => {
+                navigate("/editprofile");
+              }}
+            >
+              Edit Profile
+            </button>
           </div>
-
         </>
       )}
     </SettingSection>

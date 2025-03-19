@@ -212,7 +212,7 @@ const AnalysisPage = () => {
                         </h3>
                         {loggedInUser?.role === "medical" ? (
                           <button
-                            className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded transition duration-200 w-full sm:w-auto mt-5"
+                            className="bg-green-600 hover:bg-green-700 text-white  py-2 px-4 rounded transition duration-200 w-full sm:w-auto mt-5"
                             onClick={onOpenModal}
                           >
                             Save to Patient
@@ -350,9 +350,7 @@ const AnalysisPage = () => {
         }}
         closeIcon={<CircleX style={{ color: "white" }} />}
       >
-        <h2
-          className={`text-2xl font-semibold ${textColor} u-margin-bottom-small`}
-        >
+        <h2 className={`text-2xl  ${textColor} u-margin-bottom-small`}>
           Choose Patient
         </h2>
         <PatientsTable3

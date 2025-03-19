@@ -1,4 +1,4 @@
-import { Navigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import Header from "../components/common/Header";
 import { useAuth } from "../contexts/authContext";
 import SettingSection from "../components/settings/SettingSection";
@@ -47,9 +47,12 @@ const EditProfilePage = () => {
   const [title, setTitle] = useState("");
   const [fullName, setFullName] = useState("");
   const [gender, setGender] = useState("");
+  const [phone, setPhone] = useState("");
+  const [bloodType, setBloodType] = useState("");
   const [organization, setOrganization] = useState("");
   const [practiceNumber, setPracticeNumber] = useState("");
   const { isDarkMode } = useDarkMode(); // Access dark mode state
+  const navigate = useNavigate();
 
   const { userLoggedIn, currentUser } = useAuth();
 
@@ -71,6 +74,8 @@ const EditProfilePage = () => {
       setOrganization(user.organization);
       setPracticeNumber(user.practiceNumber);
       setEmail(user.email);
+      setPhone(user.phone);
+      setBloodType(user.bloodType);
     } catch (e) {
       console.log(e);
       toast.error(e.code);
@@ -143,8 +148,8 @@ const EditProfilePage = () => {
         title,
         fullName,
         gender,
-        organization,
-        practiceNumber,
+        phone,
+        bloodType,
       };
       await updateDoc(doc(db, "users", currentUser.uid), userObj);
       localStorage.setItem("currentUser", JSON.stringify(userObj));
@@ -153,6 +158,7 @@ const EditProfilePage = () => {
       console.log(e);
     } finally {
       setLoading3(false);
+      navigate("/profile");
     }
   };
 
@@ -185,7 +191,7 @@ const EditProfilePage = () => {
                   />
                   {changingPic ? null : (
                     <button
-                      className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded transition duration-200 sm:w-auto mr-5"
+                      className="bg-green-600 hover:bg-green-700 text-white  py-2 px-4 rounded transition duration-200 sm:w-auto mr-5"
                       onClick={() => {
                         setChangingPic(true);
                       }}
@@ -203,7 +209,7 @@ const EditProfilePage = () => {
             ) : changingPic ? (
               <SettingSection icon={User} title={"Choose Profile Picture"}>
                 <button
-                  className="u-margin-bottom bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded transition duration-200 w-full sm:w-auto mr-5"
+                  className="u-margin-bottom bg-red-600 hover:bg-red-700 text-white  py-2 px-4 rounded transition duration-200 w-full sm:w-auto mr-5"
                   onClick={() => {
                     setChangingPic(false);
                     setPreview(null);
@@ -250,7 +256,7 @@ const EditProfilePage = () => {
                 </div>
                 <div className="u-center-hrz">
                   <button
-                    className="u-margin-bottom u-margin-top bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded transition duration-200 sm:w-auto mr-5"
+                    className="u-margin-bottom u-margin-top bg-green-600 hover:bg-green-700 text-white  py-2 px-4 rounded transition duration-200 sm:w-auto mr-5"
                     onClick={uploadFile}
                   >
                     Change Profile Picture
@@ -274,9 +280,7 @@ const EditProfilePage = () => {
                     style={{ width: "90%" }}
                   >
                     <div>
-                      <label className={`text-sm font-bold ${textColor}`}>
-                        Title
-                      </label>
+                      <label className={`text-sm  ${textColor}`}>Title</label>
                       <input
                         type="text"
                         autoComplete="title"
@@ -289,7 +293,7 @@ const EditProfilePage = () => {
                       />
                     </div>
                     <div>
-                      <label className={`text-sm font-bold ${textColor}`}>
+                      <label className={`text-sm  ${textColor}`}>
                         Full Name
                       </label>
                       <input
@@ -304,9 +308,7 @@ const EditProfilePage = () => {
                       />
                     </div>
                     <div>
-                    <label className={`text-sm font-bold ${textColor}`}>
-                        Gender
-                      </label>
+                      <label className={`text-sm  ${textColor}`}>Gender</label>
                       <select
                         required
                         value={gender}
@@ -327,11 +329,65 @@ const EditProfilePage = () => {
                       </select>
                     </div>
 
+                    <div>
+                      <label className={`${textColor} text-sm `}>
+                        Blood Type (Skip if unknown)
+                      </label>
+                      <select
+                        value={bloodType}
+                        onChange={(e) => {
+                          setBloodType(e.target.value);
+                        }}
+                        className={`w-full mt-2 px-3 py-2 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg transition duration-300 ${
+                          isDarkMode ? "text-white" : "text-black"
+                        }`}
+                      >
+                        <option value="" disabled>
+                          Select an option
+                        </option>
+                        <option value="unknown" className="black-text">
+                          Unknown
+                        </option>
+                        <option value="A+" className="black-text">
+                          A+
+                        </option>
+                        <option value="A-" className="black-text">
+                          A-
+                        </option>
+                        <option value="B+" className="black-text">
+                          B+
+                        </option>
+                        <option value="B-" className="black-text">
+                          B-
+                        </option>
+                        <option value="AB+" className="black-text">
+                          AB+
+                        </option>
+                        <option value="AB-" className="black-text">
+                          AB-
+                        </option>
+                        <option value="O+" className="black-text">
+                          O+
+                        </option>
+                        <option value="O-" className="black-text">
+                          O-
+                        </option>
+                      </select>
+                    </div>
+                    <div>
+                      <label className={`text-sm  ${textColor}`}>
+                        Phone Number
+                      </label>
+                      <PhoneInput
+                        placeholder="Enter phone number"
+                        value={phone}
+                        onChange={setPhone}
+                        required
+                      />
+                    </div>
 
                     <div>
-                      <label className={`text-sm font-bold ${textColor}`}>
-                        Email
-                      </label>
+                      <label className={`text-sm  ${textColor}`}>Email</label>
                       <input
                         type="email"
                         autoComplete="email"
@@ -344,7 +400,7 @@ const EditProfilePage = () => {
                       />
                     </div>
 
-                    <button className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded transition duration-200 sm:w-auto mr-5">
+                    <button className="bg-green-600 hover:bg-green-700 text-white  py-2 px-4 rounded transition duration-200 sm:w-auto mr-5">
                       Change Profile Details
                     </button>
                   </form>
