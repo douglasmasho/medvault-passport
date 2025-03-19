@@ -12,6 +12,7 @@ import toast from "react-hot-toast";
 import Lottie from "lottie-react";
 import animation from "../assets/animation/loadingcubes.json";
 import { useDarkMode } from "../contexts/darkModeContext"; // Import dark mode context
+import PhoneInput from "react-phone-number-input";
 
 function base64ToBlob(base64) {
   const [metadata, base64String] = base64.split(",");
@@ -221,7 +222,7 @@ const EditProfilePage = () => {
                       onCrop={onCrop}
                       onClose={onClose}
                       onBeforeFileLoad={onBeforeFileLoad}
-                      mimeTypes="image/png"
+                      mimeTypes="image/png, image/jpeg"
                       src=""
                     />
                   </div>

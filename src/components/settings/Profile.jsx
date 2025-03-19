@@ -18,7 +18,8 @@ const Profile = () => {
   const [fullName, setFullName] = useState("");
   const [title, setTitle] = useState("");
   const [email, setEmail] = useState("");
-  const [role, setRole] = useState("");
+  const [phone, setPhone] = useState("");
+  const [pid, setPid] = useState("");
   const [organization, setOrganization] = useState("");
   const [loading, setLoading] = useState(false);
   
@@ -41,8 +42,8 @@ const Profile = () => {
       setFullName(userObj.fullName);
       setEmail(userObj.email);
       setTitle(userObj.title);
-      setRole(userObj.role);
-      setOrganization(userObj.organization);
+      setPhone(userObj.phone)
+      setPid(userObj.uid)
     } catch (e) {
       toast.error(e.code);
     } finally {
@@ -84,7 +85,10 @@ const Profile = () => {
               <p className={subTextColor}>{email}</p>
             </div>
           </div>
-         
+          <div className="mb-6">
+            <p className={subTextColor}>Phone Number: {phone}</p>
+            <p className={subTextColor}>Patient ID: {phone}</p>
+          </div>
 
           <div className="center-hrz--col--on-phone">
 

@@ -16,7 +16,7 @@ const SettingSection = ({ icon: Icon, title, children }) => {
       transition={{ duration: 0.5 }}
     >
       <div className="flex items-center mb-4">
-        <Icon className="text-indigo-400 mr-4" size="24" />
+        <Icon className="mr-4" color="#56BB6E" size="24" />
         <h2
           className={`text-xl font-semibold ${
             isDarkMode ? "text-gray-100" : "text-gray-900"
