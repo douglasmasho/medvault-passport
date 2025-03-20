@@ -8,14 +8,17 @@ import {
   Sun,
   Moon,
   Users,
-  Microscope
+  Microscope,
+  Settings,
+  Bell
 } from "lucide-react";
 import { useState, useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { ReactComponent as Logo } from "../../assets/svg/logowhite.svg";
 import { ReactComponent as Logo2 } from "../../assets/svg/logoblack.svg";
 import { useDarkMode } from "../../contexts/darkModeContext";
+
 
 const SIDEBAR_ITEMS = [
   {
@@ -25,8 +28,6 @@ const SIDEBAR_ITEMS = [
     href: "/",
   },
   { name: "Dashboard", icon: LayoutDashboard, color: "#56BB6E", href: "/overview", submenu: false },
-  { name: "Patients", icon: Users, color: "#56BB6E", href: "/patients", submenu: false },
-  { name: "Profile", icon: User, color: "#56BB6E", href: "/profile" , submenu: false},
 ];
 
 const Sidebar = () => {
@@ -35,6 +36,7 @@ const Sidebar = () => {
   const [subMenuOpen2, setIsSubMenuOpen2] = useState(false);
   const [subMenuOpen3, setIsSubMenuOpen3] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
 
   useEffect(()=>{
     const firstVal = location.pathname.split("/")[1];
@@ -50,6 +52,7 @@ const Sidebar = () => {
 
 
   const { isDarkMode, toggleDarkMode } = useDarkMode(); // Use dark mode context
+  
 
   // Use bg-white for a light sidebar background in light mode
   const backgroundColor = isDarkMode ? "bg-gray-800" : "u-white-bg";
@@ -271,7 +274,7 @@ const Sidebar = () => {
 
 
 
-          <motion.div
+          {/* <motion.div
             className={`flex items-center p-4 text-sm font-medium rounded-lg ${hoverColor} transition-colors mb-2`}
             onClick={toggleDarkMode}
             style={{ cursor: "pointer" }}
@@ -294,7 +297,57 @@ const Sidebar = () => {
                 </motion.span>
               )}
             </AnimatePresence>
+          </motion.div> */}
+
+          <div style={{position: "absolute", bottom: "50px"}}>
+          <motion.div
+            className={`flex items-center p-4 text-sm font-medium rounded-lg ${hoverColor} transition-colors mb-2`}
+            // onClick={toggleDarkMode}
+            style={{ cursor: "pointer" }}
+          >
+          
+            <Bell size={20} className="mr-1" style={{ color: "#56BB6E", minWidth: "20px" }} /> <span className="notifications-span">3</span>
+            <AnimatePresence>
+              {isSidebarOpen && (
+                <motion.span
+                  className={`ml-4 whitespace-nowrap ${textColor}`}
+                  initial={{ opacity: 0, width: 0 }}
+                  animate={{ opacity: 1, width: "auto" }}
+                  exit={{ opacity: 0, width: 0 }}
+                  transition={{ duration: 0.2, delay: 0.3 }}
+                >
+                 Notifications 
+                </motion.span>
+              )}
+            </AnimatePresence>
           </motion.div>
+
+
+          <motion.div
+            className={`flex items-center p-4 text-sm font-medium rounded-lg ${hoverColor} transition-colors mb-2`}
+            onClick={()=>{
+              navigate("/settings")
+            }}
+            style={{ cursor: "pointer" }}
+          >
+          
+            <Settings size={20} style={{ color: "#56BB6E", minWidth: "20px" }} />
+            <AnimatePresence>
+              {isSidebarOpen && (
+                <motion.span
+                  className={`ml-4 whitespace-nowrap ${textColor}`}
+                  initial={{ opacity: 0, width: 0 }}
+                  animate={{ opacity: 1, width: "auto" }}
+                  exit={{ opacity: 0, width: 0 }}
+                  transition={{ duration: 0.2, delay: 0.3 }}
+                >
+                 Settings
+                </motion.span>
+              )}
+            </AnimatePresence>
+          </motion.div>
+          </div>
+          
         </nav>
       </div>
     </motion.div>

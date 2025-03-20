@@ -6,6 +6,7 @@ import Security from "../components/settings/Security";
 import { useAuth } from "../contexts/authContext";
 import { Settings } from "lucide-react";
 import { useDarkMode } from "../contexts/darkModeContext"; // Import dark mode context
+import ToggleMode from "../components/settings/ToggleMode";
 
 const SettingsPage = () => {
   const { userLoggedIn } = useAuth();
@@ -28,6 +29,7 @@ const SettingsPage = () => {
           />
           <main className={`max-w-4xl mx-auto py-6 px-4 lg:px-8 ${textColor}`}>
             <Profile />
+            <ToggleMode/>
           </main>
         </>
       )}

@@ -1,11 +1,9 @@
-import { Route, Routes, useNavigate } from "react-router-dom";
+import { Route, Routes, useNavigate, useLocation } from "react-router-dom";
 import Sidebar from "./components/common/Sidebar";
 import OverviewPage from "./pages/Homepage";
 import SettingsPage from "./pages/SettingsPage";
 import WelcomePage from "./pages/WelcomePage";
-import DetectPage from "./pages/Brain/DetectPage";
-import DetectPage2 from "./pages/Mammogram/DetectPage";
-import AnalysisPage from "./pages/Brain/AnalysisPage";
+
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import toast, { Toaster } from "react-hot-toast";
@@ -20,11 +18,21 @@ import {
   Home,
   Clock,
   Bell,
-  User
+  User,
+  Settings
 } from "lucide-react";
+import { useDarkMode } from "./contexts/darkModeContext"; // Import dark mode context
+
+const routesArr = ["", "/appointments", "settings"]
+
 function App() {
   const [loggedInUser, setLoggedInUser] = useState(null);
   const navigate = useNavigate();
+  const {isDarkMode} = useDarkMode();
+  const location = useLocation();
+
+  const bottomNavbgColor = isDarkMode ? "bndark" : "bnlight";
+
 
   // useEffect(() => {
   //   console.log(localStorage.getItem("currentUser"))
@@ -44,10 +52,10 @@ function App() {
       activeIcon: <Clock color="#fff" />
     },
     {
-      title: "Profile",
-      onClick: ({ id }) => navigate("/profile"),
-      icon: <User />,
-      activeIcon: <User color="#fff" />
+      title: "Settings",
+      onClick: ({ id }) => navigate("/settings"),
+      icon: <Settings />,
+      activeIcon: <Settings color="#fff" />
     },
   ];
 
@@ -75,23 +83,18 @@ function App() {
         <Route path="/onboarding/:orgID" element={<OnBoardingPage />} />
 
         <Route path="/register" element={<RegisterPage />} />
-        <Route path="/register" element={<RegisterPage />} />
-        <Route path="/profile" element={<SettingsPage />} />
-        <Route path="/brain/detect" element={<DetectPage />} />
-        <Route path="/brain/detect" element={<DetectPage />} />
-        <Route path="/breast/detect" element={<DetectPage2 />} />
-        <Route path="/brain/grade" element={<AnalysisPage />} />
+        <Route path="/settings" element={<SettingsPage />} />
       </Routes>
       
     </div>
     <BottomNavigation
         items={bottomNavItems}
-        selected={0}
+        selected={routesArr.indexOf(location.pathname.split("/")[1])}
         onItemClick={(item) => console.log(item)}
         activeBgColor="rgb(86, 187, 110)"
         activeTextColor="white"
         hideOnScroll={true}
-        className="custom-bottom-nav bottomnav"
+        className={`custom-bottom-nav bottomnav ${bottomNavbgColor}`}
         style={{ position: "fixed", bottom: 0, width: "100%" }}
       />
     </>

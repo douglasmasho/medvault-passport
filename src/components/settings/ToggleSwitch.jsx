@@ -1,7 +1,13 @@
+import { useDarkMode } from "../../contexts/darkModeContext"; // Import dark mode context
+
+
 const ToggleSwitch = ({ label, isOn, onToggle }) => {
+  const { isDarkMode } = useDarkMode(); // Use dark mode context
+  const textColor = isDarkMode ? "text-gray-100" : "text-gray-900";
+
   return (
     <div className="flex items-center justify-between py-3">
-      <span className="text-gray-300">{label}</span>
+      <span className={`${textColor}`}>{label}</span>
       <button
         className={`
         relative inline-flex items-center h-6 rounded-full w-11 transition-colors focus:outline-none
