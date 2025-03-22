@@ -20,6 +20,7 @@ const Profile = () => {
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [pid, setPid] = useState("");
+  const [bloodType, setBloodType] = useState("");
   const [organization, setOrganization] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -36,13 +37,15 @@ const Profile = () => {
     try {
       const docRef = await getDoc(doc(db, "users", currentUser.uid));
       console.log(docRef);
-      const userObj = docRef.data();
-      setUserPic(userObj.profilePic);
-      setFullName(userObj.fullName);
-      setEmail(userObj.email);
-      setTitle(userObj.title);
-      setPhone(userObj.phone);
-      setPid(userObj.uid);
+      const user = docRef.data();
+      localStorage.setItem("medvault_passport_profile", JSON.stringify(user))
+      setUserPic(user.profilePic);
+      setFullName(user.fullName);
+      setEmail(user.email);
+      setTitle(user.title);
+      setPhone(user.phone);
+      setPid(user.uid);
+      setBloodType(user.bloodType)
     } catch (e) {
       toast.error(e.code);
     } finally {
@@ -51,7 +54,23 @@ const Profile = () => {
   };
 
   useEffect(() => {
-    getProfileDetails();
+    if(!JSON.parse(localStorage.getItem("medvault_passport_profile"))){
+      console.log(currentUser)
+      getProfileDetails();
+      console.log("I got from firebase")
+    }else{
+      const user = JSON.parse(localStorage.getItem("medvault_passport_profile"));
+      console.log(user);
+      console.log("got from local storage")
+      setUserPic(user.profilePic);
+      setFullName(user.fullName);
+      setEmail(user.email);
+      setPhone(user.phone);
+      setPid(user.uid);
+      setBloodType(user.bloodType);
+      setTitle(user.title);
+      setBloodType(user.bloodType)
+    }
   }, []);
 
   const signOut = async () => {
@@ -86,6 +105,7 @@ const Profile = () => {
           <div className="mb-6">
             <p className={subTextColor}>Phone Number: {phone}</p>
             <p className={subTextColor}>Patient ID: {pid}</p>
+            <p className={subTextColor}>Blood Type: {bloodType}</p>
           </div>
 
           <div className="center-hrz--col--on-phone">

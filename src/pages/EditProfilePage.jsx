@@ -60,13 +60,14 @@ const EditProfilePage = () => {
   const textColor = isDarkMode ? "text-gray-100" : "text-gray-900";
   const borderColor = isDarkMode ? "border-gray-700" : "border-gray-300";
 
-  const getProfilePic = async () => {
+  const getProfile = async () => {
     setLoading(true);
     setLoading3(true);
 
     try {
       const docSnap = await getDoc(doc(db, "users", currentUser.uid));
       const user = docSnap.data();
+      localStorage.setItem("medvault_passport_profile", JSON.stringify(user))
       setUserPic(user.profilePic);
       setTitle(user.title);
       setFullName(user.fullName);
@@ -86,7 +87,23 @@ const EditProfilePage = () => {
   };
 
   useEffect(() => {
-    getProfilePic();
+    if(!JSON.parse(localStorage.getItem("medvault_passport_profile"))){
+    getProfile();
+    console.log("i got from firebase");
+    }else{
+      const user = JSON.parse(localStorage.getItem("medvault_passport_profile"));
+      console.log(user);
+      console.log("got from local storage")
+      setUserPic(user.profilePic);
+      setTitle(user.title);
+      setFullName(user.fullName);
+      setGender(user.gender);
+      setOrganization(user.organization);
+      setPracticeNumber(user.practiceNumber);
+      setEmail(user.email);
+      setPhone(user.phone);
+      setBloodType(user.bloodType);
+    }
   }, []);
 
   const onClose = () => {
