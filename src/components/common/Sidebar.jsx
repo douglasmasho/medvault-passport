@@ -10,7 +10,8 @@ import {
   Users,
   Microscope,
   Settings,
-  Bell
+  Bell,
+  Home
 } from "lucide-react";
 import { useState, useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
@@ -22,8 +23,8 @@ import { useDarkMode } from "../../contexts/darkModeContext";
 
 const SIDEBAR_ITEMS = [
   {
-    name: "Welcome",
-    icon: BadgeInfo,
+    name: "Home",
+    icon: Home,
     color: "#56BB6E",
     href: "/",
   },

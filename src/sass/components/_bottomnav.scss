@@ -13,3 +13,18 @@ overflow: hidden;
 bnlight{
     background-color: #fff !important;
 }
+
+.bottomnav{
+    display: none;
+    @include respond(tab-port){
+        z-index: 100;
+        display: flex;
+    }
+}
+
+.bottom-nav-item{
+    background-color: #52e274;
+    & .active{
+    background-color: rgb(86, 187, 110) !important;
+    }
+} 
