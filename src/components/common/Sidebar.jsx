@@ -11,7 +11,8 @@ import {
   Microscope,
   Settings,
   Bell,
-  Home
+  Home,
+  Clock
 } from "lucide-react";
 import { useState, useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
@@ -29,6 +30,8 @@ const SIDEBAR_ITEMS = [
     href: "/",
   },
   { name: "Dashboard", icon: LayoutDashboard, color: "#56BB6E", href: "/overview", submenu: false },
+  { name: "Appointments", icon: Clock, color: "#56BB6E", href: "/appointments", submenu: false },
+
 ];
 
 const Sidebar = () => {

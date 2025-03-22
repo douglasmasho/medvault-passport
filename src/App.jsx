@@ -23,7 +23,7 @@ import {
 } from "lucide-react";
 import { useDarkMode } from "./contexts/darkModeContext"; // Import dark mode context
 
-const routesArr = ["", "/appointments", "settings"]
+const routesArr = ["", "appointments", "settings"]
 
 function App() {
   const [loggedInUser, setLoggedInUser] = useState(null);
