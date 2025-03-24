@@ -19,6 +19,8 @@ export const doSignInWithGoogle = async ()=>{
 }
 
 export const doSignOut = ()=>{
+     localStorage.setItem("currentUser", JSON.stringify({}));
+      localStorage.setItem("medvault_passport_profile", JSON.stringify({}));
     return auth.signOut()
 }
 

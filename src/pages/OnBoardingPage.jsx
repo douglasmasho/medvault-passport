@@ -18,7 +18,9 @@ const OnBoardingPage = () => {
   const { isDarkMode } = useDarkMode(); // Access dark mode state
   const [files, setFiles] = useState([]);
   const [predictedClass, setPredictedClass] = useState("");
+  const [showNothing, setShowNothing] = useState(false);
   const [logo, setLogo] = useState("");
+  const [name, setName] = useState("")
   const [loading, setLoading] = useState(true);
   const { userLoggedIn } = useAuth();
   const [isRegistering, setIsRegistering] = useState(false);
@@ -33,9 +35,10 @@ const OnBoardingPage = () => {
       console.log(orgID)
       const docRef = await getDoc(doc(db, "orgs", orgID));
       if(docRef.exists()){
-        const data = docRef.data()
-        const logoURL = data.logo
+        const data = docRef.data();
+        const logoURL = data.logo;
         setLogo(logoURL);
+        setName(data.name);
         setLoading(false);
       }else{
         navigate("/")
@@ -61,6 +64,7 @@ const OnBoardingPage = () => {
         icon={<User style={{ marginRight: "10px" }} />}
       />
       {
+        !showNothing ? 
         loading ?
         <div className="u-center-hrz">
         <Lottie animationData={animation} style={{ width: "500px" }} />
@@ -74,30 +78,30 @@ const OnBoardingPage = () => {
       {
         userLoggedIn ? 
         <>
-         <p className={`${textColor} center-text`}>You are registering as a patient under Windhoek Neurosurgical Centre, <br/> If this is not your Medvault account <span style={{color: "#56bb6e", cursor: "pointer"}} onClick={()=>{doSignOut();}}>SIGN OUT</span> and login with your account / create a new account.</p>
-         <OnBoardingOld orgID={orgID}/>
+         <p className={`${textColor} center-text`}>You are registering as a patient under {name}, <br/> If this is not your Medvault account <span style={{color: "#56bb6e", cursor: "pointer"}} onClick={()=>{doSignOut();}}>SIGN OUT</span> and login with your account / create a new account.</p>
+         <OnBoardingOld orgID={orgID} name={name}/>
         </> : 
         <>
         {
           !isRegistering ?
-         <p className={`${textColor} center-text`}>You are creating a new Medvault account, <br/> if you already have one, please <span style={{color: "#56bb6e", cursor: "pointer"}} onClick={()=>{
+         <p className={`${textColor} center-text`}>You are creating a new Medvault account, and registering as a patient under {name}<br/> if you already have one, please <span style={{color: "#56bb6e", cursor: "pointer"}} onClick={()=>{
           doSignOut();
           localStorage.setItem("redirectToOnboarding", "true");
           localStorage.setItem("onboardingOrgID", orgID)
           navigate("/login");
         }}>LOGIN</span>.</p> : null
         }
-         <OnBoardingNew orgID={orgID} isRegistering2={setIsRegistering}/> 
+         <OnBoardingNew orgID={orgID} isRegistering2={setIsRegistering} setShowNothing={setShowNothing}/> 
          </>
  
       }
        
-     
-
-     
-      </>
+      </> : 
+      <div className="u-center-hrz">
+      <Lottie animationData={animation} style={{ width: "500px" }} />
+       </div>
       }
-      
+ 
     </div>
   );
 };

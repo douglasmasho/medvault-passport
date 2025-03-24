@@ -11,8 +11,8 @@ import Lottie from "lottie-react";
 import animation from "../../assets/animation/loadingcubes.json";
 import "react-phone-number-input/style.css";
 import PhoneInput from "react-phone-number-input";
-
-const OnBoardingNew = ({ orgID, isRegistering2 }) => {
+import { nanoid } from "nanoid";
+const OnBoardingNew = ({ orgID, isRegistering2, setShowNothing }) => {
   const { isDarkMode } = useDarkMode(); // Access dark mode state
   const [email, setEmail] = useState("");
   const [bloodType, setBloodType] = useState("");
@@ -36,11 +36,13 @@ const OnBoardingNew = ({ orgID, isRegistering2 }) => {
     if (!isRegistering) {
       setIsRegistering(true);
       isRegistering2(true);
+      setShowNothing(true);
       try {
         const userCredential = await doCreateUserWithEmailAndPassword(
           email,
           password
         );
+        const pfid = nanoid(8)
         const uid = userCredential.user.uid;
         let userObj = {
           title,
@@ -55,19 +57,23 @@ const OnBoardingNew = ({ orgID, isRegistering2 }) => {
           profilePic: "https://i.ibb.co/z6xFjgk/defaultpic.png",
           notifications: [],
           appointments: [],
+          myFiles: [{org: orgID, pfid}]
         };
 
         await setDoc(doc(db, "users", uid), userObj);
-        await setDoc(doc(db, "patients", uid), {
+
+        await setDoc(doc(db, `org_${orgID}`, pfid), {
           instances: [],
           investigations: [],
           questionnaires: [],
-          ...userObj,
+          pid: uid,
+          pfid,
+          userDetails: userObj
         });
-        await updateDoc(doc(db, "orgs", orgID), {
-          patientIDs: arrayUnion(uid),
-        });
+
+        // await updateDoc(doc(db, "users", ))
         localStorage.setItem("currentUser", JSON.stringify(userObj));
+        localStorage.setItem("medvault_passport_profile", JSON.stringify(userObj));
         toast.success("Successfully Created Account");
         navigate("/");
       } catch (e) {
@@ -77,6 +83,7 @@ const OnBoardingNew = ({ orgID, isRegistering2 }) => {
       } finally {
         setIsRegistering(false);
         isRegistering2(false);
+        setShowNothing(false);
       }
     }
   };

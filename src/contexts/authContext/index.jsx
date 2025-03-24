@@ -40,6 +40,7 @@ const AuthProvider = ({children}) => {
                 return;
             }
             localStorage.setItem("currentUser", JSON.stringify(docSnap.data()));
+            localStorage.setItem("medvault_passport_profile", JSON.stringify(docSnap.data()));
             setCurrentUser({...user});
             setUserLoggedIn(true);
         }else{

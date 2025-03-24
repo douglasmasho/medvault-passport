@@ -11,8 +11,8 @@ import Lottie from "lottie-react";
 import animation from "../../assets/animation/loadingcubes.json";
 import "react-phone-number-input/style.css";
 import PhoneInput from "react-phone-number-input";
-
-const OnBoardingOld = ({ orgID }) => {
+import { nanoid } from "nanoid";
+const OnBoardingOld = ({ orgID, name }) => {
   const { isDarkMode } = useDarkMode(); // Access dark mode state
   const [email, setEmail] = useState("");
   const [bloodType, setBloodType] = useState("");
@@ -28,7 +28,6 @@ const OnBoardingOld = ({ orgID }) => {
   const [organization, setOrganization] = useState("");
   const [gender, setGender] = useState("");
   const [practiceNumber, setPracticeNumber] = useState("");
-
   const { currentUser } = useAuth();
   const navigate = useNavigate();
 
@@ -36,13 +35,33 @@ const OnBoardingOld = ({ orgID }) => {
 
   const onSubmit = async (e) => {
     e.preventDefault();
+    // check if they already have a file at the org
+
     if (!isRegistering) {
       setIsRegistering(true);
       try {
         console.log(currentUser.uid);
-        updateDoc(doc(db, "orgs", orgID), {
-          patientIDs: arrayUnion(currentUser.uid),
+        const pfid = nanoid(8);
+        const userObj = JSON.parse(localStorage.getItem("medvault_passport_profile"));
+        
+       await setDoc(doc(db, `org_${orgID}`, pfid), {
+                 instances: [],
+                 investigations: [],
+                 questionnaires: [],
+                 pid: currentUser.uid,
+                 pfid,
+                 userDetails: userObj
+          });
+               
+        await updateDoc(doc(db, "users", currentUser.uid), {
+                 myFiles: arrayUnion({org: orgID, pfid}),
         });
+
+        const newUserObj = {
+          ...userObj,
+          myFiles: [...userObj.myFiles, {org: orgID, pfid}]
+        }
+        localStorage.setItem("medvault_passport_profile", JSON.stringify(newUserObj))
         toast.success("Successfully registered");
         navigate("/");
       } catch (e) {
@@ -56,6 +75,13 @@ const OnBoardingOld = ({ orgID }) => {
   };
 
   useEffect(() => {
+    const myFiles = JSON.parse(localStorage.getItem("medvault_passport_profile")).myFiles;
+    myFiles.forEach(el=>{
+      if(el.org === orgID){
+        toast.error("You already have a file here.");
+        navigate("/")
+      } 
+    })
     console.log(orgID);
   }, []);
 
@@ -96,8 +122,7 @@ const OnBoardingOld = ({ orgID }) => {
             >
               <div>
                 <label className="text-sm ">
-                  By ticking the box below, you authorize Windhoek Neurosurgical
-                  Centre to have access to your medical records.
+                  By ticking the box below, you authorize {name} to have access to your medical records.
                 </label>{" "}
                 <br />
                 <input
