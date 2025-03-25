@@ -71,7 +71,8 @@ const OnBoardingNew = ({ orgID, isRegistering2, setShowNothing }) => {
           pid: uid,
           pfid,
           userDetails: userObj,
-          lastUpdate:  now.getTime()
+          created:  now.getTime(),
+          lastUpdate: ""
         });
 
         // await updateDoc(doc(db, "users", ))

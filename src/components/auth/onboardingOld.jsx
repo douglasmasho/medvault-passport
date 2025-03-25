@@ -45,13 +45,14 @@ const OnBoardingOld = ({ orgID, name }) => {
         const userObj = JSON.parse(localStorage.getItem("medvault_passport_profile"));
         const now = new Date()
        await setDoc(doc(db, `org_${orgID}`, pfid), {
-                 instances: [],
-                 investigations: [],
-                 questionnaires: [],
-                 pid: currentUser.uid,
-                 pfid,
-                 userDetails: userObj,
-                 lastUpdate:  now.getTime()
+          instances: [],
+          investigations: [],
+          questionnaires: [],
+          pid: currentUser.uid,
+          pfid,
+          userDetails: userObj,
+          created:  now.getTime(),
+          lastUpdate: ""
           });
                
         await updateDoc(doc(db, "users", currentUser.uid), {

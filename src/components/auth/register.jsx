@@ -59,12 +59,7 @@ const Register = () => {
         };
 
         await setDoc(doc(db, "users", uid), userObj);
-        await setDoc(doc(db, "patients", uid), {
-          instances: [],
-          investigations: [],
-          questionnaires: [],
-          ...userObj,
-        });
+
         setCurrentUser(userObj);
         toast.success("Successfully Created Account");
         localStorage.setItem("currentUser", JSON.stringify(userObj));
