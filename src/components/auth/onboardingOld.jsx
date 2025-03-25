@@ -43,14 +43,15 @@ const OnBoardingOld = ({ orgID, name }) => {
         console.log(currentUser.uid);
         const pfid = nanoid(8);
         const userObj = JSON.parse(localStorage.getItem("medvault_passport_profile"));
-        
+        const now = new Date()
        await setDoc(doc(db, `org_${orgID}`, pfid), {
                  instances: [],
                  investigations: [],
                  questionnaires: [],
                  pid: currentUser.uid,
                  pfid,
-                 userDetails: userObj
+                 userDetails: userObj,
+                 lastUpdate:  now.getTime()
           });
                
         await updateDoc(doc(db, "users", currentUser.uid), {

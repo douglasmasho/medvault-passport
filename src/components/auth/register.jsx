@@ -11,6 +11,8 @@ import Lottie from "lottie-react";
 import animation from "../../assets/animation/loadingcubes.json";
 import "react-phone-number-input/style.css";
 import PhoneInput from "react-phone-number-input";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 const Register = () => {
   const { isDarkMode } = useDarkMode(); // Access dark mode state
@@ -24,13 +26,9 @@ const Register = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const [fullName, setFullName] = useState("");
   const [title, setTitle] = useState("");
-  const [role, setRole] = useState("");
-  const [organization, setOrganization] = useState("");
-  const [orgID, setOrgID] = useState("");
+  const [startDate, setStartDate] = useState(new Date());
   const [gender, setGender] = useState("");
-  const [practiceNumber, setPracticeNumber] = useState("");
-
-  const { currentUser, setCurrentUser } = useUser();
+  const { setCurrentUser } = useUser();
   const { userLoggedIn } = useAuth();
 
   const onSubmit = async (e) => {
@@ -52,6 +50,8 @@ const Register = () => {
           bloodType,
           phone,
           idNumber,
+          dob: startDate.getTime(),
+          myFiles: [],
           role: "patient",
           profilePic: "https://i.ibb.co/z6xFjgk/defaultpic.png",
           notifications: [],
@@ -138,20 +138,17 @@ const Register = () => {
                 />
               </div>
               <div>
-                <label className="text-sm ">ID Number</label>
-                <input
-                  type="text"
-                  autoComplete="id-number"
-                  required
-                  value={idNumber}
-                  onChange={(e) => {
-                    setIdNumber(e.target.value);
-                  }}
-                  className={`w-full mt-2 px-3 py-2 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg transition duration-300 ${
-                    isDarkMode ? "text-white" : "text-black"
-                  }`}
-                />
+                  <label className={`text-sm font-bold ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>Date of Birth</label>
+                  <br />
+                  <DatePicker
+                    dateFormat="dd/MM/yyyy"
+                    placeholderText="dd/mm/yyyy"
+                    selected={startDate}
+                    onChange={(date) => setStartDate(date)}
+                    className={`w-full w-148 mt-2 px-3 py-2 ${isDarkMode ? 'bg-gray-700 text-white' : 'bg-gray-100 text-gray-900'} outline-none border ${isDarkMode ? 'border-gray-600' : 'border-gray-300'} focus:border-indigo-600 shadow-sm rounded-lg transition duration-300`}
+                  />
               </div>
+              
               <div>
                 <label className="text-sm ">Gender</label>
                 <select
@@ -175,7 +172,21 @@ const Register = () => {
                   </option>
                 </select>
               </div>
-
+              <div>
+                <label className="text-sm ">ID Number</label>
+                <input
+                  type="text"
+                  autoComplete="id-number"
+                  required
+                  value={idNumber}
+                  onChange={(e) => {
+                    setIdNumber(e.target.value);
+                  }}
+                  className={`w-full mt-2 px-3 py-2 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg transition duration-300 ${
+                    isDarkMode ? "text-white" : "text-black"
+                  }`}
+                />
+              </div>
               <div>
                 <label className="text-sm ">Blood Type (Skip if unknown)</label>
                 <select
