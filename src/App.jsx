@@ -3,7 +3,7 @@ import Sidebar from "./components/common/Sidebar";
 import OverviewPage from "./pages/Homepage";
 import SettingsPage from "./pages/SettingsPage";
 import WelcomePage from "./pages/WelcomePage";
-
+import QuestionnairePage from './pages/QuestionnairePage'; // Import the page
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import toast, { Toaster } from "react-hot-toast";
@@ -79,7 +79,7 @@ function App() {
         <Route path="/patient/:pid" element={<PatientPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/forgotpassword" element={<ForgotPasswordPage />} />
-
+        <Route path="/questionnaire" element={<QuestionnairePage />} />
         <Route path="/onboarding/:orgID" element={<OnBoardingPage />} />
 
         <Route path="/register" element={<RegisterPage />} />
