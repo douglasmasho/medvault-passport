@@ -4,6 +4,7 @@ import { User } from "lucide-react";
 import Questionnaire from "../components/Questionnaire";
 import { useDarkMode } from "../contexts/darkModeContext"; 
 
+
 const QuestionnairePage = () => {
   const { isDarkMode } = useDarkMode(); // Access dark mode state
 
