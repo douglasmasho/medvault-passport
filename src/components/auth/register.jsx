@@ -29,8 +29,7 @@ const Register = () => {
   const [title, setTitle] = useState("");
   const [startDate, setStartDate] = useState(new Date());
   const [gender, setGender] = useState("");
-    const [passwordStrength, setPasswordStrength] = useState("weak");
-
+  const [passwordStrength, setPasswordStrength] = useState("weak");
   const { setCurrentUser } = useUser();
   const { userLoggedIn } = useAuth();
   const inputRef = useRef(null);
