@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { Navigate, Link } from "react-router-dom";
 import { useAuth } from "../../contexts/authContext/index";
 import { doCreateUserWithEmailAndPassword } from "../../firebase/auth";
@@ -30,14 +30,20 @@ const Register = () => {
   const [startDate, setStartDate] = useState(new Date());
   const [gender, setGender] = useState("");
     const [passwordStrength, setPasswordStrength] = useState("weak");
-  
+
   const { setCurrentUser } = useUser();
   const { userLoggedIn } = useAuth();
+  const inputRef = useRef(null);
 
   const onSubmit = async (e) => {
     e.preventDefault();
     if(passwordStrength !== "strong"){
       toast.error("Please use a strong password. Password must be at least 8 characters and include at least one uppercase (capital) letter, one lowercase (small) letter, one number and one special character (@$!%*?&.).");
+      return;
+    }
+    if(confirmPassword !== password){
+      toast.error("Passwords do not match!");
+      inputRef.current.focus(); // Focus the input field
       return;
     }
     if (!isRegistering) {
@@ -281,6 +287,7 @@ const Register = () => {
                   autoComplete="off"
                   required
                   value={confirmPassword}
+                  ref={inputRef}
                   onChange={(e) => {
                     setconfirmPassword(e.target.value);
                   }}
