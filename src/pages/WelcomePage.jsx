@@ -8,6 +8,12 @@ import {
   CircleDot,
   Dna,
   SquareStack,
+  FolderOpen,
+  CalendarCheck,
+  MessagesSquare,
+  ClipboardList,
+  ClipboardCheck,
+  Share,
 } from "lucide-react";
 import { motion } from "framer-motion";
 import Header from "../components/common/Header";
@@ -32,7 +38,7 @@ const WelcomePage = () => {
       ) : (
         <>
           <Header
-            title="Welcome to Medvault"
+            title="Welcome to Medvault Passport"
             icon={<BadgeInfo style={{ marginRight: "10px" }} color="#56BB6E" />}
           />
 
@@ -43,152 +49,23 @@ const WelcomePage = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2, duration: 1 }}
             >
-              <p className={textColor}>
-                Welcome to Medalgo, an AI assisted tool designed to assist
-                medical professionals in medical image analysis. This
-                application leverages advanced machine learning algorithms to
-                analyze MRIs, CTs, Mammograms, Biopsies to identify and classify
-                abnormalities found. This tool is meant to enhance medical
-                professionals by increasing their worflow speed and accuracy.
+<p className={textColor}>
+                Welcome to MedVault Passport, a secure portal designed to help
+                you seamlessly interact with healthcare providers. This platform
+                allows you to access medical files, schedule consultations, engage
+                in online consultations, and view prescriptions and referrals.
+                MedVault Passport empowers you to take control of your healthcare journey
+                with ease and convenience.
               </p>
               <br /> <br />
-              <h2 className={`${textColor} bigger-text`}>Disclaimer!</h2> <br />
-              <p className={`${textColor}`}>
-                Medalgo is designed exclusively for use by certified medical
-                professionals in clinical or academic settings. <br /> <br />
-                This application is a tool to assist in the screening, analysis,
-                and diagnosis of medical images. It should not be used as a
-                standalone diagnostic tool. Results provided by Medalgo are
-                intended to support, not replace, professional medical judgment.{" "}
-                <br /> <br />
-                Do not use Medalgo for self-diagnosis or self-treatment
-                decisions. If you have any health concerns, consult a qualified
-                healthcare provider immediately.
-              </p>
+              
               <br />
               <h2 className={`bigger-text u-margin-bottom-small ${textColor}`}>
                 Features
               </h2>
-              <div className="grid grid-4 u-margin-bottom-medium">
-                <motion.div
-                  className={`overflow-hidden shadow-lg rounded-xl border ${backgroundColor} ${borderColor} center-text`}
-                  whileHover={{
-                    y: -5,
-                    boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.5)",
-                  }}
-                >
-                  <div className="px-4 py-5 sm:p-6">
-                    <Search
-                      style={{ color: "#3B82F6" }}
-                      size={100}
-                      className="u-margin-bottom-small"
-                    />
-                    <h3 className={`bigish-text ${textColor}`}>Detect</h3>
-                  </div>
-                </motion.div>
-
-                <motion.div
-                  className={`overflow-hidden shadow-lg rounded-xl border ${backgroundColor} ${borderColor} center-text`}
-                  whileHover={{
-                    y: -5,
-                    boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.5)",
-                  }}
-                >
-                  <div className="px-4 py-5 sm:p-6">
-                    <SquareStack
-                      style={{ color: "#3B82F6" }}
-                      size={100}
-                      className="u-margin-bottom-small"
-                    />
-                    <h3 className={`bigish-text ${textColor}`}>Classify</h3>
-                  </div>
-                </motion.div>
-
-                <motion.div
-                  className={`overflow-hidden shadow-lg rounded-xl border ${backgroundColor} ${borderColor} center-text`}
-                  whileHover={{
-                    y: -5,
-                    boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.5)",
-                  }}
-                >
-                  <div className="px-4 py-5 sm:p-6">
-                    <View
-                      style={{ color: "#3B82F6" }}
-                      size={100}
-                      className="u-margin-bottom-small"
-                    />
-                    <h3 className={`bigish-text ${textColor}`}>Visualize</h3>
-                  </div>
-                </motion.div>
-                <motion.div
-                  className={`overflow-hidden shadow-lg rounded-xl border ${backgroundColor} ${borderColor} center-text`}
-                  whileHover={{
-                    y: -5,
-                    boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.5)",
-                  }}
-                >
-                  <div className="px-4 py-5 sm:p-6">
-                    <Microscope
-                      style={{ color: "#3B82F6" }}
-                      size={100}
-                      className="u-margin-bottom-small"
-                    />
-                    <h3 className={`bigish-text ${textColor}`}>
-                      Biopsy Analysis
-                    </h3>
-                  </div>
-                </motion.div>
-              </div>
-              {/* Detect Section */}
-              <h2 className={`bigger-text u-margin-bottom-small ${textColor}`}>
-                <Search style={{ color: "#3B82F6", marginRight: "10px" }} />
-                Detect
-              </h2>
-              <p className={`u-margin-bottom-small ${secondaryTextColor}`}>
-                Detect allows you to quickly analyze MRI scans for the presence
-                of brain tumors. This feature highlights any detected tumors and
-                classifies them into one of three types: glioma, meningioma,
-                pituitary, or determines if no tumor is present (healthy).
-              </p>
-              {/* Analyze Section */}
-              <h2 className={`bigger-text u-margin-bottom-small ${textColor}`}>
-                <BrainCircuit
-                  style={{ color: "#3B82F6", marginRight: "10px" }}
-                />
-                Grade
-              </h2>
-              <p className={`u-margin-bottom-small ${secondaryTextColor}`}>
-                Grade helps determine whether a glioma tumor is high-grade (HGG)
-                or low-grade (LGG). Upload a .nii file, and Medalgo will
-                classify the grade, offering insight for further medical
-                evaluation.
-              </p>
-              {/* Visualize Section */}
-              <h2 className={`bigger-text u-margin-bottom-small ${textColor}`}>
-                <View style={{ color: "#3B82F6", marginRight: "10px" }} />
-                Visualize
-              </h2>
-              <p className={`u-margin-bottom-small ${secondaryTextColor}`}>
-                Visualize lets you explore MRI scans stored in .nii format,
-                offering a clear and detailed view of the brain images. You can
-                interact with the images and gain a better understanding of the
-                scan.
-              </p>
-              <h2 className={`bigger-text u-margin-bottom-small ${textColor}`}>
-                <Microscope style={{ color: "#3B82F6", marginRight: "10px" }} />
-                Biopsy Analysis
-              </h2>
-              <p className={`u-margin-bottom-small ${secondaryTextColor}`}>
-                Biopsy Analysis enables the examination of histopathological
-                images to identify abnormalities at the cellular level. This
-                feature assists in detecting malignancies, providing critical
-                insights to guide diagnosis and treatment planning.
-              </p>
-              <br />
-              <h2 className={`bigger-text u-margin-bottom-small ${textColor}`}>
-                Supported Body Regions
-              </h2>
               <div className="grid grid-3 u-margin-bottom-medium">
+             
+
                 <motion.div
                   className={`overflow-hidden shadow-lg rounded-xl border ${backgroundColor} ${borderColor} center-text`}
                   whileHover={{
@@ -197,12 +74,12 @@ const WelcomePage = () => {
                   }}
                 >
                   <div className="px-4 py-5 sm:p-6">
-                    <Brain
-                      style={{ color: "#3B82F6" }}
+                    <CalendarCheck
+                      style={{ color: "#56BB6E" }}
                       size={100}
                       className="u-margin-bottom-small"
                     />
-                    <h3 className={`bigish-text ${textColor}`}>Brain</h3>
+                    <h3 className={`bigish-text ${textColor}`}>Schedule Consultations</h3>
                   </div>
                 </motion.div>
 
@@ -214,15 +91,14 @@ const WelcomePage = () => {
                   }}
                 >
                   <div className="px-4 py-5 sm:p-6">
-                    <CircleDot
-                      style={{ color: "#3B82F6" }}
+                    <MessagesSquare
+                      style={{ color: "#56BB6E" }}
                       size={100}
                       className="u-margin-bottom-small"
                     />
-                    <h3 className={`bigish-text ${textColor}`}>Breast</h3>
+                    <h3 className={`bigish-text ${textColor}`}>Online Consultations</h3>
                   </div>
                 </motion.div>
-
                 <motion.div
                   className={`overflow-hidden shadow-lg rounded-xl border ${backgroundColor} ${borderColor} center-text`}
                   whileHover={{
@@ -231,15 +107,58 @@ const WelcomePage = () => {
                   }}
                 >
                   <div className="px-4 py-5 sm:p-6">
-                    <Dna
-                      style={{ color: "#3B82F6" }}
+                    <ClipboardList
+                      style={{ color: "#56BB6E" }}
                       size={100}
                       className="u-margin-bottom-small"
                     />
-                    <h3 className={`bigish-text ${textColor}`}>Skin</h3>
+                    <h3 className={`bigish-text ${textColor}`}>View Prescriptions & Referrals</h3>
                   </div>
                 </motion.div>
               </div>
+
+
+{/* Schedule Consultations Section */}
+<h2 className={`bigger-text u-margin-bottom-small ${textColor}`}>
+  <CalendarCheck style={{ color: "#56BB6E", marginRight: "10px" }} />
+  Schedule Consultations
+</h2>
+<p className={`u-margin-bottom-small ${secondaryTextColor}`}>
+  Easily book appointments with healthcare providers at your convenience. 
+  Select available time slots, receive reminders, and stay on top of your medical visits.
+</p>
+
+{/* Online Consultations Section */}
+<h2 className={`bigger-text u-margin-bottom-small ${textColor}`}>
+  <MessagesSquare style={{ color: "#56BB6E", marginRight: "10px" }} />
+  Online Consultations
+</h2>
+<p className={`u-margin-bottom-small ${secondaryTextColor}`}>
+  Connect with doctors remotely through secure chats or video calls. 
+  Discuss your health concerns, receive medical advice, and get prescriptions without visiting a clinic.
+</p>
+
+{/* View Prescriptions Section */}
+<h2 className={`bigger-text u-margin-bottom-small ${textColor}`}>
+  <ClipboardCheck style={{ color: "#56BB6E", marginRight: "10px" }} />
+  View Prescriptions
+</h2>
+<p className={`u-margin-bottom-small ${secondaryTextColor}`}>
+  Keep track of your prescribed medications in one place. 
+  View dosage instructions, refill reminders, and pharmacy details to manage your treatments efficiently.
+</p>
+
+{/* View Referrals Section */}
+<h2 className={`bigger-text u-margin-bottom-small ${textColor}`}>
+  <Share style={{ color: "#56BB6E", marginRight: "10px" }} />
+  View Referrals
+</h2>
+<p className={`u-margin-bottom-small ${secondaryTextColor}`}>
+  Get instant access to specialist referrals from your doctor. 
+  Track referral statuses and receive guidance on the next steps for specialized care.
+</p>
+
+
             </motion.div>
           </main>
         </>
