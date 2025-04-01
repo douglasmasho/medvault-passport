@@ -13,6 +13,7 @@ import "react-phone-number-input/style.css";
 import PhoneInput from "react-phone-number-input";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import PasswordInput from "../inputs/PasswordInput";
 
 const Register = () => {
   const { isDarkMode } = useDarkMode(); // Access dark mode state
@@ -28,11 +29,17 @@ const Register = () => {
   const [title, setTitle] = useState("");
   const [startDate, setStartDate] = useState(new Date());
   const [gender, setGender] = useState("");
+    const [passwordStrength, setPasswordStrength] = useState("weak");
+  
   const { setCurrentUser } = useUser();
   const { userLoggedIn } = useAuth();
 
   const onSubmit = async (e) => {
     e.preventDefault();
+    if(passwordStrength !== "strong"){
+      toast.error("Please use a strong password. Password must be at least 8 characters and include at least one uppercase (capital) letter, one lowercase (small) letter, one number and one special character (@$!%*?&.).");
+      return;
+    }
     if (!isRegistering) {
       setIsRegistering(true);
       try {
@@ -91,7 +98,7 @@ const Register = () => {
             className={`mt-5 p-4 shadow-xl border rounded-xl ${
               isDarkMode ? "bg-gray-800 text-white" : "bg-white text-gray-600"
             }`}
-            style={{ marginBottom: "70px" }}
+            style={{ marginBottom: "70px", maxWidth: "372px" }}
           >
             <div className="text-center mb-6">
               <h3 className="text-xl  sm:text-2xl">Create a New Account</h3>
@@ -248,7 +255,7 @@ const Register = () => {
                 />
               </div>
 
-              <div>
+              {/* <div>
                 <label className="text-sm ">Password</label>
                 <input
                   disabled={isRegistering}
@@ -263,7 +270,8 @@ const Register = () => {
                     isDarkMode ? "text-white" : "text-black"
                   }`}
                 />
-              </div>
+              </div> */}
+              <PasswordInput isRegistering={isRegistering} isDarkMode={isDarkMode} setPassword={setPassword} password={password} passwordStrength={passwordStrength} setPasswordStrength={setPasswordStrength}/>
 
               <div>
                 <label className="text-sm ">Confirm Password</label>
