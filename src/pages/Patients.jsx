@@ -13,19 +13,22 @@ import SalesOverviewChart from "../components/overview/SalesOverviewChart";
 import CategoryDistributionChart from "../components/overview/CategoryDistributionChart";
 import SalesChannelChart from "../components/overview/SalesChannelChart";
 import { useAuth } from "../contexts/authContext/index";
-import { Navigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import PatientsTable from "../components/users/PatientsTable";
 import { useDarkMode } from "../contexts/darkModeContext";
 import DetectCM from "../assets/detect_cm.png";
 import DetectPR from "../assets/detect_pr.png";
 import ClassifyCM from "../assets/classify_cm.png";
 import GradeCM from "../assets/grade_cm.png";
+import { getAuth } from "firebase/auth";
+import toast from "react-hot-toast";
+const auth = getAuth();
 
 const OverviewPage = () => {
   const { userLoggedIn, currentUser } = useAuth();
   const [loggedInUser, setLoggedInUser] = useState(null);
   const { isDarkMode, toggleDarkMode } = useDarkMode();
-
+  const navigate = useNavigate()
   // Set dynamic colors based on the mode
   const backgroundColor = isDarkMode ? "bg-gray-900" : "bg-white";
   const cardBackgroundColor = isDarkMode ? "bg-gray-900" : "bg-gray-100";
@@ -35,6 +38,7 @@ const OverviewPage = () => {
 
   useEffect(() => {
     setLoggedInUser(JSON.parse(localStorage.getItem("currentUser")));
+    
   }, []);
 
   return (

@@ -44,7 +44,7 @@ const OnBoardingOld = ({ orgID, name }) => {
         const pfid = nanoid(8);
         const userObj = JSON.parse(localStorage.getItem("medvault_passport_profile"));
         const now = new Date()
-       await setDoc(doc(db, `org_${orgID}`, pfid), {
+        await setDoc(doc(db, "orgFiles", "collections", orgID, pfid), {
           instances: [],
           investigations: [],
           questionnaires: [],
@@ -55,7 +55,7 @@ const OnBoardingOld = ({ orgID, name }) => {
           lastUpdate: ""
           });
                
-        await updateDoc(doc(db, "users", currentUser.uid), {
+        await setDoc(doc(db, "orgFiles", "collections", orgID, pfid), {
                  myFiles: arrayUnion({org: orgID, pfid}),
         });
 

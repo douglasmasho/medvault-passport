@@ -146,8 +146,33 @@ const EditProfilePage = () => {
       await updateDoc(doc(db, "users", uid), {
         profilePic: downloadURL,
       });
+
+      const userObj = {
+        email,
+        title,
+        fullName,
+        gender,
+        phone,
+        bloodType,
+        profilePic: userPic,
+      };
+      const prevObj = JSON.parse(localStorage.getItem("currentuser"));
+      const prevObj2 = JSON.parse(localStorage.getItem("medvault_passport_profile"));
+
+      localStorage.setItem("currentUser", JSON.stringify({
+        ...prevObj,
+        ...userObj,
+      }));
+      localStorage.setItem("medvault_passport_profile", JSON.stringify({
+        ...prevObj2,
+        ...userObj,
+      }));
+
+
       setChangingPic(false);
       setPreview(null);
+      navigate("/settings")
+
     } catch (error) {
       console.error("Upload failed", error);
       toast.error(error.code);
@@ -167,15 +192,26 @@ const EditProfilePage = () => {
         gender,
         phone,
         bloodType,
+        profilePic: userPic,
       };
       await updateDoc(doc(db, "users", currentUser.uid), userObj);
-      localStorage.setItem("currentUser", JSON.stringify(userObj));
+      const prevObj = JSON.parse(localStorage.getItem("currentuser"));
+      const prevObj2 = JSON.parse(localStorage.getItem("medvault_passport_profile"));
+
+      localStorage.setItem("currentUser", JSON.stringify({
+        ...prevObj,
+        ...userObj,
+      }));
+      localStorage.setItem("medvault_passport_profile", JSON.stringify({
+        ...prevObj2,
+        ...userObj,
+      }));
     } catch (e) {
       toast.error(e.code);
       console.log(e);
     } finally {
       setLoading3(false);
-      navigate("/profile");
+      navigate("/settings");
     }
   };
 

@@ -43,7 +43,7 @@ const OnBoardingNew = ({ orgID, isRegistering2, setShowNothing }) => {
           email,
           password
         );
-        const pfid = nanoid(8)
+        const pfid = nanoid(8);
         const uid = userCredential.user.uid;
         let userObj = {
           title,
@@ -63,8 +63,9 @@ const OnBoardingNew = ({ orgID, isRegistering2, setShowNothing }) => {
         };
 
         await setDoc(doc(db, "users", uid), userObj);
-        const now = new Date()
-        await setDoc(doc(db, `org_${orgID}`, pfid), {
+        const now = new Date();
+        
+        await setDoc(doc(db, "orgFiles", "collections", orgID, pfid), {
           instances: [],
           investigations: [],
           questionnaires: [],

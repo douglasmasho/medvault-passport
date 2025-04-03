@@ -31,6 +31,7 @@ const AuthProvider = ({children}) => {
 
     //guarding the app
     const initializeUser = async(user)=>{
+        // doSignOut();
         console.log(user)
         if(user){
             const docSnap = await getDoc(doc(db, "users", user.uid));
