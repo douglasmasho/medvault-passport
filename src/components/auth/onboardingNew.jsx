@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { Navigate, Link, useParams, useNavigate } from "react-router-dom";
 import { useAuth } from "../../contexts/authContext/index";
 import { doCreateUserWithEmailAndPassword } from "../../firebase/auth";
@@ -14,7 +14,7 @@ import PhoneInput from "react-phone-number-input";
 import { nanoid } from "nanoid";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-
+import PasswordInput from "../inputs/PasswordInput";
 
 const OnBoardingNew = ({ orgID, isRegistering2, setShowNothing }) => {
   const { isDarkMode } = useDarkMode(); // Access dark mode state
@@ -30,10 +30,22 @@ const OnBoardingNew = ({ orgID, isRegistering2, setShowNothing }) => {
   const [title, setTitle] = useState("");
   const [startDate, setStartDate] = useState(new Date());
   const [gender, setGender] = useState("");
+    const [passwordStrength, setPasswordStrength] = useState("weak");
+    const inputRef = useRef(null);
+  
   const navigate = useNavigate();
 
   const onSubmit = async (e) => {
     e.preventDefault();
+    if(passwordStrength !== "strong"){
+          toast.error("Please use a strong password. Password must be at least 8 characters and include at least one uppercase (capital) letter, one lowercase (small) letter, one number and one special character (@$!%*?&.).");
+          return;
+        }
+        if(confirmPassword !== password){
+          toast.error("Passwords do not match!");
+          inputRef.current.focus(); // Focus the input field
+          return;
+        }
     if (!isRegistering) {
       setIsRegistering(true);
       isRegistering2(true);
@@ -121,7 +133,7 @@ const OnBoardingNew = ({ orgID, isRegistering2, setShowNothing }) => {
             className={`mt-5 mb-5 p-4 shadow-xl border rounded-xl ${
               isDarkMode ? "bg-gray-800 text-white" : "bg-white text-gray-600"
             }`}
-            style={{ marginBottom: "70px" }}
+            style={{ marginBottom: "70px", maxWidth: "372px" }}
           >
             <div className="text-center mb-6">
               <h3 className="text-xl  sm:text-2xl">Create a New Account</h3>
@@ -277,22 +289,8 @@ const OnBoardingNew = ({ orgID, isRegistering2, setShowNothing }) => {
                 />
               </div>
 
-              <div>
-                <label className="text-sm ">Password</label>
-                <input
-                  disabled={isRegistering}
-                  type="password"
-                  autoComplete="new-password"
-                  required
-                  value={password}
-                  onChange={(e) => {
-                    setPassword(e.target.value);
-                  }}
-                  className={`w-full mt-2 px-3 py-2 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg transition duration-300 ${
-                    isDarkMode ? "text-white" : "text-black"
-                  }`}
-                />
-              </div>
+              <PasswordInput isRegistering={isRegistering} isDarkMode={isDarkMode} setPassword={setPassword} password={password} passwordStrength={passwordStrength} setPasswordStrength={setPasswordStrength}/>
+
 
               <div>
                 <label className="text-sm ">Confirm Password</label>
