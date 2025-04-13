@@ -135,7 +135,7 @@ const EditProfilePage = () => {
     const fileNameWithExtension = `profile.${extension}`;
     const storageRef = ref(
       storage,
-      `profile-pics/${uid}-${fileNameWithExtension}`
+      `profile-pics/${uid}/${fileNameWithExtension}`
     ); // Use the file name with extension
     try {
       // Upload the Blob to Firebase Storage
