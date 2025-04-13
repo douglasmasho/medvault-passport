@@ -2,17 +2,26 @@ import { Navigate, useNavigate } from "react-router-dom";
 import Header from "../components/common/Header";
 import { useAuth } from "../contexts/authContext";
 import SettingSection from "../components/settings/SettingSection";
-import { Dice1, User, UserRoundPen } from "lucide-react";
+import { CircleX, User, UserRoundPen, Trash2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import Avatar from "react-avatar-edit";
 import { db, storage } from "../firebase/firebase"; // Import your Firebase config
-import { ref, uploadBytes, getDownloadURL } from "firebase/storage"; // Import Firebase storage functions
-import { doc, updateDoc, getDoc } from "firebase/firestore";
+import {
+  ref,
+  uploadBytes,
+  getDownloadURL,
+  getMetadata,
+  deleteObject,
+  listAll,
+} from "firebase/storage"; // Import Firebase storage functions
+import { doc, updateDoc, getDoc, setDoc } from "firebase/firestore";
 import toast from "react-hot-toast";
 import Lottie from "lottie-react";
 import animation from "../assets/animation/loadingcubes.json";
 import { useDarkMode } from "../contexts/darkModeContext"; // Import dark mode context
 import PhoneInput from "react-phone-number-input";
+import { Modal } from "react-responsive-modal";
+import { motion } from "framer-motion";
 
 function base64ToBlob(base64) {
   const [metadata, base64String] = base64.split(",");
@@ -51,6 +60,7 @@ const EditProfilePage = () => {
   const [bloodType, setBloodType] = useState("");
   const [organization, setOrganization] = useState("");
   const [practiceNumber, setPracticeNumber] = useState("");
+  const [open, setOpen] = useState(false);
   const { isDarkMode } = useDarkMode(); // Access dark mode state
   const navigate = useNavigate();
 
@@ -60,6 +70,7 @@ const EditProfilePage = () => {
   const textColor = isDarkMode ? "text-gray-100" : "text-gray-900";
   const borderColor = isDarkMode ? "border-gray-700" : "border-gray-300";
 
+  const onCloseModal = () => setOpen(false);
   const getProfile = async () => {
     setLoading(true);
     setLoading3(true);
@@ -85,6 +96,56 @@ const EditProfilePage = () => {
       setLoading3(false);
     }
   };
+
+  const deletePic = async () => {
+    setChangingPic(true);
+    setLoading(true);
+    onCloseModal();
+    const storageRef = ref(storage, `orgMembers/${currentUser.uid}`);
+
+    try {
+      const result = await listAll(storageRef);
+      // Loop through and delete each file
+      const deletePromises = result.items.map((itemRef) =>
+        deleteObject(itemRef)
+      );
+      await Promise.all(deletePromises);
+      console.log(`All files under orgMembers/${currentUser.uid} deleted.`);
+      await updateDoc(doc(db, "users", currentUser.uid), {
+        profilePic: "https://i.ibb.co/z6xFjgk/defaultpic.png",
+      });
+      //set default pic
+      toast.success("Profile Picture Deleted!");
+      const userObj = {
+        profilePic: "https://i.ibb.co/z6xFjgk/defaultpic.png",
+      };
+      const prevObj = JSON.parse(localStorage.getItem("currentuser"));
+      const prevObj2 = JSON.parse(localStorage.getItem("medvault_passport_profile"));
+
+      localStorage.setItem(
+        "currentUser",
+        JSON.stringify({
+          ...prevObj,
+          ...userObj,
+        })
+      );
+      localStorage.setItem(
+        "medvault_passport_profile",
+        JSON.stringify({
+          ...prevObj2,
+          ...userObj,
+        })
+      );
+      navigate("/settings");
+    } catch (e) {
+      toast.error(e.code);
+      console.log(e);
+    } finally {
+      setChangingPic(false);
+      setLoading(false);
+    }
+  };
+
 
   useEffect(() => {
     if(!JSON.parse(localStorage.getItem("medvault_passport_profile"))){
@@ -154,7 +215,7 @@ const EditProfilePage = () => {
         gender,
         phone,
         bloodType,
-        profilePic: userPic,
+        profilePic: downloadURL,
       };
       const prevObj = JSON.parse(localStorage.getItem("currentuser"));
       const prevObj2 = JSON.parse(localStorage.getItem("medvault_passport_profile"));
@@ -167,15 +228,13 @@ const EditProfilePage = () => {
         ...prevObj2,
         ...userObj,
       }));
-
-
       setChangingPic(false);
       setPreview(null);
       navigate("/settings")
 
-    } catch (error) {
-      console.error("Upload failed", error);
-      toast.error(error.code);
+    } catch (e) {
+      console.error("Upload failed", e);
+      toast.error(e.code);
     } finally {
       setLoading2(false);
     }
@@ -243,14 +302,29 @@ const EditProfilePage = () => {
                     style={{ width: "200px" }}
                   />
                   {changingPic ? null : (
+                    <div className="center-hrz--col">
                     <button
-                      className="bg-green-600 hover:bg-green-700 text-white  py-2 px-4 rounded transition duration-200 sm:w-auto mr-5"
+                      className="bg-green-600 hover:bg-green-700 text-white  py-2 px-4 rounded transition duration-200 w-full sm:w-auto mr-5"
                       onClick={() => {
                         setChangingPic(true);
                       }}
                     >
-                      Change Profile Picture
+                      Change Picture
                     </button>
+                    <br />
+                    {JSON.parse(localStorage.getItem("medvault_passport_profile"))
+                      .profilePic ===
+                    "https://i.ibb.co/z6xFjgk/defaultpic.png" ? null : (
+                      <button
+                        className="bg-red-600 hover:bg-red-700 text-white  py-2 px-4 rounded transition duration-200 w-full sm:w-auto mr-5"
+                        onClick={() => {
+                          setOpen(true);
+                        }}
+                      >
+                        Delete Picture
+                      </button>
+                    )}
+                  </div>
                   )}
                 </div>
               )}
@@ -463,6 +537,54 @@ const EditProfilePage = () => {
           </main>
         </>
       )}
+       <Modal
+        open={open}
+        onClose={onCloseModal}
+        center
+        classNames={{
+          modal: `${
+            isDarkMode ? "bg-gray-800 text-white" : "bg-white text-gray-900"
+          } backdrop-blur-md shadow-lg rounded-xl p-6 border border-gray-700`,
+        }}
+        styles={{
+          modal: {
+            width: "80%",
+          },
+        }}
+        closeIcon={
+          <CircleX
+            style={isDarkMode ? { color: "white" } : { color: " black" }}
+          />
+        }
+      >
+        <h3 className="bigger-text">
+          Are you sure you want to delete this instance?
+        </h3>
+        <div style={{ display: "flex" }} className="u-margin-top">
+          <motion.button
+            className="bg-red-600 hover:bg-green-700 text-white  py-2 px-4 rounded transition duration-200 w-full sm:w-auto mr-5"
+            style={{ display: "flex", alignItems: "center" }}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.9 }}
+            onClick={() => {
+              deletePic();
+            }}
+          >
+            <Trash2 className="mr-2" />
+            Yes, Delete
+          </motion.button>
+          <motion.button
+            className="bg-green-600 hover:bg-green-700 text-white  py-2 px-4 rounded transition duration-200 w-full sm:w-auto mr-5"
+            style={{ display: "flex", alignItems: "center" }}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.9 }}
+            onClick={onCloseModal}
+          >
+            <CircleX className="mr-2" />
+            No, Cancel
+          </motion.button>
+        </div>
+      </Modal>
     </div>
   );
 };
