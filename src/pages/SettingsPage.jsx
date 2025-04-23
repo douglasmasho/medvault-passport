@@ -8,6 +8,7 @@ import { Settings } from "lucide-react";
 import { useDarkMode } from "../contexts/darkModeContext"; // Import dark mode context
 import ToggleMode from "../components/settings/ToggleMode";
 import EmailVerify from "../components/settings/EmailVerify";
+import Totp from "../components/settings/Totp";
 
 const SettingsPage = () => {
   const { userLoggedIn } = useAuth();
@@ -32,6 +33,7 @@ const SettingsPage = () => {
             <Profile />
             <ToggleMode/>
             <EmailVerify/>
+            <Totp/>
           </main>
         </>
       )}
