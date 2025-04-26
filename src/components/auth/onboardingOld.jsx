@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../contexts/authContext/index";
 import { db } from "../../firebase/firebase";
-import { arrayUnion, doc, setDoc, updateDoc } from "firebase/firestore";
+import { arrayUnion, doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
 import toast from "react-hot-toast";
 import { useDarkMode } from "../../contexts/darkModeContext"; // Import dark mode context
 import Lottie from "lottie-react";
@@ -14,6 +14,7 @@ const OnBoardingOld = ({ orgID, name }) => {
   const { isDarkMode } = useDarkMode(); // Access dark mode state
   
   const [isRegistering, setIsRegistering] = useState(false);
+  const [isChecking, setIsChecking] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const { currentUser } = useAuth();
   const navigate = useNavigate();
@@ -69,19 +70,33 @@ const OnBoardingOld = ({ orgID, name }) => {
     }
   };
 
-  useEffect(() => {
-    const myFiles = JSON.parse(
-      localStorage.getItem("medvault_passport_profile")
-    )?.myFiles;
-    if(myFiles){
-      myFiles.forEach((el) => {
-        if (el.org === orgID) {
-          toast.error("You already have a file here.");
-          navigate("/");
-        }
-      });
-    }
+  useEffect(()=>{
+    setIsChecking(true);
+    doesFileExist();
   }, []);
+
+  const doesFileExist = async() => {
+    try{
+      const myFilesRef = await getDoc(doc(db, "users", auth.currentUser.uid))
+      const myFiles =  myFilesRef.data().myFiles
+      if(myFiles){
+        myFiles.forEach((el) => {
+          if (el.org === orgID) {
+            toast.error("You already have a file here.");
+            navigate("/");
+          }
+        });
+      }
+    }catch(e){
+      toast.error(e.message);
+    }finally{
+      setIsChecking(false);
+    }
+    
+    // const myFiles = JSON.parse(
+    //   localStorage.getItem("medvault_passport_profile")
+    // )?.myFiles;
+  }
 
   return (
     <>
@@ -99,7 +114,7 @@ const OnBoardingOld = ({ orgID, name }) => {
             
           </>
         } */}
-        {isRegistering ? (
+        {isRegistering || isChecking ? (
           <div className="u-center-hrz--col">
             <Lottie animationData={animation} style={{ width: "200px" }} />
           </div>
