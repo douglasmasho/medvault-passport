@@ -3,7 +3,7 @@ import Sidebar from "./components/common/Sidebar";
 import OverviewPage from "./pages/Homepage";
 import SettingsPage from "./pages/SettingsPage";
 import WelcomePage from "./pages/WelcomePage";
-import QuestionnairePage from './pages/QuestionnairePage'; // Import the page
+import QuestionnairePage from "./pages/QuestionnairePage"; // Import the page
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import toast, { Toaster } from "react-hot-toast";
@@ -14,25 +14,19 @@ import ForgotPasswordPage from "./pages/ForgotPasswordPage";
 import OnBoarding from "./components/auth/onboardingOld";
 import OnBoardingPage from "./pages/OnBoardingPage";
 import { BottomNavigation } from "reactjs-bottom-navigation";
-import {
-  Home,
-  Clock,
-  Settings
-} from "lucide-react";
+import { Home, Clock, Settings } from "lucide-react";
 import { useDarkMode } from "./contexts/darkModeContext"; // Import dark mode context
 import { useAuth } from "./contexts/authContext";
 
-const routesArr = ["", "appointments", "settings"]
+const routesArr = ["", "appointments", "settings"];
 
 function App() {
   const navigate = useNavigate();
-  const {isDarkMode} = useDarkMode();
+  const { isDarkMode } = useDarkMode();
   const location = useLocation();
-    const { userLoggedIn, currentUser } = useAuth();
-  
+  const { userLoggedIn } = useAuth();
 
   const bottomNavbgColor = isDarkMode ? "bndark" : "bnlight";
-
 
   // useEffect(() => {
   //   console.log(localStorage.getItem("currentUser"))
@@ -41,55 +35,51 @@ function App() {
   const bottomNavItems = [
     {
       title: "Home",
-      onClick: ()=>navigate("/"),
+      onClick: () => navigate("/"),
       icon: <Home />,
-      activeIcon: <Home color="#fff" />
+      activeIcon: <Home color="#fff" />,
     },
     {
       title: "Appointments",
-      onClick: ()=>navigate("/appointments"),
+      onClick: () => navigate("/appointments"),
       icon: <Clock />,
-      activeIcon: <Clock color="#fff" />
+      activeIcon: <Clock color="#fff" />,
     },
     {
       title: "Settings",
       onClick: ({ id }) => navigate("/settings"),
       icon: <Settings />,
-      activeIcon: <Settings color="#fff" />
+      activeIcon: <Settings color="#fff" />,
     },
   ];
 
   return (
     <>
-     <div className="flex h-screen bg-gray-900 text-gray-100 overflow-hidden">
-      <Toaster />
-      {/* BG */}
+      <div className="flex h-screen bg-gray-900 text-gray-100 overflow-hidden">
+        <Toaster />
+        {/* BG */}
 
-      <div className="fixed inset-0 z-0">
-        <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 opacity-80" />
-        <div className="absolute inset-0 backdrop-blur-sm" />
+        <div className="fixed inset-0 z-0">
+          <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 opacity-80" />
+          <div className="absolute inset-0 backdrop-blur-sm" />
+        </div>
+        {userLoggedIn ? <Sidebar /> : null}
+        <Routes>
+          <Route path="/overview" element={<OverviewPage />} />
+          <Route path="/" element={<WelcomePage />} />
+          <Route path="/settings" element={<SettingsPage />} />
+          <Route path="/editprofile" element={<EditProfilePage />} />
+          <Route path="/patient/:pid" element={<PatientPage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/forgotpassword" element={<ForgotPasswordPage />} />
+          <Route path="/questionnaire" element={<QuestionnairePage />} />
+          <Route path="/onboarding/:orgID" element={<OnBoardingPage />} />
+
+          <Route path="/register" element={<RegisterPage />} />
+          <Route path="/settings" element={<SettingsPage />} />
+        </Routes>
       </div>
-      {
-        userLoggedIn ?
-        <Sidebar /> : null
-      }
-      <Routes>
-        <Route path="/overview" element={<OverviewPage />} />
-        <Route path="/" element={<WelcomePage />} />
-        <Route path="/settings" element={<SettingsPage />} />
-        <Route path="/editprofile" element={<EditProfilePage />} />
-        <Route path="/patient/:pid" element={<PatientPage />} />
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/forgotpassword" element={<ForgotPasswordPage />} />
-        <Route path="/questionnaire" element={<QuestionnairePage />} />
-        <Route path="/onboarding/:orgID" element={<OnBoardingPage />} />
-
-        <Route path="/register" element={<RegisterPage />} />
-        <Route path="/settings" element={<SettingsPage />} />
-      </Routes>
-      
-    </div>
-    <BottomNavigation
+      <BottomNavigation
         items={bottomNavItems}
         selected={routesArr.indexOf(location.pathname.split("/")[1])}
         onItemClick={(item) => console.log(item)}
@@ -100,7 +90,6 @@ function App() {
         style={{ position: "fixed", bottom: 0, width: "100%" }}
       />
     </>
-   
   );
 }
 

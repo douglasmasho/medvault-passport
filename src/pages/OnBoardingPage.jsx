@@ -73,15 +73,15 @@ const OnBoardingPage = () => {
       <div className="center-hrz u-margin-top u-margin-bottom">
         <img src={logo} alt="" style={{width: "200px"}}/>
       </div>
-      <h2 className={`${textColor} center-text header-text`}>New Patient Form</h2>
+      <h2 className={`${textColor} center-text bigger-text`}>New Patient Form</h2>
 
       {
         userLoggedIn ? 
-        <>
+        <div className="px-10">
          <p className={`${textColor} center-text`}>You are registering as a patient under {name}, <br/> If this is not your Medvault account <span style={{color: "#56bb6e", cursor: "pointer"}} onClick={()=>{doSignOut();}}>SIGN OUT</span> and login with your account / create a new account.</p>
          <OnBoardingOld orgID={orgID} name={name}/>
-        </> : 
-        <>
+        </div> : 
+        <div className="px-10">
         {
           !isRegistering ?
          <p className={`${textColor} center-text`}>You are creating a new Medvault account, and registering as a patient under {name}<br/> if you already have one, please <span style={{color: "#56bb6e", cursor: "pointer"}} onClick={()=>{
@@ -92,7 +92,7 @@ const OnBoardingPage = () => {
         }}>LOGIN</span>.</p> : null
         }
          <OnBoardingNew orgID={orgID} isRegistering2={setIsRegistering} setShowNothing={setShowNothing}/> 
-         </>
+         </div>
  
       }
        
