@@ -17,19 +17,19 @@ import { BottomNavigation } from "reactjs-bottom-navigation";
 import {
   Home,
   Clock,
-  Bell,
-  User,
   Settings
 } from "lucide-react";
 import { useDarkMode } from "./contexts/darkModeContext"; // Import dark mode context
+import { useAuth } from "./contexts/authContext";
 
 const routesArr = ["", "appointments", "settings"]
 
 function App() {
-  const [loggedInUser, setLoggedInUser] = useState(null);
   const navigate = useNavigate();
   const {isDarkMode} = useDarkMode();
   const location = useLocation();
+    const { userLoggedIn, currentUser } = useAuth();
+  
 
   const bottomNavbgColor = isDarkMode ? "bndark" : "bnlight";
 
@@ -69,8 +69,10 @@ function App() {
         <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 opacity-80" />
         <div className="absolute inset-0 backdrop-blur-sm" />
       </div>
-
-      <Sidebar />
+      {
+        userLoggedIn ?
+        <Sidebar /> : null
+      }
       <Routes>
         <Route path="/overview" element={<OverviewPage />} />
         <Route path="/" element={<WelcomePage />} />

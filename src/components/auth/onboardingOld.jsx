@@ -1,35 +1,23 @@
 import React, { useEffect, useState } from "react";
-import { Navigate, Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../contexts/authContext/index";
-import { doCreateUserWithEmailAndPassword } from "../../firebase/auth";
 import { db } from "../../firebase/firebase";
 import { arrayUnion, doc, setDoc, updateDoc } from "firebase/firestore";
 import toast from "react-hot-toast";
-import { useUser } from "../../contexts/userContext";
 import { useDarkMode } from "../../contexts/darkModeContext"; // Import dark mode context
 import Lottie from "lottie-react";
 import animation from "../../assets/animation/loadingcubes.json";
 import "react-phone-number-input/style.css";
-import PhoneInput from "react-phone-number-input";
 import { nanoid } from "nanoid";
+import { getAuth } from "firebase/auth";
 const OnBoardingOld = ({ orgID, name }) => {
   const { isDarkMode } = useDarkMode(); // Access dark mode state
-  const [email, setEmail] = useState("");
-  const [bloodType, setBloodType] = useState("");
-  const [phone, setPhone] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setconfirmPassword] = useState("");
-  const [idNumber, setIdNumber] = useState("");
+  
   const [isRegistering, setIsRegistering] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
-  const [fullName, setFullName] = useState("");
-  const [title, setTitle] = useState("");
-  const [role, setRole] = useState("");
-  const [organization, setOrganization] = useState("");
-  const [gender, setGender] = useState("");
-  const [practiceNumber, setPracticeNumber] = useState("");
   const { currentUser } = useAuth();
   const navigate = useNavigate();
+  const auth = getAuth()
 
   const [authorize, setAuthorize] = useState(false);
 
@@ -42,8 +30,10 @@ const OnBoardingOld = ({ orgID, name }) => {
       try {
         console.log(currentUser.uid);
         const pfid = nanoid(8);
-        const userObj = JSON.parse(localStorage.getItem("medvault_passport_profile"));
-        const now = new Date()
+        const userObj = JSON.parse(
+          localStorage.getItem("medvault_passport_profile")
+        );
+        const now = new Date();
         await setDoc(doc(db, "orgFiles", "collections", orgID, pfid), {
           instances: [],
           investigations: [],
@@ -51,19 +41,22 @@ const OnBoardingOld = ({ orgID, name }) => {
           pid: currentUser.uid,
           pfid,
           userDetails: userObj,
-          created:  now.getTime(),
-          lastUpdate: ""
-          });
-               
-        await setDoc(doc(db, "orgFiles", "collections", orgID, pfid), {
-                 myFiles: arrayUnion({org: orgID, pfid}),
+          created: now.getTime(),
+          lastUpdate: "",
+        });
+
+        await updateDoc(doc(db, "users", auth.currentUser.uid), {
+          myFiles: arrayUnion({ org: orgID, pfid }),
         });
 
         const newUserObj = {
           ...userObj,
-          myFiles: [...userObj.myFiles, {org: orgID, pfid}]
-        }
-        localStorage.setItem("medvault_passport_profile", JSON.stringify(newUserObj))
+          myFiles: [...userObj.myFiles, { org: orgID, pfid }],
+        };
+        localStorage.setItem(
+          "medvault_passport_profile",
+          JSON.stringify(newUserObj)
+        );
         toast.success("Successfully registered");
         navigate("/");
       } catch (e) {
@@ -77,14 +70,17 @@ const OnBoardingOld = ({ orgID, name }) => {
   };
 
   useEffect(() => {
-    const myFiles = JSON.parse(localStorage.getItem("medvault_passport_profile")).myFiles;
-    myFiles.forEach(el=>{
-      if(el.org === orgID){
-        toast.error("You already have a file here.");
-        navigate("/")
-      } 
-    })
-    console.log(orgID);
+    const myFiles = JSON.parse(
+      localStorage.getItem("medvault_passport_profile")
+    )?.myFiles;
+    if(myFiles){
+      myFiles.forEach((el) => {
+        if (el.org === orgID) {
+          toast.error("You already have a file here.");
+          navigate("/");
+        }
+      });
+    }
   }, []);
 
   return (
@@ -124,13 +120,14 @@ const OnBoardingOld = ({ orgID, name }) => {
             >
               <div>
                 <label className="text-sm ">
-                  By ticking the box below, you authorize {name} to have access to your medical records.
+                  By ticking the box below, you authorize {name} to have access
+                  to your medical records.
                 </label>{" "}
                 <br />
                 <input
                   type="checkbox"
                   required
-                  value={title}
+                  value={authorize}
                   onChange={(e) => {
                     setAuthorize(e.target.value);
                   }}
