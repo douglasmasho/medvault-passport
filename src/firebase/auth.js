@@ -7,11 +7,14 @@ export const doCreateUserWithEmailAndPassword = async (email, password) => {
 }
 
 export const doSignInWithEmailAndPassword = (email, password) => {
+         localStorage.setItem("currentUser", JSON.stringify({}));
+      localStorage.setItem("medvault_passport_profile", JSON.stringify({}));
     return signInWithEmailAndPassword(auth, email, password);
 }
 
 
 export const doSignInWithGoogle = async ()=>{
+
     const provider = new GoogleAuthProvider();
     const result = await signInWithPopup(auth, provider);
     //result.user == save user details to firestore
@@ -19,7 +22,7 @@ export const doSignInWithGoogle = async ()=>{
 }
 
 export const doSignOut = ()=>{
-     localStorage.setItem("currentUser", JSON.stringify({}));
+      localStorage.setItem("currentUser", JSON.stringify({}));
       localStorage.setItem("medvault_passport_profile", JSON.stringify({}));
     return auth.signOut()
 }

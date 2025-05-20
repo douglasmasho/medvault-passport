@@ -77,7 +77,7 @@ const OnBoardingNew = ({ orgID, isRegistering2, setShowNothing }) => {
         await setDoc(doc(db, "users", uid), userObj);
         const now = new Date();
         
-        await setDoc(doc(db, "orgFiles", "collections", orgID, pfid), {
+        await setDoc(doc(db, "orgFiles", "newPatients", orgID, pfid), {
           instances: [],
           investigations: [],
           questionnaires: [],

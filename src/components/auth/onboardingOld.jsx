@@ -35,7 +35,7 @@ const OnBoardingOld = ({ orgID, name }) => {
           localStorage.getItem("medvault_passport_profile")
         );
         const now = new Date();
-        await setDoc(doc(db, "orgFiles", "collections", orgID, pfid), {
+        await setDoc(doc(db, "orgFiles", "newPatients", orgID, pfid), {
           instances: [],
           investigations: [],
           questionnaires: [],
