@@ -79,7 +79,9 @@ function App() {
           <Route path="/settings" element={<SettingsPage />} />
         </Routes>
       </div>
-      <BottomNavigation
+      {
+        userLoggedIn ? 
+        <BottomNavigation
         items={bottomNavItems}
         selected={routesArr.indexOf(location.pathname.split("/")[1])}
         onItemClick={(item) => console.log(item)}
@@ -88,7 +90,9 @@ function App() {
         hideOnScroll={true}
         className={`custom-bottom-nav bottomnav ${bottomNavbgColor}`}
         style={{ position: "fixed", bottom: 0, width: "100%" }}
-      />
+      />: null
+      }
+      
     </>
   );
 }
