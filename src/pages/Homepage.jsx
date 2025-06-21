@@ -13,6 +13,8 @@ import { useAuth } from "../contexts/authContext/index";
 import { Navigate } from "react-router-dom";
 import PatientsTable from "../components/users/PatientsTable";
 import { useDarkMode } from "../contexts/darkModeContext";
+import Lottie from "lottie-react";
+import loader from "../assets/animation/Loader.json";
 import DetectCM from "../assets/detect_cm.png";
 import DetectPR from "../assets/detect_pr.png";
 import ClassifyCM from "../assets/classify_cm.png";
@@ -31,7 +33,7 @@ const OverviewPage = () => {
   const secondaryTextColor = isDarkMode ? "text-gray-400" : "text-gray-600";
 
   useEffect(() => {
-    console.log(localStorage.getItem("currentUser"))
+    console.log(localStorage.getItem("currentUser"));
     setLoggedInUser(JSON.parse(localStorage.getItem("currentUser")));
   }, []);
 
@@ -54,10 +56,14 @@ const OverviewPage = () => {
               />
             }
           />
-
-          <p className="m-10">
+          <div>
+            <p className="m-10">
             Analytics come here when full system is developed
           </p>
+
+          <Lottie animationData={loader} style={{ width: "200px" }} />
+          </div>
+          
         </>
       )}
     </div>

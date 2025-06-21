@@ -103,7 +103,7 @@ const Register = () => {
             className={`mt-5 p-4 shadow-xl border rounded-xl ${
               isDarkMode ? "bg-gray-800 text-white" : "bg-white text-gray-600"
             }`}
-            style={{ marginBottom: "70px", maxWidth: "372px" }}
+            style={{ marginBottom: "70px", maxWidth: "470px" }}
           >
             <div className="text-center mb-6">
               <h3 className="text-xl  sm:text-2xl">Create a New Account</h3>
@@ -152,7 +152,7 @@ const Register = () => {
                     placeholderText="dd/mm/yyyy"
                     selected={startDate}
                     onChange={(date) => setStartDate(date)}
-                    className={`w-full w-148 mt-2 px-3 py-2 ${isDarkMode ? 'bg-gray-700 text-white' : 'bg-gray-100 text-gray-900'} outline-none border ${isDarkMode ? 'border-gray-600' : 'border-gray-300'} focus:border-indigo-600 shadow-sm rounded-lg transition duration-300`}
+                    className={`w-full mt-2 px-3 py-2 ${isDarkMode ? 'bg-gray-700 text-white' : 'bg-gray-100 text-gray-900'} outline-none border ${isDarkMode ? 'border-gray-600' : 'border-gray-300'} focus:border-indigo-600 shadow-sm rounded-lg transition duration-300`}
                   />
               </div>
               
