@@ -14,6 +14,9 @@ import PhoneInput from "react-phone-number-input";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import PasswordInput from "../inputs/PasswordInput";
+import LogoDark from "../../assets/svg/logoblack.svg";
+import LogoLight from "../../assets/svg/logowhite.svg";
+
 
 const Register = () => {
   const { isDarkMode } = useDarkMode(); // Access dark mode state
@@ -90,9 +93,12 @@ const Register = () => {
       {userLoggedIn && <Navigate to={"/"} replace={true} />}
 
       <main
-        className={`w-full flex self-center place-content-center ${
-          isDarkMode ? "bg-gray-900 text-white" : "bg-white text-black"
+        className={`w-full flex pb-5  self-center place-content-center ${
+          isDarkMode ? " text-white" : "text-black"
         }`}
+        style={{
+          overflowY: "scroll"
+        }}
       >
         {isRegistering ? (
           <div className="u-center-hrz--col">
@@ -100,12 +106,14 @@ const Register = () => {
           </div>
         ) : (
           <div
-            className={`mt-5 p-4 shadow-xl border rounded-xl ${
-              isDarkMode ? "bg-gray-800 text-white" : "bg-white text-gray-600"
+            className={`mt-5 p-4 rounded-xl ${
+              isDarkMode ? " text-white" : "text-gray-600"
             }`}
-            style={{ marginBottom: "70px", maxWidth: "470px" }}
+            style={{ marginBottom: "70px", maxWidth: "372px" }}
           >
-            <div className="text-center mb-6">
+            <div className="text-left mb-6">
+            <img src={isDarkMode ? LogoLight : LogoDark} alt="Medvault Logo" className="h-10 mb-8 self-start" />
+
               <h3 className="text-xl  sm:text-2xl">Create a New Account</h3>
             </div>
 
@@ -124,9 +132,12 @@ const Register = () => {
                   onChange={(e) => {
                     setTitle(e.target.value);
                   }}
-                  className={`w-full mt-2 px-3 py-2 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg transition duration-300 ${
-                    isDarkMode ? "text-white" : "text-black"
-                  }`}
+                  className={`mt-2 px-3 py-2 ${
+                    isDarkMode
+                      ? "bg-gray-700 text-white border-gray-600"
+                      : "bg-transparent border text-black"
+                  } outline-none focus:border-indigo-600 shadow-sm rounded-lg transition duration-300`}
+                  style={{ width: "100%" }}
                 />
               </div>
               <div>
@@ -139,9 +150,12 @@ const Register = () => {
                   onChange={(e) => {
                     setFullName(e.target.value);
                   }}
-                  className={`w-full mt-2 px-3 py-2 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg transition duration-300 ${
-                    isDarkMode ? "text-white" : "text-black"
-                  }`}
+                  className={`mt-2 px-3 py-2 ${
+                    isDarkMode
+                      ? "bg-gray-700 text-white border-gray-600"
+                      : "bg-transparent border text-black"
+                  } outline-none focus:border-indigo-600 shadow-sm rounded-lg transition duration-300`}
+                  style={{ width: "100%" }}
                 />
               </div>
               <div>
@@ -152,7 +166,7 @@ const Register = () => {
                     placeholderText="dd/mm/yyyy"
                     selected={startDate}
                     onChange={(date) => setStartDate(date)}
-                    className={`w-full mt-2 px-3 py-2 ${isDarkMode ? 'bg-gray-700 text-white' : 'bg-gray-100 text-gray-900'} outline-none border ${isDarkMode ? 'border-gray-600' : 'border-gray-300'} focus:border-indigo-600 shadow-sm rounded-lg transition duration-300`}
+                    className={`w-full mt-2 px-3 py-2 ${isDarkMode ? 'bg-gray-700 text-white' : 'bg-transparent text-gray-900'} outline-none border ${isDarkMode ? 'border-gray-600' : 'border-gray-300'} focus:border-indigo-600 shadow-sm rounded-lg transition duration-300`}
                   />
               </div>
               
@@ -164,9 +178,12 @@ const Register = () => {
                   onChange={(e) => {
                     setGender(e.target.value);
                   }}
-                  className={`w-full mt-2 px-3 py-2 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg transition duration-300 ${
-                    isDarkMode ? "text-white" : "text-black"
-                  }`}
+                  className={`mt-2 px-3 py-2 ${
+                    isDarkMode
+                      ? "bg-gray-700 text-white border-gray-600"
+                      : "bg-transparent border text-black"
+                  } outline-none focus:border-indigo-600 shadow-sm rounded-lg transition duration-300`}
+                  style={{ width: "100%" }}
                 >
                   <option value="" disabled>
                     Select an option
@@ -189,9 +206,12 @@ const Register = () => {
                   onChange={(e) => {
                     setIdNumber(e.target.value);
                   }}
-                  className={`w-full mt-2 px-3 py-2 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg transition duration-300 ${
-                    isDarkMode ? "text-white" : "text-black"
-                  }`}
+                  className={`mt-2 px-3 py-2 ${
+                    isDarkMode
+                      ? "bg-gray-700 text-white border-gray-600"
+                      : "bg-transparent border text-black"
+                  } outline-none focus:border-indigo-600 shadow-sm rounded-lg transition duration-300`}
+                  style={{ width: "100%" }}
                 />
               </div>
               <div>
@@ -201,9 +221,12 @@ const Register = () => {
                   onChange={(e) => {
                     setBloodType(e.target.value);
                   }}
-                  className={`w-full mt-2 px-3 py-2 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg transition duration-300 ${
-                    isDarkMode ? "text-white" : "text-black"
-                  }`}
+                  className={`mt-2 px-3 py-2 ${
+                    isDarkMode
+                      ? "bg-gray-700 text-white border-gray-600"
+                      : "bg-transparent border text-black"
+                  } outline-none focus:border-indigo-600 shadow-sm rounded-lg transition duration-300`}
+                  style={{ width: "100%" }}
                 >
                   <option value="" disabled>
                     Select an option
@@ -242,6 +265,12 @@ const Register = () => {
                   value={phone}
                   onChange={setPhone}
                   required
+                  className={`mt-2 px-3 py-2 ${
+                    isDarkMode
+                      ? "bg-gray-700 text-white border-gray-600"
+                      : "bg-transparent border text-black"
+                  } outline-none focus:border-indigo-600 shadow-sm rounded-lg transition duration-300`}
+                  style={{ width: "100%" }}
                 />
               </div>
               <div>
@@ -290,9 +319,12 @@ const Register = () => {
                   onChange={(e) => {
                     setconfirmPassword(e.target.value);
                   }}
-                  className={`w-full mt-2 px-3 py-2 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg transition duration-300 ${
-                    isDarkMode ? "text-white" : "text-black"
-                  }`}
+                  className={`mt-2 px-3 py-2 ${
+                    isDarkMode
+                      ? "bg-gray-700 text-white border-gray-600"
+                      : "bg-transparent border text-black"
+                  } outline-none focus:border-indigo-600 shadow-sm rounded-lg transition duration-300`}
+                  style={{ width: "100%" }}
                 />
               </div>
 
@@ -303,7 +335,7 @@ const Register = () => {
               <button
                 type="submit"
                 disabled={isRegistering}
-                className={`w-full px-4 py-2 text-white font-medium rounded-lg ${
+                className={`w-full px-3 py-2 text-white font-medium rounded-lg ${
                   isRegistering
                     ? "bg-gray-300 cursor-not-allowed"
                     : "bg-green-600 hover:bg-green-700 hover:shadow-xl transition duration-300"
@@ -311,7 +343,7 @@ const Register = () => {
               >
                 {isRegistering ? "Signing Up..." : "Sign Up"}
               </button>
-              <div className="text-sm text-center">
+              <div className="text-sm text-left">
                 Already have an account? {"   "}
                 <Link to={"/login"} className="hover:underline ">
                   Continue

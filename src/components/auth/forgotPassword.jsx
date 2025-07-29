@@ -2,13 +2,12 @@ import React, { useState } from "react";
 import { Navigate, Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../contexts/authContext/index";
 import {
-  doSignInWithEmailAndPassword,
   doPasswordReset,
 } from "../../firebase/auth";
 import toast from "react-hot-toast";
 import { useDarkMode } from "../../contexts/darkModeContext"; // Import dark mode context
-import animation from "../../assets/animation/loadingcubes.json";
-import Lottie from "lottie-react";
+import LogoDark from "../../assets/svg/logoblack.svg";
+import LogoLight from "../../assets/svg/logowhite.svg";
 
 const ForgotPassword = () => {
   const { userLoggedIn } = useAuth();
@@ -45,12 +44,14 @@ const ForgotPassword = () => {
       {userLoggedIn && <Navigate to="/" replace={true} />}
       <main className="w-full h-screen flex self-center place-content-center place-items-center white-text">
         <div
-          className={`w-96 space-y-5 p-4 shadow-xl border rounded-xl ${
-            isDarkMode ? "bg-gray-800 border-gray-700" : "bg-white"
+          className={`w-96 space-y-5 p-4  rounded-xl ${
+            isDarkMode ? " border-gray-700" : ""
           } transition duration-300`}
         >
-          <div className="text-center">
+          <div className="text-left">
             <div className="mt-2">
+            <img src={isDarkMode ? LogoLight : LogoDark} alt="Medvault Logo" className="h-10 mb-8 self-start" />
+
               <h3
                 className={`text-xl  sm:text-2xl ${
                   isDarkMode ? "text-white" : "text-black"
@@ -97,7 +98,7 @@ const ForgotPassword = () => {
             <button
               type="submit"
               disabled={isSigningIn}
-              className={`w-full px-4 py-2 text-white font-medium rounded-lg ${
+              className={`w-full px-3 py-2 text-white font-medium rounded-lg ${
                 isSigningIn
                   ? "bg-gray-300 cursor-not-allowed"
                   : "bg-green-600 hover:bg-green-700 hover:shadow-xl transition duration-300"
@@ -107,13 +108,13 @@ const ForgotPassword = () => {
             </button>
           </form>
           <p
-            className={`text-center text-sm ${
+            className={`text-left text-sm ${
               isDarkMode ? "text-gray-300" : "text-gray-700"
             }`}
           >
-            Don't have an account?{" "}
+            Remember your password?{" "}
             <Link to={"/login"} className="hover:underline ">
-              Log In
+              Log in
             </Link>
           </p>
         </div>

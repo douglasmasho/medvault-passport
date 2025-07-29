@@ -1,73 +1,90 @@
 import { useContext, useEffect, useState, React, createContext } from "react";
-import {auth, db} from "../../firebase/firebase";
+import { auth, db } from "../../firebase/firebase";
 import { onAuthStateChanged } from "firebase/auth";
 import Lottie from "lottie-react";
-import animation from "../../assets/animation/loadingcubes.json"
+import animation from "../../assets/animation/loadingcubes.json";
 import { ReactComponent as Logo } from "../../assets/svg/logowhite.svg";
 import { doc, getDoc } from "firebase/firestore";
 import { doSignOut } from "../../firebase/auth";
 import toast from "react-hot-toast";
 const AuthContext = createContext();
 
-export const useAuth = ()=> useContext(AuthContext);
+export const useAuth = () => useContext(AuthContext);
 
-const AuthProvider = ({children}) => {
-    const [currentUser, setCurrentUser] = useState(null);
-    const [userLoggedIn, setUserLoggedIn] = useState(false);
-    const [loading, setLoading] = useState(true);
+const AuthProvider = ({ children }) => {
+  const [currentUser, setCurrentUser] = useState(null);
+  const [userLoggedIn, setUserLoggedIn] = useState(false);
+  const [loading, setLoading] = useState(true);
 
-    //empty dependency useEffect so you can set up a listener to auth state change
-    useEffect(()=>{
-        const unsub = onAuthStateChanged(auth, initializeUser) //this will automatically pass user info into the callback function
-    }, []);
+  //empty dependency useEffect so you can set up a listener to auth state change
+  useEffect(() => {
+    const unsub = onAuthStateChanged(auth, initializeUser); //this will automatically pass user info into the callback function
+  }, []);
 
-    const getUserObj = async(uid)=>{
-        try{
-           
-        }catch(e){
-            console.log(e)
-        }
+  const getUserObj = async (uid) => {
+    try {
+    } catch (e) {
+      console.log(e);
     }
+  };
 
-    //guarding the app
-    const initializeUser = async(user)=>{
-        // doSignOut();
-        console.log(user)
-        if(user){
-            const docSnap = await getDoc(doc(db, "users", user.uid));
-            if(docSnap.data().role !== "patient"){
-                doSignOut();
-                toast.error("Provider/Staff Accounts Not Allowed Here")
-                return;
-            }
-            localStorage.setItem("currentUser", JSON.stringify(docSnap.data()));
-            localStorage.setItem("medvault_passport_profile", JSON.stringify(docSnap.data()));
-            setCurrentUser({...user});
-            setUserLoggedIn(true);
-        }else{
-            setCurrentUser(null);
-            setUserLoggedIn(false);
-            localStorage.setItem("currentUser", JSON.stringify(null))
-        }
-        setLoading(false);
+  //guarding the app
+  const initializeUser = async (user) => {
+    // doSignOut();
+    console.log(user);
+    if (user) {
+      setLoading(true);
+
+      const docSnap = await getDoc(doc(db, "users", user.uid));
+      if (docSnap.data().role !== "patient") {
+        doSignOut();
+        toast.error("Provider/Staff Accounts Not Allowed Here");
+        setLoading(true);
+        return;
+      }
+      localStorage.setItem("currentUser", JSON.stringify(docSnap.data()));
+      localStorage.setItem(
+        "medvault_passport_profile",
+        JSON.stringify(docSnap.data())
+      );
+      setCurrentUser({ ...user });
+      setUserLoggedIn(true);
+    } else {
+      setCurrentUser(null);
+      setUserLoggedIn(false);
+      localStorage.setItem("currentUser", JSON.stringify(null));
     }
+    setLoading(false);
+  };
 
-    const value = {
-        currentUser,
-        userLoggedIn,
-        loading
-    }
+  const value = {
+    currentUser,
+    userLoggedIn,
+    loading,
+  };
 
-    return ( 
-        <AuthContext.Provider value={value}>
-            {loading ?
-            <div style={{backgroundColor: "#11181D", width: "100vw", height: "100vh", display: "flex", flexDirection: "column",justifyContent: "center", alignItems: "center"}}>
-            <Logo style={{width: "300px"}}/>
-            <Lottie animationData={animation} style={{ width: "200px" }} />
-            </div>
-            :children}
-        </AuthContext.Provider>
-     );
-}
- 
+  return (
+    <AuthContext.Provider value={value}>
+      {loading ? (
+        <div
+          style={{
+            backgroundColor: "#11181D",
+            width: "100vw",
+            height: "100vh",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <Logo style={{ width: "300px" }} />
+          <Lottie animationData={animation} style={{ width: "200px" }} />
+        </div>
+      ) : (
+        children
+      )}
+    </AuthContext.Provider>
+  );
+};
+
 export default AuthProvider;
