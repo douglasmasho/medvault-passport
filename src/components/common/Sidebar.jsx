@@ -30,8 +30,8 @@ const SIDEBAR_ITEMS = [
     color: "#56BB6E",
     href: "/",
   },
-  { name: "Dashboard", icon: LayoutDashboard, color: "#56BB6E", href: "/overview", submenu: false },
-  { name: "Appointments", icon: Clock, color: "#56BB6E", href: "/appointments", submenu: false },
+  // { name: "Dashboard", icon: LayoutDashboard, color: "#56BB6E", href: "/overview", submenu: false },
+  // { name: "Appointments", icon: Clock, color: "#56BB6E", href: "/appointments", submenu: false },
   { name: "Questionnaires", icon: FileQuestion, color: "#56BB6E", href: "/questionnaires", submenu: false },
 
 ];

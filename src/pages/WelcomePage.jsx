@@ -38,7 +38,7 @@ const WelcomePage = () => {
       ) : (
         <>
           <Header
-            title="Welcome to Medvault Passport"
+            title=" Passport"
             icon={<BadgeInfo style={{ marginRight: "10px" }} color="#56BB6E" />}
           />
 
