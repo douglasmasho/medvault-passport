@@ -1,0 +1,36 @@
+.questionnaire{
+    &__container{
+        background-color: white;
+        // width: 100vw;
+        height: 100vh;
+        padding: 10px;
+        overflow-x: hidden;
+       
+    }
+
+    &__nav{
+        // display: flex;
+        align-items: center;
+        cursor: pointer;
+        display: inline-flex;
+    }
+
+
+
+    &__question{
+        // background-color:hsla(247,100%,50%,1);background-image:radial-gradient(at 1% 88%, hsla(275,100%,74%,1) 0px, transparent 50%),radial-gradient(at 100% 79%, hsla(196,100%,56%,1) 0px, transparent 50%),radial-gradient(at 16% 9%, hsla(249,100%,70%,1) 0px, transparent 50%);
+        background: radial-gradient(circle at top left, #0F61EF 0%, #4B38EF 53%, #860FEF 100%);
+        height: 100%;
+        width: 40%;
+        border-top-left-radius: 20px;
+        border-bottom-left-radius: 20px;
+        padding: 30px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+
+        &__text{
+            font-size: 35px;
+        }
+    }
+}
