@@ -5,6 +5,7 @@
         height: 100vh;
         padding: 10px;
         overflow-x: hidden;
+        display: flex;
        
     }
 
@@ -21,7 +22,7 @@
         // background-color:hsla(247,100%,50%,1);background-image:radial-gradient(at 1% 88%, hsla(275,100%,74%,1) 0px, transparent 50%),radial-gradient(at 100% 79%, hsla(196,100%,56%,1) 0px, transparent 50%),radial-gradient(at 16% 9%, hsla(249,100%,70%,1) 0px, transparent 50%);
         background: radial-gradient(circle at top left, #0F61EF 0%, #4B38EF 53%, #860FEF 100%);
         height: 100%;
-        width: 40%;
+        width: 25%;
         border-top-left-radius: 20px;
         border-bottom-left-radius: 20px;
         padding: 30px;
@@ -30,7 +31,11 @@
         justify-content: space-between;
 
         &__text{
-            font-size: 35px;
+            font-size: 30px;
         }
+    }
+
+    &__answer{
+        width: 70%;
     }
 }

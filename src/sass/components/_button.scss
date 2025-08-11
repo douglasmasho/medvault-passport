@@ -1,0 +1,21 @@
+.button{
+    padding: 10px 20px;
+    border-radius: 10px;
+    transition: all .5s;
+
+    &-white{
+        background-color: white;
+        color: black;
+    }
+
+    &-outline{
+        border: white 2px solid;
+    }
+
+    &-first{
+        margin-right: 10px;
+        @include respond(tab-port){
+            margin-right: 0px;
+        }
+    }
+}
