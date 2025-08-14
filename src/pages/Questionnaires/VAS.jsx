@@ -12,7 +12,7 @@ import {
   BrainCircuit,
   ChevronLeft,
 } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useAuth } from "../../contexts/authContext/index";
 import { Navigate } from "react-router-dom";
@@ -38,6 +38,10 @@ const VAS = () => {
     text: isDarkMode ? "white-text" : "text-gray-900",
     textSecondary: isDarkMode ? "white-text" : "text-gray-600",
   };
+
+  useEffect(()=>{
+    console.log(currentUser.uid)
+  }, [])
 
 
   const doSomething = (data)=>{
@@ -94,7 +98,6 @@ const VAS = () => {
       const comprehensiveData = {
         timestamp: new Date().toISOString(),
         patientId: currentUser?.uid || 'unknown',
-        questionnaireType: 'VAS',
         painMapperData: cleanPainMapperData,
         vasAnswers: cleanVasAnswers,
         summary: {
@@ -118,18 +121,7 @@ const VAS = () => {
       console.log("Setting completedData immediately:", comprehensiveData);
       setCompletedData(comprehensiveData);
 
-      // Get user data from localStorage to get orgID and fileID
-      const userProfile = JSON.parse(localStorage.getItem("medvault_passport_profile") || "{}");
-      const userFiles = userProfile.myFiles || [];
       
-      if (userFiles.length === 0) {
-        toast.error("No patient file found. Please contact your healthcare provider.");
-        return;
-      }
-
-      // Use the first file (assuming user has one primary file)
-      const { org: orgID, pfid: fileID } = userFiles[0];
-
       // Clean the data before sending to Firebase
       const cleanedData = removeUndefinedValues({
         ...comprehensiveData,
@@ -143,7 +135,6 @@ const VAS = () => {
         cleanedData,
         currentUser?.uid,
         orgID,
-        fileID
       );
 
       if (result.success) {

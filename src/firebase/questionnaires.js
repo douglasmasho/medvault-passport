@@ -34,7 +34,7 @@ export const createQuestionnaire = async (questionnaireData, uid, orgID, fileID)
     // 1. Save to /questionnaires/{uid} - user's personal questionnaires
     const userQuestionnaireRef = doc(db, "questionnaires", uid);
     await setDoc(userQuestionnaireRef, {
-      questionnaires: arrayUnion(questionnaireObj)
+      vas: questionnaireObj
     }, { merge: true });
 
     // 2. Save to /orgFiles/questionnaires/{orgID} - organization's questionnaire collection
