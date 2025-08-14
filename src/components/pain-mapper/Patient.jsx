@@ -1,9 +1,14 @@
 "use client"
 
-import { useCallback, useRef, useState } from "react"
+import { useCallback, useRef, useState, useEffect } from "react"
 import BodyImage from "./body-diagram.jpeg"
 export default function PatientPainMapper({ onDataChange, initialData = [] }) {
   const [painData, setPainData] = useState(initialData)
+
+  // Update painData when initialData changes (e.g., when navigating back to this component)
+  useEffect(() => {
+    setPainData(initialData);
+  }, [initialData]);
   const [hoveredPain, setHoveredPain] = useState(null)
   const svgRef = useRef(null)
 
@@ -303,7 +308,7 @@ export default function PatientPainMapper({ onDataChange, initialData = [] }) {
                   value={modalDescription}
                   onChange={(e) => setModalDescription(e.target.value)}
                   placeholder="e.g., sharp stabbing pain, dull ache, burning sensation…"
-                  className="w-full border rounded px-3 py-2 text-sm"
+                  className="w-full border rounded px-3 py-2 text-sm black-text"
                 />
               </div>
 

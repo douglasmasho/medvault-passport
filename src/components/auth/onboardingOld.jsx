@@ -125,7 +125,7 @@ const OnBoardingOld = ({ orgID, name }) => {
             }`}
           >
             <div className="text-center mb-6">
-              <h3 className="text-xl  sm:text-2xl">Create a New Account</h3>
+              <h3 className="text-xl  sm:text-2xl">Create a File</h3>
             </div>
 
             <form

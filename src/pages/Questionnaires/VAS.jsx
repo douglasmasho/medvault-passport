@@ -22,6 +22,8 @@ import LogoDark from "../../assets/svg/logoblack.svg";
 import LogoLight from "../../assets/logowhite.png";
 import { useNavigate } from "react-router-dom";
 import PatientPainMapper from "../../components/pain-mapper/Patient";
+import { createQuestionnaire } from "../../firebase/questionnaires";
+import toast from "react-hot-toast";
 
 
 const VAS = () => {
@@ -60,34 +62,103 @@ const VAS = () => {
     }));
   };
 
-  const handleVASCompletion = () => {
-    const comprehensiveData = {
-      timestamp: new Date().toISOString(),
-      patientId: currentUser?.uid || 'unknown',
-      questionnaireType: 'VAS',
-      painMapperData: painMapperData,
-      vasAnswers: vasAnswers,
-      summary: {
-        worstPain: vasAnswers.worstPain,
-        leastPain: vasAnswers.leastPain,
-        averagePain: vasAnswers.averagePain,
-        currentPain: vasAnswers.currentPain,
-        painRange: vasAnswers.worstPain - vasAnswers.leastPain,
-        totalPainMarkers: painMapperData?.length || 0
-      }
-    };
-
-    console.log("=== VAS COMPLETION DATA ===");
-    console.log("Comprehensive Data Object:", comprehensiveData);
-    console.log("Pain Mapper Data:", painMapperData);
-    console.log("VAS Answers:", vasAnswers);
-    console.log("Summary:", comprehensiveData.summary);
-    console.log("==========================");
-
-    setCompletedData(comprehensiveData);
+  // Helper function to remove undefined values from objects
+  const removeUndefinedValues = (obj) => {
+    if (obj === null || obj === undefined) return null;
+    if (typeof obj !== 'object') return obj;
     
-    // TODO: Upload data to your backend/database here
-    // Example: uploadVASData(comprehensiveData);
+    if (Array.isArray(obj)) {
+      return obj.map(item => removeUndefinedValues(item)).filter(item => item !== null);
+    }
+    
+    const cleaned = {};
+    for (const [key, value] of Object.entries(obj)) {
+      if (value !== undefined) {
+        cleaned[key] = removeUndefinedValues(value);
+      }
+    }
+    return cleaned;
+  };
+
+  const handleVASCompletion = async () => {
+    try {
+      // Clean the data to remove any undefined values
+      const cleanPainMapperData = painMapperData || [];
+      const cleanVasAnswers = {
+        worstPain: vasAnswers.worstPain || 0,
+        leastPain: vasAnswers.leastPain || 0,
+        averagePain: vasAnswers.averagePain || 0,
+        currentPain: vasAnswers.currentPain || 0
+      };
+
+      const comprehensiveData = {
+        timestamp: new Date().toISOString(),
+        patientId: currentUser?.uid || 'unknown',
+        questionnaireType: 'VAS',
+        painMapperData: cleanPainMapperData,
+        vasAnswers: cleanVasAnswers,
+        summary: {
+          worstPain: cleanVasAnswers.worstPain,
+          leastPain: cleanVasAnswers.leastPain,
+          averagePain: cleanVasAnswers.averagePain,
+          currentPain: cleanVasAnswers.currentPain,
+          painRange: cleanVasAnswers.worstPain - cleanVasAnswers.leastPain,
+          totalPainMarkers: cleanPainMapperData.length
+        }
+      };
+
+      console.log("=== VAS COMPLETION DATA ===");
+      console.log("Comprehensive Data Object:", comprehensiveData);
+      console.log("Pain Mapper Data:", painMapperData);
+      console.log("VAS Answers:", vasAnswers);
+      console.log("Summary:", comprehensiveData.summary);
+      console.log("==========================");
+
+      // Set completedData immediately so the completion screen has data to display
+      console.log("Setting completedData immediately:", comprehensiveData);
+      setCompletedData(comprehensiveData);
+
+      // Get user data from localStorage to get orgID and fileID
+      const userProfile = JSON.parse(localStorage.getItem("medvault_passport_profile") || "{}");
+      const userFiles = userProfile.myFiles || [];
+      
+      if (userFiles.length === 0) {
+        toast.error("No patient file found. Please contact your healthcare provider.");
+        return;
+      }
+
+      // Use the first file (assuming user has one primary file)
+      const { org: orgID, pfid: fileID } = userFiles[0];
+
+      // Clean the data before sending to Firebase
+      const cleanedData = removeUndefinedValues({
+        ...comprehensiveData,
+        type: "vas" // Add the type property as required
+      });
+
+      console.log("Cleaned data for Firebase:", cleanedData);
+
+      // Save to Firebase
+      const result = await createQuestionnaire(
+        cleanedData,
+        currentUser?.uid,
+        orgID,
+        fileID
+      );
+
+      if (result.success) {
+        toast.success("VAS questionnaire completed and saved successfully!");
+      } else {
+        toast.error("Failed to save questionnaire. Please try again.");
+        // Reset completedData if save failed
+        setCompletedData(null);
+      }
+    } catch (error) {
+      console.error("Error saving VAS questionnaire:", error);
+      toast.error("Error saving questionnaire. Please try again.");
+      // Reset completedData if save failed
+      setCompletedData(null);
+    }
   };
 
      const VASQuestion = ({ question, value, onChange, title, description }) => (
@@ -218,7 +289,7 @@ const VAS = () => {
 
   const questionComps = [
     {
-      component: <PatientPainMapper onDataChange={doSomething}/>
+      component: <PatientPainMapper onDataChange={doSomething} initialData={painMapperData || []}/>
     },
     {
       component: (
@@ -266,7 +337,20 @@ const VAS = () => {
     }
   ];
 
-  const CompletionScreen = () => (
+  const CompletionScreen = () => {
+    // Use the existing state data instead of completedData
+    const summaryData = {
+      worstPain: vasAnswers.worstPain,
+      leastPain: vasAnswers.leastPain,
+      averagePain: vasAnswers.averagePain,
+      currentPain: vasAnswers.currentPain,
+      painRange: vasAnswers.worstPain - vasAnswers.leastPain,
+      totalPainMarkers: painMapperData?.length || 0
+    };
+    
+    console.log("CompletionScreen using direct state data:", summaryData);
+    
+    return (
     <div style={{
       padding: '2rem',
       textAlign: 'center',
@@ -277,9 +361,9 @@ const VAS = () => {
         fontSize: '2rem',
         fontWeight: 'bold',
         marginBottom: '2rem',
-        color: isDarkMode ? '#ffffff' : '#1a1a1a'
+        color: isDarkMode ? 'green' : 'green'
       }}>
-        VAS Questionnaire Completed! ✅
+        VAS Questionnaire Completed!
       </h2>
       
       <div style={{
@@ -312,7 +396,7 @@ const VAS = () => {
           }}>
             <div style={{ fontSize: '0.875rem', color: isDarkMode ? '#9ca3af' : '#6b7280' }}>Worst Pain</div>
             <div style={{ fontSize: '1.5rem', fontWeight: 'bold', color: isDarkMode ? '#10b981' : '#059669' }}>
-              {completedData?.summary.worstPain}/10
+              {summaryData.worstPain}/10
             </div>
           </div>
           
@@ -324,7 +408,7 @@ const VAS = () => {
           }}>
             <div style={{ fontSize: '0.875rem', color: isDarkMode ? '#9ca3af' : '#6b7280' }}>Least Pain</div>
             <div style={{ fontSize: '1.5rem', fontWeight: 'bold', color: isDarkMode ? '#10b981' : '#059669' }}>
-              {completedData?.summary.leastPain}/10
+              {summaryData.leastPain}/10
             </div>
           </div>
           
@@ -336,7 +420,7 @@ const VAS = () => {
           }}>
             <div style={{ fontSize: '0.875rem', color: isDarkMode ? '#9ca3af' : '#6b7280' }}>Average Pain</div>
             <div style={{ fontSize: '1.5rem', fontWeight: 'bold', color: isDarkMode ? '#10b981' : '#059669' }}>
-              {completedData?.summary.averagePain}/10
+              {summaryData.averagePain}/10
             </div>
           </div>
           
@@ -348,7 +432,7 @@ const VAS = () => {
           }}>
             <div style={{ fontSize: '0.875rem', color: isDarkMode ? '#9ca3af' : '#6b7280' }}>Current Pain</div>
             <div style={{ fontSize: '1.5rem', fontWeight: 'bold', color: isDarkMode ? '#10b981' : '#059669' }}>
-              {completedData?.summary.currentPain}/10
+              {summaryData.currentPain}/10
             </div>
           </div>
         </div>
@@ -363,18 +447,13 @@ const VAS = () => {
             Pain Markers on Body Diagram
           </div>
           <div style={{ fontSize: '1.25rem', fontWeight: 'bold', color: isDarkMode ? '#10b981' : '#059669' }}>
-            {completedData?.summary.totalPainMarkers} markers placed
+            {summaryData.totalPainMarkers} markers placed
           </div>
         </div>
+      
       </div>
       
-      <p style={{
-        fontSize: '1rem',
-        color: isDarkMode ? '#d1d5db' : '#4b5563',
-        marginBottom: '2rem'
-      }}>
-        Check the browser console to see the complete data object that would be uploaded to your backend.
-      </p>
+    
       
              <button
          onClick={() => {
@@ -403,6 +482,7 @@ const VAS = () => {
       </button>
     </div>
   );
+  };
 
 
   return (
