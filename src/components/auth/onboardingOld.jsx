@@ -2,7 +2,17 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../contexts/authContext/index";
 import { db } from "../../firebase/firebase";
-import { arrayUnion, doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
+import {
+  doc,
+  getDoc,
+  setDoc,
+  runTransaction,
+  query,
+  where,
+  getDocs,
+  collection,
+} from "firebase/firestore";
+import { getFunctions, httpsCallable } from "firebase/functions";
 import toast from "react-hot-toast";
 import { useDarkMode } from "../../contexts/darkModeContext"; // Import dark mode context
 import Lottie from "lottie-react";
@@ -12,13 +22,16 @@ import { nanoid } from "nanoid";
 import { getAuth } from "firebase/auth";
 const OnBoardingOld = ({ orgID, name }) => {
   const { isDarkMode } = useDarkMode(); // Access dark mode state
-  
+
   const [isRegistering, setIsRegistering] = useState(false);
   const [isChecking, setIsChecking] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const { currentUser } = useAuth();
   const navigate = useNavigate();
-  const auth = getAuth()
+  const auth = getAuth();
+  const functions = getFunctions();
+  const getLink = httpsCallable(functions, "checkIfPatientOrgLinkExists");
+  const createNewPatient = httpsCallable(functions, "createNewPatientFile");
 
   const [authorize, setAuthorize] = useState(false);
 
@@ -29,36 +42,18 @@ const OnBoardingOld = ({ orgID, name }) => {
     if (!isRegistering) {
       setIsRegistering(true);
       try {
-        console.log(currentUser.uid);
-        const pfid = nanoid(8);
         const userObj = JSON.parse(
           localStorage.getItem("medvault_passport_profile")
         );
-        const now = new Date();
-        await setDoc(doc(db, "orgFiles", "newPatients", orgID, pfid), {
-          instances: [],
-          investigations: [],
-          questionnaires: [],
-          pid: currentUser.uid,
-          pfid,
-          userDetails: userObj,
-          created: now.getTime(),
-          lastUpdate: "",
-        });
-
-        await updateDoc(doc(db, "users", auth.currentUser.uid), {
-          myFiles: arrayUnion({ org: orgID, pfid }),
-        });
-
-        const newUserObj = {
-          ...userObj,
-          myFiles: [...userObj.myFiles, { org: orgID, pfid }],
-        };
-        localStorage.setItem(
-          "medvault_passport_profile",
-          JSON.stringify(newUserObj)
-        );
-        toast.success("Successfully registered");
+        const idToken = await auth.currentUser.getIdToken();
+        const result = await createNewPatient({ orgID, userObj, idToken });
+        // console.log(result.data);
+        if(result.data.success){
+          toast.success("File created, waiting for approval")
+        }else{
+          toast.error(result.data.message);
+          setErrorMessage(result.data.message);
+        }
         navigate("/");
       } catch (e) {
         console.log(e);
@@ -70,33 +65,36 @@ const OnBoardingOld = ({ orgID, name }) => {
     }
   };
 
-  useEffect(()=>{
+  useEffect(() => {
     setIsChecking(true);
     doesFileExist();
   }, []);
 
-  const doesFileExist = async() => {
-    try{
-      const myFilesRef = await getDoc(doc(db, "users", auth.currentUser.uid))
-      const myFiles =  myFilesRef.data().myFiles
-      if(myFiles){
-        myFiles.forEach((el) => {
-          if (el.org === orgID) {
-            toast.error("You already have a file here.");
-            navigate("/");
-          }
-        });
+  const doesFileExist = async () => {
+    console.log("check")
+    try {
+      // call a cloud function to check if the org is in their patientOrg doc.
+      const idToken = await auth.currentUser.getIdToken();
+      const exists = await getLink({
+        patientUid: currentUser.uid,
+        orgID,
+        idToken,
+      });
+      if (exists.data.exists) {
+        console.log("exists")
+        toast.error("You already have a file here.");
+        navigate("/");
       }
-    }catch(e){
+    } catch (e) {
       toast.error(e.message);
-    }finally{
+    } finally {
       setIsChecking(false);
     }
-    
+
     // const myFiles = JSON.parse(
     //   localStorage.getItem("medvault_passport_profile")
     // )?.myFiles;
-  }
+  };
 
   return (
     <>
@@ -152,10 +150,10 @@ const OnBoardingOld = ({ orgID, name }) => {
                 />
                 I authorize
               </div>
-
+              <br />
               {errorMessage && (
                 <span className="text-red-600 ">{errorMessage}</span>
-              )}
+              )} <br />
 
               <button
                 type="submit"
