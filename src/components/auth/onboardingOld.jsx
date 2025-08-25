@@ -20,6 +20,7 @@ import animation from "../../assets/animation/loadingcubes.json";
 import "react-phone-number-input/style.css";
 import { nanoid } from "nanoid";
 import { getAuth } from "firebase/auth";
+import { safeGetFromStorage } from "../../utils/localStorage";
 const OnBoardingOld = ({ orgID, name }) => {
   const { isDarkMode } = useDarkMode(); // Access dark mode state
 
@@ -42,9 +43,7 @@ const OnBoardingOld = ({ orgID, name }) => {
     if (!isRegistering) {
       setIsRegistering(true);
       try {
-        const userObj = JSON.parse(
-          localStorage.getItem("medvault_passport_profile")
-        );
+        const userObj = safeGetFromStorage("medvault_passport_profile", {});
         const idToken = await auth.currentUser.getIdToken();
         const result = await createNewPatient({ orgID, userObj, idToken });
         // console.log(result.data);

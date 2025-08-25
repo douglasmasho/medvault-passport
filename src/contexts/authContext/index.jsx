@@ -7,6 +7,7 @@ import { ReactComponent as Logo } from "../../assets/svg/logowhite.svg";
 import { doc, getDoc } from "firebase/firestore";
 import { doSignOut } from "../../firebase/auth";
 import toast from "react-hot-toast";
+import { safeSetToStorage } from "../../utils/localStorage";
 const AuthContext = createContext();
 
 export const useAuth = () => useContext(AuthContext);
@@ -42,17 +43,17 @@ const AuthProvider = ({ children }) => {
         setLoading(true);
         return;
       }
-      localStorage.setItem("currentUser", JSON.stringify(docSnap.data()));
-      localStorage.setItem(
+      safeSetToStorage("currentUser", docSnap.data());
+      safeSetToStorage(
         "medvault_passport_profile",
-        JSON.stringify(docSnap.data())
+        docSnap.data()
       );
       setCurrentUser({ ...user });
       setUserLoggedIn(true);
     } else {
       setCurrentUser(null);
       setUserLoggedIn(false);
-      localStorage.setItem("currentUser", JSON.stringify(null));
+      safeSetToStorage("currentUser", null);
     }
     setLoading(false);
   };

@@ -3,44 +3,48 @@ import { motion } from "framer-motion";
 import { Search, Eye, Edit, Trash2, CircleX } from "lucide-react";
 import "react-responsive-modal/styles.css";
 import { Modal } from "react-responsive-modal";
-import { doc, getDoc, deleteDoc } from "firebase/firestore";
+import { doc, getDoc, deleteDoc, setDoc } from "firebase/firestore";
 import { db } from "../../firebase/firebase";
 import { useAuth } from "../../contexts/authContext";
 import { useDarkMode } from "../../contexts/darkModeContext";
 import moment from "moment";
+import { useNavigate } from "react-router-dom";
 
 const QuestionnairesTable = ({ isDarkMode }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredQuestionnaires, setFilteredQuestionnaires] = useState([]);
   const [allQuestionnaires, setAllQuestionnaires] = useState([]);
   const [open, setOpen] = useState(false);
-  const [openEdit, setOpenEdit] = useState(false);
   const [openDelete, setOpenDelete] = useState(false);
   const [openAnswer, setOpenAnswer] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [selectedQuestionnaire, setSelectedQuestionnaire] = useState(null);
 
   const { currentUser } = useAuth();
+  const navigate = useNavigate();
 
   // Styling object that checks dark mode once
   const styles = {
-    container: isDarkMode ? "bg-gray-800 text-white" : "bg-white text-gray-900 shadow-lg",
+    container: isDarkMode
+      ? "bg-gray-800 text-white"
+      : "bg-white text-gray-900 shadow-lg",
     header: isDarkMode ? "bg-gray-900 text-white" : "bg-gray-200 text-gray-900",
     text: isDarkMode ? "text-white" : "text-gray-900",
     textSecondary: isDarkMode ? "text-gray-300" : "text-gray-700",
     textMuted: isDarkMode ? "text-gray-400" : "text-gray-500",
-    input: isDarkMode ? "bg-gray-700 border-gray-600 text-white" : "bg-white border-gray-300 text-gray-900",
+    input: isDarkMode
+      ? "bg-gray-700 border-gray-600 text-white"
+      : "bg-white border-gray-300 text-gray-900",
     modal: isDarkMode ? "bg-gray-800 text-white" : "bg-white text-gray-900",
     modalCloseIcon: isDarkMode ? { color: "white" } : { color: "black" },
     buttonSecondary: isDarkMode ? "hover:bg-gray-700" : "hover:bg-gray-50",
-    card: isDarkMode ? "bg-gray-700" : "bg-gray-50"
+    card: isDarkMode ? "bg-gray-700" : "bg-gray-50",
   };
 
   const onOpenModal = () => setOpen(true);
   const onCloseModal = () => setOpen(false);
 
-  const onOpenEditModal = () => setOpenEdit(true);
-  const onCloseEditModal = () => setOpenEdit(false);
+
 
   const onOpenDeleteModal = () => setOpenDelete(true);
   const onCloseDeleteModal = () => setOpenDelete(false);
@@ -51,62 +55,78 @@ const QuestionnairesTable = ({ isDarkMode }) => {
   const handleSearch = (e) => {
     const term = e.target.value.toLowerCase();
     setSearchTerm(term);
-    const filtered = allQuestionnaires.filter((questionnaire) =>
-      questionnaire.name.toLowerCase().includes(term)
+    const filtered = allQuestionnaires.filter(
+      (questionnaire) =>
+        questionnaire.name.toLowerCase().includes(term) ||
+        questionnaire.type.toLowerCase().includes(term) ||
+        (questionnaire.dateAnswered &&
+          moment(questionnaire.dateAnswered)
+            .format("MMMM YYYY")
+            .toLowerCase()
+            .includes(term))
     );
     setFilteredQuestionnaires(filtered);
   };
 
-  // Mock data for demonstration - replace with actual Firebase data
-  const mockQuestionnaires = [
-    {
-      id: "1",
-      name: "Visual Analog Pain Score (VAS)",
-      status: "answered",
-      dateAnswered: "2024-01-15T10:30:00Z",
-      answers: {
-        painLevel: 7,
-        location: "Lower back",
-        duration: "3 weeks"
-      }
-    },
-    {
-      id: "2", 
-      name: "Oswestry Disability Index (OSI)",
-      status: "requested",
-      dateAnswered: null,
-      answers: null
-    },
-    {
-      id: "3",
-      name: "Insomnia Severity Index (ISI)", 
-      status: "answered",
-      dateAnswered: "2024-01-10T14:20:00Z",
-      answers: {
-        sleepQuality: "Poor",
-        sleepHours: 5,
-        difficulty: "Moderate"
-      }
-    },
-    {
-      id: "4",
-      name: "Modified Somatic Perceptions Questionnaire (MSPQ)",
-      status: "answered", 
-      dateAnswered: "2024-01-08T09:15:00Z",
-      answers: {
-        anxietyLevel: "High",
-        physicalSymptoms: "Yes",
-        stressLevel: "Moderate"
-      }
-    }
-  ];
-
   const getQuestionnaires = async () => {
     try {
       setIsLoading(true);
-      // For now using mock data - replace with actual Firebase query
-      setAllQuestionnaires(mockQuestionnaires);
-      setFilteredQuestionnaires(mockQuestionnaires);
+
+      if (!currentUser?.uid) {
+        console.log("No current user UID available");
+        setIsLoading(false);
+        return;
+      }
+
+      // Fetch the user's questionnaire document from Firestore
+      const userQuestionnaireRef = doc(db, "questionnaires", currentUser.uid);
+      const questionnaireDoc = await getDoc(userQuestionnaireRef);
+
+      if (questionnaireDoc.exists()) {
+        const data = questionnaireDoc.data();
+        console.log("Fetched questionnaire data:", data);
+
+        // Transform the Firestore data into the expected format
+        const transformedQuestionnaires = [];
+
+        // Define questionnaire types and their display names
+        const questionnaireTypes = {
+          vas: "Visual Analog Pain Score (VAS)",
+          odi: "Oswestry Disability Index (ODI)",
+          isi: "Insomnia Severity Index (ISI)",
+          mspq: "Modified Somatic Perceptions Questionnaire (MSPQ)",
+          dram: "Distress and Risk Assessment Method (DRAM Index)",
+        };
+
+        // Process each questionnaire type
+        Object.entries(data).forEach(([type, questionnaireData]) => {
+          if (questionnaireData && typeof questionnaireData === "object") {
+            transformedQuestionnaires.push({
+              id: questionnaireData.id || type,
+              name: questionnaireTypes[type] || type.toUpperCase(),
+              dateAnswered:
+                questionnaireData.timestamp || questionnaireData.createdAt,
+              type: type,
+              answers: questionnaireData,
+              originalData: questionnaireData,
+            });
+          }
+        });
+
+        // Sort by date (newest first)
+        transformedQuestionnaires.sort(
+          (a, b) => new Date(b.dateAnswered) - new Date(a.dateAnswered)
+        );
+
+        console.log("Transformed questionnaires:", transformedQuestionnaires);
+        setAllQuestionnaires(transformedQuestionnaires);
+        setFilteredQuestionnaires(transformedQuestionnaires);
+      } else {
+        console.log("No questionnaire data found for user");
+        setAllQuestionnaires([]);
+        setFilteredQuestionnaires([]);
+      }
+
       setIsLoading(false);
     } catch (error) {
       console.error("Error fetching questionnaires:", error);
@@ -120,19 +140,48 @@ const QuestionnairesTable = ({ isDarkMode }) => {
   };
 
   const handleEditAnswers = (questionnaire) => {
-    setSelectedQuestionnaire(questionnaire);
-    onOpenEditModal();
+    // Navigate to the appropriate questionnaire page with pre-filled data
+    navigate(`/questionnaire/${questionnaire.type}`, { 
+      state: { 
+        editMode: true, 
+        preFilledData: questionnaire.answers 
+      } 
+    });
   };
 
   const handleDeleteQuestionnaire = async (questionnaire) => {
     try {
-      // Replace with actual Firebase delete operation
-      // await deleteDoc(doc(db, "questionnaires", questionnaire.id));
-      
-      // Update local state
-      const updatedQuestionnaires = allQuestionnaires.filter(q => q.id !== questionnaire.id);
-      setAllQuestionnaires(updatedQuestionnaires);
-      setFilteredQuestionnaires(updatedQuestionnaires);
+      if (!currentUser?.uid) {
+        console.error("No current user UID available");
+        return;
+      }
+
+      // Get the current questionnaire document
+      const userQuestionnaireRef = doc(db, "questionnaires", currentUser.uid);
+      const questionnaireDoc = await getDoc(userQuestionnaireRef);
+
+      if (questionnaireDoc.exists()) {
+        const data = questionnaireDoc.data();
+        const updatedData = { ...data };
+
+        // Remove the specific questionnaire type from the document
+        if (updatedData[questionnaire.type]) {
+          delete updatedData[questionnaire.type];
+        }
+
+        // Update the document in Firestore
+        await setDoc(userQuestionnaireRef, updatedData);
+
+        // Update local state
+        const updatedQuestionnaires = allQuestionnaires.filter(
+          (q) => q.id !== questionnaire.id
+        );
+        setAllQuestionnaires(updatedQuestionnaires);
+        setFilteredQuestionnaires(updatedQuestionnaires);
+
+        console.log("Questionnaire deleted successfully");
+      }
+
       onCloseDeleteModal();
     } catch (error) {
       console.error("Error deleting questionnaire:", error);
@@ -145,24 +194,10 @@ const QuestionnairesTable = ({ isDarkMode }) => {
   };
 
   useEffect(() => {
-    getQuestionnaires();
-  }, []);
-
-  const getStatusBadge = (status) => {
-    if (status === "answered") {
-      return (
-        <span className="px-2 inline-flex text-xs leading-5 rounded-full bg-green-100 text-green-800">
-          Answered
-        </span>
-      );
-    } else {
-      return (
-        <span className="px-2 inline-flex text-xs leading-5 rounded-full bg-yellow-100 text-yellow-800">
-          Requested
-        </span>
-      );
+    if (currentUser?.uid) {
+      getQuestionnaires();
     }
-  };
+  }, [currentUser?.uid]);
 
   return (
     <>
@@ -171,36 +206,37 @@ const QuestionnairesTable = ({ isDarkMode }) => {
           <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-green-500"></div>
         </div>
       ) : (
-                 <motion.div
-           className={`${styles.container} shadow-lg rounded-xl p-6`}
-           initial={{ opacity: 0, y: 20 }}
-           animate={{ opacity: 1, y: 0 }}
-           transition={{ delay: 0.2 }}
-         >
+        <motion.div
+          className={`${styles.container} shadow-lg rounded-xl p-6`}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2 }}
+        >
           <div className="flex justify-between items-center mb-6">
             <h2 className="text-xl">Your Questionnaires</h2>
             <div className="relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
-                             <input
-                 type="text"
-                 placeholder="Search questionnaires..."
-                 value={searchTerm}
-                 onChange={handleSearch}
-                 className={`pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 ${styles.input}`}
-               />
+              <Search
+                className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
+                size={20}
+              />
+              <input
+                type="text"
+                placeholder="Search questionnaires..."
+                value={searchTerm}
+                onChange={handleSearch}
+                className={`pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 ${styles.input}`}
+              />
             </div>
           </div>
 
           <div className="overflow-x-auto">
             <table className="min-w-full divide-y divide-gray-300">
-                             <thead className={styles.header}>
+              <thead className={styles.header}>
                 <tr>
                   <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">
                     Questionnaire Name
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">
-                    Status
-                  </th>
+
                   <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">
                     Date Answered
                   </th>
@@ -224,10 +260,12 @@ const QuestionnairesTable = ({ isDarkMode }) => {
                     animate={{ opacity: 1 }}
                     transition={{ duration: 0.3 }}
                   >
-                                         <td className="px-6 py-4 whitespace-nowrap">
-                       <div className={`${styles.text} text-sm font-medium`}>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <div className={`${styles.text} text-sm font-medium`}>
                         <button
-                          onClick={() => handleAnswerQuestionnaire(questionnaire)}
+                          onClick={() =>
+                            handleAnswerQuestionnaire(questionnaire)
+                          }
                           className="hover:text-green-500 transition-colors duration-200"
                         >
                           {questionnaire.name}
@@ -236,178 +274,306 @@ const QuestionnairesTable = ({ isDarkMode }) => {
                     </td>
 
                     <td className="px-6 py-4 whitespace-nowrap">
-                      {getStatusBadge(questionnaire.status)}
+                      <div className={`${styles.textSecondary} text-sm`}>
+                        {questionnaire.dateAnswered
+                          ? moment(questionnaire.dateAnswered).format(
+                              "Do MMMM YYYY, h:mm:ss a"
+                            )
+                          : "Not answered yet"}
+                      </div>
                     </td>
 
-                                         <td className="px-6 py-4 whitespace-nowrap">
-                       <div className={`${styles.textSecondary} text-sm`}>
-                         {questionnaire.dateAnswered
-                           ? moment(questionnaire.dateAnswered).format("Do MMMM YYYY, h:mm:ss a")
-                           : "Not answered yet"}
-                       </div>
-                     </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm">
+                      <Eye
+                        className={`${styles.textSecondary} hover:text-green-500`}
+                        style={{ cursor: "pointer" }}
+                        onClick={() => handleViewAnswers(questionnaire)}
+                      />
+                    </td>
 
-                                         <td className="px-6 py-4 whitespace-nowrap text-sm">
-                       {questionnaire.status === "answered" && (
-                         <Eye
-                           className={`${styles.textSecondary} hover:text-green-500`}
-                           style={{ cursor: "pointer" }}
-                           onClick={() => handleViewAnswers(questionnaire)}
-                         />
-                       )}
-                     </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm">
+                      <Edit
+                        className={`${styles.textSecondary} hover:text-blue-500`}
+                        style={{ cursor: "pointer" }}
+                        onClick={() => handleEditAnswers(questionnaire)}
+                      />
+                    </td>
 
-                                         <td className="px-6 py-4 whitespace-nowrap text-sm">
-                       {questionnaire.status === "answered" && (
-                         <Edit
-                           className={`${styles.textSecondary} hover:text-blue-500`}
-                           style={{ cursor: "pointer" }}
-                           onClick={() => handleEditAnswers(questionnaire)}
-                         />
-                       )}
-                     </td>
-
-                                         <td className="px-6 py-4 whitespace-nowrap text-sm">
-                       <Trash2
-                         className={`${styles.textSecondary} hover:text-red-500`}
-                         style={{ cursor: "pointer" }}
-                         onClick={() => {
-                           setSelectedQuestionnaire(questionnaire);
-                           onOpenDeleteModal();
-                         }}
-                       />
-                     </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm">
+                      <Trash2
+                        className={`${styles.textSecondary} hover:text-red-500`}
+                        style={{ cursor: "pointer" }}
+                        onClick={() => {
+                          setSelectedQuestionnaire(questionnaire);
+                          onOpenDeleteModal();
+                        }}
+                      />
+                    </td>
                   </motion.tr>
                 ))}
               </tbody>
             </table>
           </div>
 
-                     {/* View Answers Modal */}
-           <Modal
-             open={open}
-             onClose={onCloseModal}
-             center
-             classNames={{
-               modal: `${styles.modal} backdrop-blur-md shadow-lg rounded-xl p-6 border border-gray-700`,
-             }}
-             styles={{
-               modal: {
-                 width: "80%",
-               },
-             }}
-             closeIcon={
-               <CircleX style={styles.modalCloseIcon} />
-             }
-           >
+          {/* View Answers Modal */}
+          <Modal
+            open={open}
+            onClose={onCloseModal}
+            center
+            classNames={{
+              modal: `${styles.modal} backdrop-blur-md shadow-lg rounded-xl p-6 border border-gray-700`,
+            }}
+            styles={{
+              modal: {
+                width: "80%",
+              },
+            }}
+            closeIcon={<CircleX style={styles.modalCloseIcon} />}
+          >
             {selectedQuestionnaire && (
               <div>
                 <h2 className="text-2xl mb-4">Questionnaire Answers</h2>
                 <h3 className="text-xl mb-3">{selectedQuestionnaire.name}</h3>
-                                 <p className={`text-sm ${styles.textMuted} mb-4`}>
-                   Answered on: {moment(selectedQuestionnaire.dateAnswered).format("Do MMMM YYYY, h:mm:ss a")}
-                 </p>
-                <div className="space-y-3">
-                                     {selectedQuestionnaire.answers && Object.entries(selectedQuestionnaire.answers).map(([key, value]) => (
-                     <div key={key} className={`flex justify-between items-center p-3 ${styles.card} rounded`}>
-                       <span className="font-medium capitalize">{key.replace(/([A-Z])/g, ' $1').trim()}:</span>
-                       <span>{value}</span>
-                     </div>
-                   ))}
-                </div>
-              </div>
-            )}
-          </Modal>
+                <p className={`text-sm ${styles.textMuted} mb-4`}>
+                  Answered on:{" "}
+                  {moment(selectedQuestionnaire.dateAnswered).format(
+                    "Do MMMM YYYY, h:mm:ss a"
+                  )}
+                </p>
 
-                     {/* Edit Answers Modal */}
-           <Modal
-             open={openEdit}
-             onClose={onCloseEditModal}
-             center
-             classNames={{
-               modal: `${styles.modal} backdrop-blur-md shadow-lg rounded-xl p-6 border border-gray-700`,
-             }}
-             styles={{
-               modal: {
-                 width: "80%",
-               },
-             }}
-             closeIcon={
-               <CircleX style={styles.modalCloseIcon} />
-             }
-           >
-            {selectedQuestionnaire && (
-              <div>
-                <h2 className="text-2xl mb-4">Edit Questionnaire Answers</h2>
-                <h3 className="text-xl mb-3">{selectedQuestionnaire.name}</h3>
-                                 <p className={`text-sm ${styles.textMuted} mb-4`}>
-                   This feature will allow editing of questionnaire answers.
-                 </p>
-                <div className="space-y-3">
-                  {selectedQuestionnaire.answers && Object.entries(selectedQuestionnaire.answers).map(([key, value]) => (
-                    <div key={key} className="flex flex-col">
-                      <label className="font-medium capitalize mb-1">{key.replace(/([A-Z])/g, ' $1').trim()}:</label>
-                                             <input
-                         type="text"
-                         defaultValue={value}
-                         className={`p-2 border rounded ${styles.input}`}
-                       />
+                {selectedQuestionnaire.type === "vas" && (
+                  <div className="space-y-3">
+                    <div className={`p-3 ${styles.card} rounded`}>
+                      <span className="font-medium">Worst Pain: </span>
+                      <span className="text-2xl font-bold text-green-600">
+                        {selectedQuestionnaire.answers.vasAnswers?.worstPain ||
+                          selectedQuestionnaire.answers.worstPain ||
+                          "N/A"}
+                      </span>
+                      <span className="text-sm text-gray-500">/ 10</span>
                     </div>
-                  ))}
-                </div>
-                <div className="flex justify-end space-x-3 mt-6">
-                                     <button
-                     onClick={onCloseEditModal}
-                     className={`px-4 py-2 border border-gray-300 rounded ${styles.buttonSecondary}`}
-                   >
-                     Cancel
-                   </button>
-                  <button
-                    onClick={() => {
-                      // Handle save logic here
-                      onCloseEditModal();
-                    }}
-                    className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700"
-                  >
-                    Save Changes
-                  </button>
-                </div>
+                    <div className={`p-3 ${styles.card} rounded`}>
+                      <span className="font-medium">Least Pain: </span>
+                      <span className="text-xl font-semibold text-blue-600">
+                        {selectedQuestionnaire.answers.vasAnswers?.leastPain ||
+                          selectedQuestionnaire.answers.leastPain ||
+                          "N/A"}
+                      </span>
+                      <span className="text-sm text-gray-500">/ 10</span>
+                    </div>
+                    <div className={`p-3 ${styles.card} rounded`}>
+                      <span className="font-medium">Average Pain: </span>
+                      <span className="text-xl font-semibold text-orange-600">
+                        {selectedQuestionnaire.answers.vasAnswers
+                          ?.averagePain ||
+                          selectedQuestionnaire.answers.averagePain ||
+                          "N/A"}
+                      </span>
+                      <span className="text-sm text-gray-500">/ 10</span>
+                    </div>
+                    <div className={`p-3 ${styles.card} rounded`}>
+                      <span className="font-medium">Current Pain: </span>
+                      <span className="text-xl font-semibold text-red-600">
+                        {selectedQuestionnaire.answers.vasAnswers
+                          ?.currentPain ||
+                          selectedQuestionnaire.answers.currentPain ||
+                          "N/A"}
+                      </span>
+                      <span className="text-sm text-gray-500">/ 10</span>
+                    </div>
+                    <div className={`p-3 ${styles.card} rounded`}>
+                      <span className="font-medium">Pain Range: </span>
+                      <span className="text-lg font-medium text-purple-600">
+                        {(selectedQuestionnaire.answers.vasAnswers?.worstPain ||
+                          selectedQuestionnaire.answers.worstPain ||
+                          0) -
+                          (selectedQuestionnaire.answers.vasAnswers
+                            ?.leastPain ||
+                            selectedQuestionnaire.answers.leastPain ||
+                            0)}
+                      </span>
+                      <span className="text-sm text-gray-500"> points</span>
+                    </div>
+                    <div className={`p-3 ${styles.card} rounded`}>
+                      <span className="font-medium">Total Pain Markers: </span>
+                      <span className="text-lg font-medium text-indigo-600">
+                        {selectedQuestionnaire.answers.painMapperData?.length ||
+                          selectedQuestionnaire.answers.summary
+                            ?.totalPainMarkers ||
+                          "N/A"}
+                      </span>
+                    </div>
+                  </div>
+                )}
+
+                {selectedQuestionnaire.type === "odi" && (
+                  <div className="space-y-3">
+                    {/* Calculate ODI score from the answers */}
+                    {(() => {
+                      const odiAnswers = selectedQuestionnaire.answers;
+                      const totalScore =
+                        (odiAnswers.painIntensity || 0) +
+                        (odiAnswers.personalCare || 0) +
+                        (odiAnswers.lifting || 0) +
+                        (odiAnswers.walking || 0) +
+                        (odiAnswers.sitting || 0) +
+                        (odiAnswers.standing || 0) +
+                        (odiAnswers.sleeping || 0) +
+                        (odiAnswers.sexLife || 0) +
+                        (odiAnswers.socialLife || 0) +
+                        (odiAnswers.travelling || 0);
+
+                      const percentage = (totalScore / 50) * 100;
+
+                      let disabilityLevel = "Minimal";
+                      if (percentage >= 80) disabilityLevel = "Crippled";
+                      else if (percentage >= 60) disabilityLevel = "Severe";
+                      else if (percentage >= 40) disabilityLevel = "Moderate";
+                      else if (percentage >= 20) disabilityLevel = "Mild";
+
+                      return (
+                        <>
+                          <div className={`p-3 ${styles.card} rounded`}>
+                            <span className="font-medium">Total Score: </span>
+                            <span className="text-2xl font-bold text-green-600">
+                              {totalScore}
+                            </span>
+                            <span className="text-sm text-gray-500">/ 50</span>
+                          </div>
+                          <div className={`p-3 ${styles.card} rounded`}>
+                            <span className="font-medium">Percentage: </span>
+                            <span className="text-xl font-semibold text-blue-600">
+                              {percentage.toFixed(1)}%
+                            </span>
+                          </div>
+                          <div className={`p-3 ${styles.card} rounded`}>
+                            <span className="font-medium">
+                              Disability Level:{" "}
+                            </span>
+                            <span className="text-lg font-medium text-orange-600">
+                              {disabilityLevel}
+                            </span>
+                          </div>
+
+                          <div className="mt-6">
+                            <h4 className="text-lg font-semibold mb-3">
+                              Section Scores:
+                            </h4>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                              <div className={`p-3 ${styles.card} rounded`}>
+                                <span className="font-medium">
+                                  Pain Intensity:{" "}
+                                </span>
+                                <span className="font-semibold">
+                                  {odiAnswers.painIntensity || 0}/5
+                                </span>
+                              </div>
+                              <div className={`p-3 ${styles.card} rounded`}>
+                                <span className="font-medium">
+                                  Personal Care:{" "}
+                                </span>
+                                <span className="font-semibold">
+                                  {odiAnswers.personalCare || 0}/5
+                                </span>
+                              </div>
+                              <div className={`p-3 ${styles.card} rounded`}>
+                                <span className="font-medium">Lifting: </span>
+                                <span className="font-semibold">
+                                  {odiAnswers.lifting || 0}/5
+                                </span>
+                              </div>
+                              <div className={`p-3 ${styles.card} rounded`}>
+                                <span className="font-medium">Walking: </span>
+                                <span className="font-semibold">
+                                  {odiAnswers.walking || 0}/5
+                                </span>
+                              </div>
+                              <div className={`p-3 ${styles.card} rounded`}>
+                                <span className="font-medium">Sitting: </span>
+                                <span className="font-semibold">
+                                  {odiAnswers.sitting || 0}/5
+                                </span>
+                              </div>
+                              <div className={`p-3 ${styles.card} rounded`}>
+                                <span className="font-medium">Standing: </span>
+                                <span className="font-semibold">
+                                  {odiAnswers.standing || 0}/5
+                                </span>
+                              </div>
+                              <div className={`p-3 ${styles.card} rounded`}>
+                                <span className="font-medium">Sleeping: </span>
+                                <span className="font-semibold">
+                                  {odiAnswers.sleeping || 0}/5
+                                </span>
+                              </div>
+                              <div className={`p-3 ${styles.card} rounded`}>
+                                <span className="font-medium">Sex Life: </span>
+                                <span className="font-semibold">
+                                  {odiAnswers.sexLife || 0}/5
+                                </span>
+                              </div>
+                              <div className={`p-3 ${styles.card} rounded`}>
+                                <span className="font-medium">
+                                  Social Life:{" "}
+                                </span>
+                                <span className="font-semibold">
+                                  {odiAnswers.socialLife || 0}/5
+                                </span>
+                              </div>
+                              <div className={`p-3 ${styles.card} rounded`}>
+                                <span className="font-medium">
+                                  Travelling:{" "}
+                                </span>
+                                <span className="font-semibold">
+                                  {odiAnswers.travelling || 0}/5
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                        </>
+                      );
+                    })()}
+                  </div>
+                )}
               </div>
             )}
           </Modal>
 
-                     {/* Delete Confirmation Modal */}
-           <Modal
-             open={openDelete}
-             onClose={onCloseDeleteModal}
-             center
-             classNames={{
-               modal: `${styles.modal} backdrop-blur-md shadow-lg rounded-xl p-6 border border-gray-700`,
-             }}
-             styles={{
-               modal: {
-                 width: "400px",
-               },
-             }}
-             closeIcon={
-               <CircleX style={styles.modalCloseIcon} />
-             }
-           >
+          
+
+          {/* Delete Confirmation Modal */}
+          <Modal
+            open={openDelete}
+            onClose={onCloseDeleteModal}
+            center
+            classNames={{
+              modal: `${styles.modal} backdrop-blur-md shadow-lg rounded-xl p-6 border border-gray-700`,
+            }}
+            styles={{
+              modal: {
+                width: "400px",
+              },
+            }}
+            closeIcon={<CircleX style={styles.modalCloseIcon} />}
+          >
             {selectedQuestionnaire && (
               <div>
                 <h2 className="text-2xl mb-4">Delete Questionnaire</h2>
                 <p className="mb-6">
-                  Are you sure you want to delete "{selectedQuestionnaire.name}"? This action cannot be undone.
+                  Are you sure you want to delete "{selectedQuestionnaire.name}
+                  "? This action cannot be undone.
                 </p>
                 <div className="flex justify-end space-x-3">
-                                     <button
-                     onClick={onCloseDeleteModal}
-                     className={`px-4 py-2 border border-gray-300 rounded ${styles.buttonSecondary}`}
-                   >
-                     Cancel
-                   </button>
                   <button
-                    onClick={() => handleDeleteQuestionnaire(selectedQuestionnaire)}
+                    onClick={onCloseDeleteModal}
+                    className={`px-4 py-2 border border-gray-300 rounded ${styles.buttonSecondary}`}
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    onClick={() =>
+                      handleDeleteQuestionnaire(selectedQuestionnaire)
+                    }
                     className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700"
                   >
                     Delete
@@ -417,38 +583,41 @@ const QuestionnairesTable = ({ isDarkMode }) => {
             )}
           </Modal>
 
-                     {/* Answer Questionnaire Modal */}
-           <Modal
-             open={openAnswer}
-             onClose={onCloseAnswerModal}
-             center
-             classNames={{
-               modal: `${styles.modal} backdrop-blur-md shadow-lg rounded-xl p-6 border border-gray-700`,
-             }}
-             styles={{
-               modal: {
-                 width: "90%",
-                 maxWidth: "800px",
-               },
-             }}
-             closeIcon={
-               <CircleX style={styles.modalCloseIcon} />
-             }
-           >
+          {/* Answer Questionnaire Modal */}
+          <Modal
+            open={openAnswer}
+            onClose={onCloseAnswerModal}
+            center
+            classNames={{
+              modal: `${styles.modal} backdrop-blur-md shadow-lg rounded-xl p-6 border border-gray-700`,
+            }}
+            styles={{
+              modal: {
+                width: "90%",
+                maxWidth: "800px",
+              },
+            }}
+            closeIcon={<CircleX style={styles.modalCloseIcon} />}
+          >
             {selectedQuestionnaire && (
               <div>
                 <h2 className="text-2xl mb-4">Answer Questionnaire</h2>
-                <h3 className="text-xl mb-6 text-green-600">{selectedQuestionnaire.name}</h3>
-                
+                <h3 className="text-xl mb-6 text-green-600">
+                  {selectedQuestionnaire.name}
+                </h3>
+
                 {/* VAS Questionnaire */}
                 {selectedQuestionnaire.name.includes("VAS") && (
                   <div className="space-y-6">
                     <div>
                       <label className="block text-lg font-medium mb-3">
-                        On a scale of 0-10, how would you rate your current pain level?
+                        On a scale of 0-10, how would you rate your current pain
+                        level?
                       </label>
                       <div className="flex items-center space-x-4">
-                        <span className="text-sm text-gray-500">0 (No pain)</span>
+                        <span className="text-sm text-gray-500">
+                          0 (No pain)
+                        </span>
                         <input
                           type="range"
                           min="0"
@@ -456,18 +625,24 @@ const QuestionnairesTable = ({ isDarkMode }) => {
                           step="1"
                           className="flex-1 h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
                         />
-                        <span className="text-sm text-gray-500">10 (Worst pain)</span>
+                        <span className="text-sm text-gray-500">
+                          10 (Worst pain)
+                        </span>
                       </div>
                       <div className="text-center mt-2">
-                        <span className="text-2xl font-bold text-green-600">5</span>
+                        <span className="text-2xl font-bold text-green-600">
+                          5
+                        </span>
                       </div>
                     </div>
-                    
+
                     <div>
                       <label className="block text-lg font-medium mb-2">
                         Where is your pain located?
                       </label>
-                                             <select className={`w-full p-3 border rounded-lg ${styles.input}`}>
+                      <select
+                        className={`w-full p-3 border rounded-lg ${styles.input}`}
+                      >
                         <option value="">Select location</option>
                         <option value="head">Head</option>
                         <option value="neck">Neck</option>
@@ -485,11 +660,11 @@ const QuestionnairesTable = ({ isDarkMode }) => {
                       <label className="block text-lg font-medium mb-2">
                         How long have you been experiencing this pain?
                       </label>
-                                             <input
-                         type="text"
-                         placeholder="e.g., 2 weeks, 3 months"
-                         className={`w-full p-3 border rounded-lg ${styles.input}`}
-                       />
+                      <input
+                        type="text"
+                        placeholder="e.g., 2 weeks, 3 months"
+                        className={`w-full p-3 border rounded-lg ${styles.input}`}
+                      />
                     </div>
                   </div>
                 )}
@@ -497,10 +672,11 @@ const QuestionnairesTable = ({ isDarkMode }) => {
                 {/* OSI Questionnaire */}
                 {selectedQuestionnaire.name.includes("OSI") && (
                   <div className="space-y-6">
-                                         <p className={`${styles.textMuted} mb-4`}>
-                       This questionnaire is designed to help us understand how your back pain affects your daily life.
-                     </p>
-                    
+                    <p className={`${styles.textMuted} mb-4`}>
+                      This questionnaire is designed to help us understand how
+                      your back pain affects your daily life.
+                    </p>
+
                     {[
                       "Pain intensity",
                       "Personal care (washing, dressing)",
@@ -511,7 +687,7 @@ const QuestionnairesTable = ({ isDarkMode }) => {
                       "Sleeping",
                       "Social life",
                       "Traveling",
-                      "Employment/homemaking"
+                      "Employment/homemaking",
                     ].map((activity, index) => (
                       <div key={index}>
                         <label className="block text-lg font-medium mb-3">
@@ -523,9 +699,12 @@ const QuestionnairesTable = ({ isDarkMode }) => {
                             "I can do this activity normally but it causes some pain",
                             "I can do this activity normally but it causes much pain",
                             "Pain prevents me from doing this activity but I can manage",
-                            "Pain prevents me from doing this activity"
+                            "Pain prevents me from doing this activity",
                           ].map((option, optionIndex) => (
-                            <label key={optionIndex} className="flex items-center space-x-3">
+                            <label
+                              key={optionIndex}
+                              className="flex items-center space-x-3"
+                            >
                               <input
                                 type="radio"
                                 name={`activity-${index}`}
@@ -544,10 +723,11 @@ const QuestionnairesTable = ({ isDarkMode }) => {
                 {/* ISI Questionnaire */}
                 {selectedQuestionnaire.name.includes("ISI") && (
                   <div className="space-y-6">
-                                         <p className={`${styles.textMuted} mb-4`}>
-                       Please rate the severity of your sleep problems over the last month.
-                     </p>
-                    
+                    <p className={`${styles.textMuted} mb-4`}>
+                      Please rate the severity of your sleep problems over the
+                      last month.
+                    </p>
+
                     {[
                       "Difficulty falling asleep",
                       "Difficulty staying asleep",
@@ -555,22 +735,33 @@ const QuestionnairesTable = ({ isDarkMode }) => {
                       "How satisfied/dissatisfied are you with your current sleep pattern?",
                       "How noticeable to others do you think your sleep problem is in terms of impairing the quality of your life?",
                       "How worried/distressed are you about your current sleep problem?",
-                      "To what extent do you consider your sleep problem to interfere with your daily functioning?"
+                      "To what extent do you consider your sleep problem to interfere with your daily functioning?",
                     ].map((question, index) => (
                       <div key={index}>
                         <label className="block text-lg font-medium mb-3">
                           {question}
                         </label>
                         <div className="grid grid-cols-5 gap-2 text-sm">
-                          {["None", "Mild", "Moderate", "Severe", "Very Severe"].map((level, levelIndex) => (
-                            <label key={levelIndex} className="flex flex-col items-center space-y-1">
+                          {[
+                            "None",
+                            "Mild",
+                            "Moderate",
+                            "Severe",
+                            "Very Severe",
+                          ].map((level, levelIndex) => (
+                            <label
+                              key={levelIndex}
+                              className="flex flex-col items-center space-y-1"
+                            >
                               <input
                                 type="radio"
                                 name={`isi-${index}`}
                                 value={levelIndex}
                                 className="text-green-600"
                               />
-                              <span className="text-xs text-center">{level}</span>
+                              <span className="text-xs text-center">
+                                {level}
+                              </span>
                             </label>
                           ))}
                         </div>
@@ -582,10 +773,11 @@ const QuestionnairesTable = ({ isDarkMode }) => {
                 {/* MSPQ Questionnaire */}
                 {selectedQuestionnaire.name.includes("MSPQ") && (
                   <div className="space-y-6">
-                                         <p className={`${styles.textMuted} mb-4`}>
-                       Please indicate how much you have been bothered by each of the following symptoms.
-                     </p>
-                    
+                    <p className={`${styles.textMuted} mb-4`}>
+                      Please indicate how much you have been bothered by each of
+                      the following symptoms.
+                    </p>
+
                     {[
                       "Dizziness",
                       "Faintness or feeling about to faint",
@@ -602,22 +794,32 @@ const QuestionnairesTable = ({ isDarkMode }) => {
                       "Nausea or feeling sick",
                       "Feeling of butterflies in stomach",
                       "Heart beating faster than usual",
-                      "Sweating"
+                      "Sweating",
                     ].map((symptom, index) => (
                       <div key={index}>
                         <label className="block text-lg font-medium mb-3">
                           {symptom}
                         </label>
                         <div className="grid grid-cols-4 gap-2 text-sm">
-                          {["Not at all", "A little", "Moderately", "A lot"].map((level, levelIndex) => (
-                            <label key={levelIndex} className="flex flex-col items-center space-y-1">
+                          {[
+                            "Not at all",
+                            "A little",
+                            "Moderately",
+                            "A lot",
+                          ].map((level, levelIndex) => (
+                            <label
+                              key={levelIndex}
+                              className="flex flex-col items-center space-y-1"
+                            >
                               <input
                                 type="radio"
                                 name={`mspq-${index}`}
                                 value={levelIndex}
                                 className="text-green-600"
                               />
-                              <span className="text-xs text-center">{level}</span>
+                              <span className="text-xs text-center">
+                                {level}
+                              </span>
                             </label>
                           ))}
                         </div>
@@ -629,17 +831,28 @@ const QuestionnairesTable = ({ isDarkMode }) => {
                 {/* DRAM Questionnaire */}
                 {selectedQuestionnaire.name.includes("DRAM") && (
                   <div className="space-y-6">
-                                         <p className={`${styles.textMuted} mb-4`}>
-                       This assessment helps us understand how emotional factors might be affecting your pain.
-                     </p>
-                    
+                    <p className={`${styles.textMuted} mb-4`}>
+                      This assessment helps us understand how emotional factors
+                      might be affecting your pain.
+                    </p>
+
                     <div>
                       <label className="block text-lg font-medium mb-3">
-                        How often do you feel anxious or worried about your health?
+                        How often do you feel anxious or worried about your
+                        health?
                       </label>
                       <div className="space-y-2">
-                        {["Never", "Rarely", "Sometimes", "Often", "Always"].map((frequency, index) => (
-                          <label key={index} className="flex items-center space-x-3">
+                        {[
+                          "Never",
+                          "Rarely",
+                          "Sometimes",
+                          "Often",
+                          "Always",
+                        ].map((frequency, index) => (
+                          <label
+                            key={index}
+                            className="flex items-center space-x-3"
+                          >
                             <input
                               type="radio"
                               name="anxiety"
@@ -654,11 +867,21 @@ const QuestionnairesTable = ({ isDarkMode }) => {
 
                     <div>
                       <label className="block text-lg font-medium mb-3">
-                        How much does your pain interfere with your daily activities?
+                        How much does your pain interfere with your daily
+                        activities?
                       </label>
                       <div className="space-y-2">
-                        {["Not at all", "A little", "Moderately", "A lot", "Extremely"].map((level, index) => (
-                          <label key={index} className="flex items-center space-x-3">
+                        {[
+                          "Not at all",
+                          "A little",
+                          "Moderately",
+                          "A lot",
+                          "Extremely",
+                        ].map((level, index) => (
+                          <label
+                            key={index}
+                            className="flex items-center space-x-3"
+                          >
                             <input
                               type="radio"
                               name="interference"
@@ -673,24 +896,25 @@ const QuestionnairesTable = ({ isDarkMode }) => {
 
                     <div>
                       <label className="block text-lg font-medium mb-2">
-                        Additional comments about how your pain affects you emotionally:
+                        Additional comments about how your pain affects you
+                        emotionally:
                       </label>
-                                             <textarea
-                         rows="4"
-                         placeholder="Please share any additional thoughts..."
-                         className={`w-full p-3 border rounded-lg ${styles.input}`}
-                       />
+                      <textarea
+                        rows="4"
+                        placeholder="Please share any additional thoughts..."
+                        className={`w-full p-3 border rounded-lg ${styles.input}`}
+                      />
                     </div>
                   </div>
                 )}
 
                 <div className="flex justify-end space-x-3 mt-8">
-                                     <button
-                     onClick={onCloseAnswerModal}
-                     className={`px-6 py-2 border border-gray-300 rounded-lg ${styles.buttonSecondary}`}
-                   >
-                     Cancel
-                   </button>
+                  <button
+                    onClick={onCloseAnswerModal}
+                    className={`px-6 py-2 border border-gray-300 rounded-lg ${styles.buttonSecondary}`}
+                  >
+                    Cancel
+                  </button>
                   <button
                     onClick={() => {
                       // Handle save logic here
@@ -711,4 +935,4 @@ const QuestionnairesTable = ({ isDarkMode }) => {
   );
 };
 
-export default QuestionnairesTable; 
+export default QuestionnairesTable;

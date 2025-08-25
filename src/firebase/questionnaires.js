@@ -14,8 +14,10 @@ import {
 import { nanoid } from "nanoid";
 
 // Create a new questionnaire
-export const createQuestionnaire = async (questionnaireData, uid, orgID, fileID) => {
+export const createQuestionnaire = async (questionnaireData, uid) => {
   try {
+    console.log("createQuestionnaire called with:", { questionnaireData, uid });
+    
     const questionnaireId = nanoid(12);
     const timestamp = new Date().toISOString();
     
@@ -26,23 +28,22 @@ export const createQuestionnaire = async (questionnaireData, uid, orgID, fileID)
       type: questionnaireData.type || "vas", // Add type property
       timestamp: timestamp,
       createdAt: timestamp, // Use regular timestamp instead of serverTimestamp()
-      fileID: fileID, // Add fileID for cloud function sync
-      orgID: orgID, // Add orgID for cloud function sync
       ...questionnaireData
     };
+    
+    console.log("Created questionnaireObj:", questionnaireObj);
 
     // 1. Save to /questionnaires/{uid} - user's personal questionnaires
     const userQuestionnaireRef = doc(db, "questionnaires", uid);
+    const fieldName = questionnaireData.type?.toLowerCase() || "VAS";
+    console.log("Saving to Firestore with fieldName:", fieldName);
+    console.log("Document path:", `questionnaires/${uid}`);
+    
     await setDoc(userQuestionnaireRef, {
-      vas: questionnaireObj
+      [fieldName]: questionnaireObj
     }, { merge: true });
-
-    // 2. Save to /orgFiles/questionnaires/{orgID} - organization's questionnaire collection
-    const orgQuestionnaireRef = doc(db, "orgFiles", "questionnaires", orgID, questionnaireId);
-    await setDoc(orgQuestionnaireRef, questionnaireObj);
-
-    // 3. Update /orgFiles/collections/{fileID} - add questionnaire reference to patient file
-    // This is now handled by the cloud function, not the frontend
+    
+    console.log("Successfully saved to Firestore!");
 
     return {
       success: true,

@@ -17,6 +17,7 @@ import { useAuth } from "./contexts/authContext";
 import QuestionnairesPage from "./pages/QuestionnairesPage";
 import { useEffect } from "react";
 import VAS from "./pages/Questionnaires/VAS";
+import ODI from "./pages/Questionnaires/ODI";
 
 const routesArr = ["", "appointments", "settings"];
 
@@ -84,6 +85,7 @@ function App() {
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/settings" element={<SettingsPage />} />
           <Route path="/questionnaire/vas" element={<VAS />} />
+          <Route path="/questionnaire/odi" element={<ODI />} />
         </Routes>
       </div>
       {

@@ -10,6 +10,7 @@ import { useDarkMode } from "../../contexts/darkModeContext"; // Import dark mod
 import Lottie from "lottie-react";
 import animation from "../../assets/animation/loadingcubes.json";
 import "react-phone-number-input/style.css";
+import { safeSetToStorage } from "../../utils/localStorage";
 import PhoneInput from "react-phone-number-input";
 import { nanoid } from "nanoid";
 import DatePicker from "react-datepicker";
@@ -89,8 +90,8 @@ const OnBoardingNew = ({ orgID, isRegistering2, setShowNothing }) => {
         });
 
         // await updateDoc(doc(db, "users", ))
-        localStorage.setItem("currentUser", JSON.stringify(userObj));
-        localStorage.setItem("medvault_passport_profile", JSON.stringify(userObj));
+        safeSetToStorage("currentUser", userObj);
+        safeSetToStorage("medvault_passport_profile", userObj);
         toast.success("Successfully Created Account");
         navigate("/");
       } catch (e) {

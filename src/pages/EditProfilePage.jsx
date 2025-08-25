@@ -22,6 +22,7 @@ import { useDarkMode } from "../contexts/darkModeContext"; // Import dark mode c
 import PhoneInput from "react-phone-number-input";
 import { Modal } from "react-responsive-modal";
 import { motion } from "framer-motion";
+import { safeGetFromStorage, safeSetToStorage, hasValidStorageValue } from "../utils/localStorage";
 
 function base64ToBlob(base64) {
   const [metadata, base64String] = base64.split(",");
@@ -78,7 +79,7 @@ const EditProfilePage = () => {
     try {
       const docSnap = await getDoc(doc(db, "users", currentUser.uid));
       const user = docSnap.data();
-      localStorage.setItem("medvault_passport_profile", JSON.stringify(user))
+      safeSetToStorage("medvault_passport_profile", user)
       setUserPic(user.profilePic);
       setTitle(user.title);
       setFullName(user.fullName);
@@ -119,22 +120,22 @@ const EditProfilePage = () => {
       const userObj = {
         profilePic: "https://i.ibb.co/z6xFjgk/defaultpic.png",
       };
-      const prevObj = JSON.parse(localStorage.getItem("currentuser"));
-      const prevObj2 = JSON.parse(localStorage.getItem("medvault_passport_profile"));
+      const prevObj = safeGetFromStorage("currentUser", {});
+      const prevObj2 = safeGetFromStorage("medvault_passport_profile", {});
 
-      localStorage.setItem(
+      safeSetToStorage(
         "currentUser",
-        JSON.stringify({
+        {
           ...prevObj,
           ...userObj,
-        })
+        }
       );
-      localStorage.setItem(
+      safeSetToStorage(
         "medvault_passport_profile",
-        JSON.stringify({
+        {
           ...prevObj2,
           ...userObj,
-        })
+        }
       );
       navigate("/settings");
     } catch (e) {
@@ -148,22 +149,22 @@ const EditProfilePage = () => {
 
 
   useEffect(() => {
-    if(!JSON.parse(localStorage.getItem("medvault_passport_profile"))){
+    if(!hasValidStorageValue("medvault_passport_profile")){
     getProfile();
     console.log("i got from firebase");
     }else{
-      const user = JSON.parse(localStorage.getItem("medvault_passport_profile"));
+      const user = safeGetFromStorage("medvault_passport_profile", {});
       console.log(user);
       console.log("got from local storage")
-      setUserPic(user.profilePic);
-      setTitle(user.title);
-      setFullName(user.fullName);
-      setGender(user.gender);
-      setOrganization(user.organization);
-      setPracticeNumber(user.practiceNumber);
-      setEmail(user.email);
-      setPhone(user.phone);
-      setBloodType(user.bloodType);
+      setUserPic(user.profilePic || "");
+      setTitle(user.title || "");
+      setFullName(user.fullName || "");
+      setGender(user.gender || "");
+      setOrganization(user.organization || "");
+      setPracticeNumber(user.practiceNumber || "");
+      setEmail(user.email || "");
+      setPhone(user.phone || "");
+      setBloodType(user.bloodType || "");
     }
   }, []);
 
@@ -217,17 +218,17 @@ const EditProfilePage = () => {
         bloodType,
         profilePic: downloadURL,
       };
-      const prevObj = JSON.parse(localStorage.getItem("currentuser"));
-      const prevObj2 = JSON.parse(localStorage.getItem("medvault_passport_profile"));
+      const prevObj = safeGetFromStorage("currentUser", {});
+      const prevObj2 = safeGetFromStorage("medvault_passport_profile", {});
 
-      localStorage.setItem("currentUser", JSON.stringify({
+      safeSetToStorage("currentUser", {
         ...prevObj,
         ...userObj,
-      }));
-      localStorage.setItem("medvault_passport_profile", JSON.stringify({
+      });
+      safeSetToStorage("medvault_passport_profile", {
         ...prevObj2,
         ...userObj,
-      }));
+      });
       setChangingPic(false);
       setPreview(null);
       navigate("/settings")
@@ -254,17 +255,17 @@ const EditProfilePage = () => {
         profilePic: userPic,
       };
       await updateDoc(doc(db, "users", currentUser.uid), userObj);
-      const prevObj = JSON.parse(localStorage.getItem("currentuser"));
-      const prevObj2 = JSON.parse(localStorage.getItem("medvault_passport_profile"));
+      const prevObj = safeGetFromStorage("currentUser", {});
+      const prevObj2 = safeGetFromStorage("medvault_passport_profile", {});
 
-      localStorage.setItem("currentUser", JSON.stringify({
+      safeSetToStorage("currentUser", {
         ...prevObj,
         ...userObj,
-      }));
-      localStorage.setItem("medvault_passport_profile", JSON.stringify({
+      });
+      safeSetToStorage("medvault_passport_profile", {
         ...prevObj2,
         ...userObj,
-      }));
+      });
     } catch (e) {
       toast.error(e.code);
       console.log(e);
@@ -312,8 +313,7 @@ const EditProfilePage = () => {
                       Change Picture
                     </button>
                     <br />
-                    {JSON.parse(localStorage.getItem("medvault_passport_profile"))
-                      .profilePic ===
+                    {safeGetFromStorage("medvault_passport_profile", {}).profilePic ===
                     "https://i.ibb.co/z6xFjgk/defaultpic.png" ? null : (
                       <button
                         className="bg-red-600 hover:bg-red-700 text-white  py-2 px-4 rounded transition duration-200 w-full sm:w-auto mr-5"

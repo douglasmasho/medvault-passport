@@ -10,6 +10,7 @@ import { useDarkMode } from "../../contexts/darkModeContext"; // Import dark mod
 import Lottie from "lottie-react";
 import animation from "../../assets/animation/loadingcubes.json";
 import "react-phone-number-input/style.css";
+import { safeSetToStorage } from "../../utils/localStorage";
 import PhoneInput from "react-phone-number-input";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -77,7 +78,7 @@ const Register = () => {
 
         setCurrentUser(userObj);
         toast.success("Successfully Created Account");
-        localStorage.setItem("currentUser", JSON.stringify(userObj));
+        safeSetToStorage("currentUser", userObj);
       } catch (e) {
         console.log(e);
         setErrorMessage(e.code);

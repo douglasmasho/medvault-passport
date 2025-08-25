@@ -56,10 +56,14 @@ const QuestionnairesPage = () => {
                 you can fill out to help us better understand your health and
                 needs.
               </p>
+              <br />
+              <QuestionnairesTable isDarkMode={isDarkMode} />
              <br />
               <h2 className={`bigger-text u-margin-bottom-small ${styles.text}`}>
-                Questionnaires
+                Answer Questionnaires
               </h2>
+              <p>Please note that answering a questionnaire you already answered before will overwrite it.</p>
+              <br />
               <div className="grid grid-3 u-margin-bottom-medium">
                 <motion.div
                   className={`overflow-hidden shadow-lg rounded-xl border ${styles.container} ${styles.border} center-text cursor-pointer`}
@@ -93,6 +97,7 @@ const QuestionnairesPage = () => {
                     y: -5,
                     boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.5)",
                   }}
+                  onClick={() => navigate("/questionnaire/odi")}
                 >
                   <div className="px-4 py-5 sm:p-6">
                     <Accessibility
@@ -103,7 +108,7 @@ const QuestionnairesPage = () => {
                     <h3 className={`bigish-text ${styles.text}`}>
                       Oswestry Disability Index{" "}
                     </h3>
-                    <h3 className={`bigish-text ${styles.text}`}>(OSI)</h3>
+                    <h3 className={`bigish-text ${styles.text}`}>(ODI)</h3>
                     <p className={`u-margin-top-small ${styles.textSecondary}`}>
                       This helps us understand how much your back pain affects
                       your daily life — from walking and lifting to sleeping and
@@ -182,8 +187,7 @@ const QuestionnairesPage = () => {
                   </div>
                 </motion.div>
               </div>
-              <br />
-              <QuestionnairesTable isDarkMode={isDarkMode} />
+             
             </motion.div>
           </main>
         </>

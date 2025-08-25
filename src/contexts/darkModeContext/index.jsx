@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import { safeGetFromStorage, safeSetToStorage } from '../../utils/localStorage';
 
 // Create the DarkModeContext
 const DarkModeContext = createContext();
@@ -12,15 +13,15 @@ export const useDarkMode = () => {
 export const DarkModeProvider = ({ children }) => {
   // Set initial dark mode state based on localStorage or default to false
   const [isDarkMode, setIsDarkMode] = useState(() => {
-    const storedMode = localStorage.getItem('darkMode');
-    return storedMode === 'true';
+    const storedMode = safeGetFromStorage('darkMode', false);
+    return storedMode === true;
   });
 
   // Toggle dark mode and store in localStorage
   const toggleDarkMode = () => {
     setIsDarkMode((prevMode) => {
       const newMode = !prevMode;
-      localStorage.setItem('darkMode', newMode);
+      safeSetToStorage('darkMode', newMode);
       return newMode;
     });
   };

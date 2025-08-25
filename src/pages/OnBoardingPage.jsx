@@ -12,6 +12,7 @@ import animation from "../assets/animation/loadingcubes.json";
 import { doSignOut } from "../firebase/auth";
 import { useAuth } from "../contexts/authContext/index";
 import OnBoardingNew from "../components/auth/onboardingNew";
+import { safeSetToStorage } from "../utils/localStorage";
 
 
 const OnBoardingPage = () => {
@@ -86,8 +87,8 @@ const OnBoardingPage = () => {
           !isRegistering ?
          <p className={`${textColor} center-text`}>You are creating a new Medvault account, and registering as a patient under {name}<br/> if you already have one, please <span style={{color: "#56bb6e", cursor: "pointer"}} onClick={()=>{
           doSignOut();
-          localStorage.setItem("redirectToOnboarding", "true");
-          localStorage.setItem("onboardingOrgID", orgID)
+          safeSetToStorage("redirectToOnboarding", "true");
+          safeSetToStorage("onboardingOrgID", orgID)
           navigate("/login");
         }}>LOGIN</span>.</p> : null
         }

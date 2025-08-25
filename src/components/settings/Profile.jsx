@@ -10,6 +10,7 @@ import toast from "react-hot-toast";
 import Lottie from "lottie-react";
 import animation from "../../assets/animation/loadingcubes.json";
 import { useDarkMode } from "../../contexts/darkModeContext"; // Import dark mode context
+import { safeGetFromStorage, safeSetToStorage, hasValidStorageValue } from "../../utils/localStorage";
 
 const Profile = () => {
   const navigate = useNavigate();
@@ -38,7 +39,7 @@ const Profile = () => {
       const docRef = await getDoc(doc(db, "users", currentUser.uid));
       console.log(docRef);
       const user = docRef.data();
-      localStorage.setItem("medvault_passport_profile", JSON.stringify(user))
+      safeSetToStorage("medvault_passport_profile", user)
       setUserPic(user.profilePic);
       setFullName(user.fullName);
       setEmail(user.email);
@@ -54,22 +55,21 @@ const Profile = () => {
   };
 
   useEffect(() => {
-    if(!JSON.parse(localStorage.getItem("medvault_passport_profile"))){
+    if(!hasValidStorageValue("medvault_passport_profile")){
       console.log(currentUser)
       getProfileDetails();
       console.log("I got from firebase")
     }else{
-      const user = JSON.parse(localStorage.getItem("medvault_passport_profile"));
+      const user = safeGetFromStorage("medvault_passport_profile", {});
       console.log(user);
       console.log("got from local storage")
-      setUserPic(user.profilePic);
-      setFullName(user.fullName);
-      setEmail(user.email);
-      setPhone(user.phone);
-      setPid(user.uid);
-      setBloodType(user.bloodType);
-      setTitle(user.title);
-      setBloodType(user.bloodType)
+      setUserPic(user.profilePic || "");
+      setFullName(user.fullName || "");
+      setEmail(user.email || "");
+      setPhone(user.phone || "");
+      setPid(user.uid || "");
+      setBloodType(user.bloodType || "");
+      setTitle(user.title || "");
     }
   }, []);
 

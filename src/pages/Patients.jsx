@@ -22,6 +22,7 @@ import ClassifyCM from "../assets/classify_cm.png";
 import GradeCM from "../assets/grade_cm.png";
 import { getAuth } from "firebase/auth";
 import toast from "react-hot-toast";
+import { safeGetFromStorage } from "../utils/localStorage";
 const auth = getAuth();
 
 const OverviewPage = () => {
@@ -37,7 +38,7 @@ const OverviewPage = () => {
   const secondaryTextColor = isDarkMode ? "text-gray-400" : "text-gray-600";
 
   useEffect(() => {
-    setLoggedInUser(JSON.parse(localStorage.getItem("currentUser")));
+    setLoggedInUser(safeGetFromStorage("currentUser", null));
     
   }, []);
 

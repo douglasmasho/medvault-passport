@@ -5,6 +5,7 @@ import { doSignInWithEmailAndPassword } from "../../firebase/auth";
 import toast from "react-hot-toast";
 import { useDarkMode } from "../../contexts/darkModeContext"; // Import dark mode context
 import SecondFactor from "../forms/SecondFactor";
+import { safeGetFromStorage } from "../../utils/localStorage";
 import LogoDark from "../../assets/svg/logoblack.svg";
 import LogoLight from "../../assets/svg/logowhite.svg";
 
@@ -22,11 +23,11 @@ const Login = () => {
 
   useEffect(() => {
     if (userLoggedIn) {
-      const shouldRedirect = localStorage.getItem("redirectToOnboarding");
+      const shouldRedirect = safeGetFromStorage("redirectToOnboarding", null);
 
       if (shouldRedirect) {
         localStorage.removeItem("redirectToOnboarding"); // Clean up
-        const orgID = localStorage.getItem("onboardingOrgID");
+        const orgID = safeGetFromStorage("onboardingOrgID", null);
         localStorage.removeItem("onboardingOrgID");
         navigate(`/onboarding/${orgID}`, { replace: true });
       } else {

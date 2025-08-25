@@ -19,6 +19,7 @@ import DetectCM from "../assets/detect_cm.png";
 import DetectPR from "../assets/detect_pr.png";
 import ClassifyCM from "../assets/classify_cm.png";
 import GradeCM from "../assets/grade_cm.png";
+import { safeGetFromStorage } from "../utils/localStorage";
 
 const OverviewPage = () => {
   const { userLoggedIn, currentUser } = useAuth();
@@ -34,7 +35,7 @@ const OverviewPage = () => {
 
   useEffect(() => {
     console.log(localStorage.getItem("currentUser"));
-    setLoggedInUser(JSON.parse(localStorage.getItem("currentUser")));
+    setLoggedInUser(safeGetFromStorage("currentUser", null));
   }, []);
 
   return (

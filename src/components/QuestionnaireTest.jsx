@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../contexts/authContext/index';
 import { getUserQuestionnaires, getOrgQuestionnaires, getPatientFile } from '../firebase/questionnaires';
+import { safeGetFromStorage } from '../utils/localStorage';
 import toast from 'react-hot-toast';
 
 const QuestionnaireTest = () => {
@@ -21,7 +22,7 @@ const QuestionnaireTest = () => {
       setUserQuestionnaires(userData);
 
       // Get user profile to find orgID and fileID
-      const userProfile = JSON.parse(localStorage.getItem("medvault_passport_profile") || "{}");
+      const userProfile = safeGetFromStorage("medvault_passport_profile", {});
       const userFiles = userProfile.myFiles || [];
       
       if (userFiles.length > 0) {

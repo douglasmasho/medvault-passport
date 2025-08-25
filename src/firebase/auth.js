@@ -1,5 +1,6 @@
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, sendPasswordResetEmail, updatePassword, sendEmailVerification} from "firebase/auth";
 import { auth } from "./firebase";
+import { safeSetToStorage } from "../utils/localStorage";
 //our authentication functions
 
 export const doCreateUserWithEmailAndPassword = async (email, password) => {
@@ -7,8 +8,8 @@ export const doCreateUserWithEmailAndPassword = async (email, password) => {
 }
 
 export const doSignInWithEmailAndPassword = (email, password) => {
-         localStorage.setItem("currentUser", JSON.stringify({}));
-      localStorage.setItem("medvault_passport_profile", JSON.stringify({}));
+         safeSetToStorage("currentUser", {});
+      safeSetToStorage("medvault_passport_profile", {});
     return signInWithEmailAndPassword(auth, email, password);
 }
 
@@ -22,8 +23,8 @@ export const doSignInWithGoogle = async ()=>{
 }
 
 export const doSignOut = ()=>{
-      localStorage.setItem("currentUser", JSON.stringify({}));
-      localStorage.setItem("medvault_passport_profile", JSON.stringify({}));
+      safeSetToStorage("currentUser", {});
+      safeSetToStorage("medvault_passport_profile", {});
     return auth.signOut()
 }
 
