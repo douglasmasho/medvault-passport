@@ -122,6 +122,7 @@ const QuestionnairesPage = () => {
                     y: -5,
                     boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.5)",
                   }}
+                  onClick={() => navigate("/questionnaire/isi")}
                 >
                   <div className="px-4 py-5 sm:p-6">
                     <EyeOff
@@ -145,6 +146,7 @@ const QuestionnairesPage = () => {
                     y: -5,
                     boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.5)",
                   }}
+                  onClick={() => navigate("/questionnaire/mspq")}
                 >
                   <div className="px-4 py-5 sm:p-6">
                     <Brain
@@ -168,6 +170,7 @@ const QuestionnairesPage = () => {
                     y: -5,
                     boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.5)",
                   }}
+                  onClick={() => navigate("/questionnaire/dram")}
                 >
                   <div className="px-4 py-5 sm:p-6">
                     <BrainCircuit

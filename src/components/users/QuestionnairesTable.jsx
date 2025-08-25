@@ -16,7 +16,6 @@ const QuestionnairesTable = ({ isDarkMode }) => {
   const [allQuestionnaires, setAllQuestionnaires] = useState([]);
   const [open, setOpen] = useState(false);
   const [openDelete, setOpenDelete] = useState(false);
-  const [openAnswer, setOpenAnswer] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [selectedQuestionnaire, setSelectedQuestionnaire] = useState(null);
 
@@ -49,8 +48,7 @@ const QuestionnairesTable = ({ isDarkMode }) => {
   const onOpenDeleteModal = () => setOpenDelete(true);
   const onCloseDeleteModal = () => setOpenDelete(false);
 
-  const onOpenAnswerModal = () => setOpenAnswer(true);
-  const onCloseAnswerModal = () => setOpenAnswer(false);
+
 
   const handleSearch = (e) => {
     const term = e.target.value.toLowerCase();
@@ -188,10 +186,7 @@ const QuestionnairesTable = ({ isDarkMode }) => {
     }
   };
 
-  const handleAnswerQuestionnaire = (questionnaire) => {
-    setSelectedQuestionnaire(questionnaire);
-    onOpenAnswerModal();
-  };
+
 
   useEffect(() => {
     if (currentUser?.uid) {
@@ -262,14 +257,7 @@ const QuestionnairesTable = ({ isDarkMode }) => {
                   >
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className={`${styles.text} text-sm font-medium`}>
-                        <button
-                          onClick={() =>
-                            handleAnswerQuestionnaire(questionnaire)
-                          }
-                          className="hover:text-green-500 transition-colors duration-200"
-                        >
                           {questionnaire.name}
-                        </button>
                       </div>
                     </td>
 
@@ -535,6 +523,336 @@ const QuestionnairesTable = ({ isDarkMode }) => {
                     })()}
                   </div>
                 )}
+
+                {selectedQuestionnaire.type === "isi" && (
+                  <div className="space-y-3">
+                    {/* Calculate ISI score from the answers */}
+                    {(() => {
+                      const isiAnswers = selectedQuestionnaire.answers;
+                      const totalScore =
+                        (isiAnswers.difficultyFallingAsleep || 0) +
+                        (isiAnswers.difficultyStayingAsleep || 0) +
+                        (isiAnswers.problemsWakingUpEarly || 0) +
+                        (isiAnswers.sleepSatisfaction || 0) +
+                        (isiAnswers.sleepProblemNoticeable || 0) +
+                        (isiAnswers.worriedAboutSleep || 0) +
+                        (isiAnswers.sleepInterferesWithDaily || 0);
+
+                      let severityLevel = "";
+                      if (totalScore <= 7) {
+                        severityLevel = "No clinically significant insomnia";
+                      } else if (totalScore <= 14) {
+                        severityLevel = "Subthreshold insomnia";
+                      } else if (totalScore <= 21) {
+                        severityLevel = "Clinical insomnia (moderate severity)";
+                      } else {
+                        severityLevel = "Clinical insomnia (severe)";
+                      }
+
+                      return (
+                        <>
+                          <div className={`p-3 ${styles.card} rounded`}>
+                            <span className="font-medium">Total Score: </span>
+                            <span className="text-2xl font-bold text-green-600">
+                              {totalScore}
+                            </span>
+                            <span className="text-sm text-gray-500">/ 28</span>
+                          </div>
+                          <div className={`p-3 ${styles.card} rounded`}>
+                            <span className="font-medium">
+                              Severity Level:{" "}
+                            </span>
+                            <span className="text-lg font-medium text-orange-600">
+                              {severityLevel}
+                            </span>
+                          </div>
+
+                          <div className="mt-6">
+                            <h4 className="text-lg font-semibold mb-3">
+                              Question Scores:
+                            </h4>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                              <div className={`p-3 ${styles.card} rounded`}>
+                                <span className="font-medium">
+                                  Difficulty Falling Asleep:{" "}
+                                </span>
+                                <span className="font-semibold">
+                                  {isiAnswers.difficultyFallingAsleep || 0}/4
+                                </span>
+                              </div>
+                              <div className={`p-3 ${styles.card} rounded`}>
+                                <span className="font-medium">
+                                  Difficulty Staying Asleep:{" "}
+                                </span>
+                                <span className="font-semibold">
+                                  {isiAnswers.difficultyStayingAsleep || 0}/4
+                                </span>
+                              </div>
+                              <div className={`p-3 ${styles.card} rounded`}>
+                                <span className="font-medium">
+                                  Problems Waking Up Early:{" "}
+                                </span>
+                                <span className="font-semibold">
+                                  {isiAnswers.problemsWakingUpEarly || 0}/4
+                                </span>
+                              </div>
+                              <div className={`p-3 ${styles.card} rounded`}>
+                                <span className="font-medium">
+                                  Sleep Satisfaction:{" "}
+                                </span>
+                                <span className="font-semibold">
+                                  {isiAnswers.sleepSatisfaction || 0}/4
+                                </span>
+                              </div>
+                              <div className={`p-3 ${styles.card} rounded`}>
+                                <span className="font-medium">
+                                  Sleep Problem Noticeable:{" "}
+                                </span>
+                                <span className="font-semibold">
+                                  {isiAnswers.sleepProblemNoticeable || 0}/4
+                                </span>
+                              </div>
+                              <div className={`p-3 ${styles.card} rounded`}>
+                                <span className="font-medium">
+                                  Worried About Sleep:{" "}
+                                </span>
+                                <span className="font-semibold">
+                                  {isiAnswers.worriedAboutSleep || 0}/4
+                                </span>
+                              </div>
+                              <div className={`p-3 ${styles.card} rounded`}>
+                                <span className="font-medium">
+                                  Sleep Interferes with Daily:{" "}
+                                </span>
+                                <span className="font-semibold">
+                                  {isiAnswers.sleepInterferesWithDaily || 0}/4
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                        </>
+                      );
+                    })()}
+                  </div>
+                )}
+
+                {selectedQuestionnaire.type === "mspq" && (
+                  <div className="space-y-3">
+                    {/* Calculate MSPQ score from the answers */}
+                    {(() => {
+                      const mspqAnswers = selectedQuestionnaire.answers;
+                      // Filter out non-score fields and only sum the actual question scores
+                      const scoreFields = [
+                        'heartRateIncrease', 'feelingHotAllOver', 'sweatingAllOver', 'sweatingInParticularPart',
+                        'pulseInNeck', 'poundingInHead', 'dizziness', 'blurringOfVision', 'feelingFaint',
+                        'everythingAppearingUnreal', 'nausea', 'butterfliesInStomach', 'painOrAcheInStomach',
+                        'stomachChurning', 'desireToPassWater', 'mouthBecomingDry', 'difficultySwallowing',
+                        'musclesInNeckAching', 'legsFeelingWeak', 'musclesTwitchingOrJumping',
+                        'tenseFeelingAcrossForehead', 'tenseFeelingInJawMuscles'
+                      ];
+                      const totalScore = scoreFields.reduce((sum, field) => sum + (mspqAnswers[field] || 0), 0);
+
+                      let severityLevel = "";
+                      if (totalScore <= 22) {
+                        severityLevel = "Low somatic symptoms";
+                      } else if (totalScore <= 44) {
+                        severityLevel = "Moderate somatic symptoms";
+                      } else if (totalScore <= 66) {
+                        severityLevel = "High somatic symptoms";
+                      } else {
+                        severityLevel = "Very high somatic symptoms";
+                      }
+
+                      return (
+                        <>
+                          <div className={`p-3 ${styles.card} rounded`}>
+                            <span className="font-medium">Total Score: </span>
+                            <span className="text-2xl font-bold text-green-600">
+                              {totalScore}
+                            </span>
+                            <span className="text-sm text-gray-500">/ 88</span>
+                          </div>
+                          <div className={`p-3 ${styles.card} rounded`}>
+                            <span className="font-medium">
+                              Severity Level:{" "}
+                            </span>
+                            <span className="text-lg font-medium text-orange-600">
+                              {severityLevel}
+                            </span>
+                          </div>
+
+                          <div className="mt-6">
+                            <h4 className="text-lg font-semibold mb-3">
+                              Question Scores (Sample):
+                            </h4>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                              <div className={`p-3 ${styles.card} rounded`}>
+                                <span className="font-medium">
+                                  Heart Rate Increase:{" "}
+                                </span>
+                                <span className="font-semibold">
+                                  {mspqAnswers.heartRateIncrease || 0}/3
+                                </span>
+                              </div>
+                              <div className={`p-3 ${styles.card} rounded`}>
+                                <span className="font-medium">
+                                  Feeling Hot All Over:{" "}
+                                </span>
+                                <span className="font-semibold">
+                                  {mspqAnswers.feelingHotAllOver || 0}/3
+                                </span>
+                              </div>
+                              <div className={`p-3 ${styles.card} rounded`}>
+                                <span className="font-medium">
+                                  Dizziness:{" "}
+                                </span>
+                                <span className="font-semibold">
+                                  {mspqAnswers.dizziness || 0}/3
+                                </span>
+                              </div>
+                              <div className={`p-3 ${styles.card} rounded`}>
+                                <span className="font-medium">
+                                  Nausea:{" "}
+                                </span>
+                                <span className="font-semibold">
+                                  {mspqAnswers.nausea || 0}/3
+                                </span>
+                              </div>
+                              <div className={`p-3 ${styles.card} rounded`}>
+                                <span className="font-medium">
+                                  Tense Feeling in Jaw:{" "}
+                                </span>
+                                <span className="font-semibold">
+                                  {mspqAnswers.tenseFeelingInJawMuscles || 0}/3
+                                </span>
+                              </div>
+                              <div className={`p-3 ${styles.card} rounded`}>
+                                <span className="font-medium">
+                                  Legs Feeling Weak:{" "}
+                                </span>
+                                <span className="font-semibold">
+                                  {mspqAnswers.legsFeelingWeak || 0}/3
+                                </span>
+                              </div>
+                            </div>
+                            <p className={`text-sm ${styles.textMuted} mt-3`}>
+                              Showing 6 of 22 questions. All questions are scored from 0-3.
+                            </p>
+                          </div>
+                        </>
+                      );
+                    })()}
+                  </div>
+                )}
+
+                {selectedQuestionnaire.type === "dram" && (
+                  <div className="space-y-3">
+                    {/* Calculate DRAM score from the answers */}
+                    {(() => {
+                      const dramAnswers = selectedQuestionnaire.answers;
+                      // Filter out non-score fields and only sum the actual question scores
+                      const scoreFields = [
+                        'feelDownheartedAndSad', 'morningIsWhenIFeelBest', 'haveCryingSpells', 'haveTroubleGettingToSleep',
+                        'feelThatNobodyCares', 'eatAsMuchAsIUsedTo', 'stillEnjoySex', 'noticeIAmLosingWeight',
+                        'haveTroubleWithConstipation', 'heartBeatsFasterThanUsual', 'getTiredForNoReason', 'mindIsAsClearAsItUsedToBe',
+                        'tendToWakeUpTooEarly', 'findItEasyToDoThings', 'amRestlessAndCantKeepStill', 'feelHopefulAboutTheFuture',
+                        'amMoreIrritableThanUsual', 'findItEasyToMakeDecision', 'feelQuiteGuilty', 'feelThatIAmUsefulAndNeeded',
+                        'myLifeIsPrettyFull', 'feelThatOthersWouldBeBetterOff', 'amStillAbleToEnjoyThings'
+                      ];
+                      const totalScore = scoreFields.reduce((sum, field) => sum + (dramAnswers[field] || 0), 0);
+
+                      let severityLevel = "";
+                      if (totalScore <= 16) {
+                        severityLevel = "Normal";
+                      } else if (totalScore <= 20) {
+                        severityLevel = "Mild depression";
+                      } else if (totalScore <= 30) {
+                        severityLevel = "Moderate depression";
+                      } else {
+                        severityLevel = "Severe depression";
+                      }
+
+                      return (
+                        <>
+                          <div className={`p-3 ${styles.card} rounded`}>
+                            <span className="font-medium">Total Score: </span>
+                            <span className="text-2xl font-bold text-green-600">
+                              {totalScore}
+                            </span>
+                            <span className="text-sm text-gray-500">/ 69</span>
+                          </div>
+                          <div className={`p-3 ${styles.card} rounded`}>
+                            <span className="font-medium">
+                              Depression Level:{" "}
+                            </span>
+                            <span className="text-lg font-medium text-orange-600">
+                              {severityLevel}
+                            </span>
+                          </div>
+
+                          <div className="mt-6">
+                            <h4 className="text-lg font-semibold mb-3">
+                              Question Scores (Sample):
+                            </h4>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                              <div className={`p-3 ${styles.card} rounded`}>
+                                <span className="font-medium">
+                                  Feel Downhearted and Sad:{" "}
+                                </span>
+                                <span className="font-semibold">
+                                  {dramAnswers.feelDownheartedAndSad || 0}/3
+                                </span>
+                              </div>
+                              <div className={`p-3 ${styles.card} rounded`}>
+                                <span className="font-medium">
+                                  Have Crying Spells:{" "}
+                                </span>
+                                <span className="font-semibold">
+                                  {dramAnswers.haveCryingSpells || 0}/3
+                                </span>
+                              </div>
+                              <div className={`p-3 ${styles.card} rounded`}>
+                                <span className="font-medium">
+                                  Feel That Nobody Cares:{" "}
+                                </span>
+                                <span className="font-semibold">
+                                  {dramAnswers.feelThatNobodyCares || 0}/3
+                                </span>
+                              </div>
+                              <div className={`p-3 ${styles.card} rounded`}>
+                                <span className="font-medium">
+                                  Get Tired For No Reason:{" "}
+                                </span>
+                                <span className="font-semibold">
+                                  {dramAnswers.getTiredForNoReason || 0}/3
+                                </span>
+                              </div>
+                              <div className={`p-3 ${styles.card} rounded`}>
+                                <span className="font-medium">
+                                  Feel Hopeful About Future:{" "}
+                                </span>
+                                <span className="font-semibold">
+                                  {dramAnswers.feelHopefulAboutTheFuture || 0}/3
+                                </span>
+                              </div>
+                              <div className={`p-3 ${styles.card} rounded`}>
+                                <span className="font-medium">
+                                  Feel Quite Guilty:{" "}
+                                </span>
+                                <span className="font-semibold">
+                                  {dramAnswers.feelQuiteGuilty || 0}/3
+                                </span>
+                              </div>
+                            </div>
+                            <p className={`text-sm ${styles.textMuted} mt-3`}>
+                              Showing 6 of 23 questions. All questions are scored from 0-3.
+                            </p>
+                          </div>
+                        </>
+                      );
+                    })()}
+                  </div>
+                )}
               </div>
             )}
           </Modal>
@@ -583,352 +901,7 @@ const QuestionnairesTable = ({ isDarkMode }) => {
             )}
           </Modal>
 
-          {/* Answer Questionnaire Modal */}
-          <Modal
-            open={openAnswer}
-            onClose={onCloseAnswerModal}
-            center
-            classNames={{
-              modal: `${styles.modal} backdrop-blur-md shadow-lg rounded-xl p-6 border border-gray-700`,
-            }}
-            styles={{
-              modal: {
-                width: "90%",
-                maxWidth: "800px",
-              },
-            }}
-            closeIcon={<CircleX style={styles.modalCloseIcon} />}
-          >
-            {selectedQuestionnaire && (
-              <div>
-                <h2 className="text-2xl mb-4">Answer Questionnaire</h2>
-                <h3 className="text-xl mb-6 text-green-600">
-                  {selectedQuestionnaire.name}
-                </h3>
-
-                {/* VAS Questionnaire */}
-                {selectedQuestionnaire.name.includes("VAS") && (
-                  <div className="space-y-6">
-                    <div>
-                      <label className="block text-lg font-medium mb-3">
-                        On a scale of 0-10, how would you rate your current pain
-                        level?
-                      </label>
-                      <div className="flex items-center space-x-4">
-                        <span className="text-sm text-gray-500">
-                          0 (No pain)
-                        </span>
-                        <input
-                          type="range"
-                          min="0"
-                          max="10"
-                          step="1"
-                          className="flex-1 h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
-                        />
-                        <span className="text-sm text-gray-500">
-                          10 (Worst pain)
-                        </span>
-                      </div>
-                      <div className="text-center mt-2">
-                        <span className="text-2xl font-bold text-green-600">
-                          5
-                        </span>
-                      </div>
-                    </div>
-
-                    <div>
-                      <label className="block text-lg font-medium mb-2">
-                        Where is your pain located?
-                      </label>
-                      <select
-                        className={`w-full p-3 border rounded-lg ${styles.input}`}
-                      >
-                        <option value="">Select location</option>
-                        <option value="head">Head</option>
-                        <option value="neck">Neck</option>
-                        <option value="back">Back</option>
-                        <option value="shoulder">Shoulder</option>
-                        <option value="arm">Arm</option>
-                        <option value="leg">Leg</option>
-                        <option value="chest">Chest</option>
-                        <option value="abdomen">Abdomen</option>
-                        <option value="other">Other</option>
-                      </select>
-                    </div>
-
-                    <div>
-                      <label className="block text-lg font-medium mb-2">
-                        How long have you been experiencing this pain?
-                      </label>
-                      <input
-                        type="text"
-                        placeholder="e.g., 2 weeks, 3 months"
-                        className={`w-full p-3 border rounded-lg ${styles.input}`}
-                      />
-                    </div>
-                  </div>
-                )}
-
-                {/* OSI Questionnaire */}
-                {selectedQuestionnaire.name.includes("OSI") && (
-                  <div className="space-y-6">
-                    <p className={`${styles.textMuted} mb-4`}>
-                      This questionnaire is designed to help us understand how
-                      your back pain affects your daily life.
-                    </p>
-
-                    {[
-                      "Pain intensity",
-                      "Personal care (washing, dressing)",
-                      "Lifting",
-                      "Walking",
-                      "Sitting",
-                      "Standing",
-                      "Sleeping",
-                      "Social life",
-                      "Traveling",
-                      "Employment/homemaking",
-                    ].map((activity, index) => (
-                      <div key={index}>
-                        <label className="block text-lg font-medium mb-3">
-                          {activity}
-                        </label>
-                        <div className="space-y-2">
-                          {[
-                            "I can do this activity normally without pain",
-                            "I can do this activity normally but it causes some pain",
-                            "I can do this activity normally but it causes much pain",
-                            "Pain prevents me from doing this activity but I can manage",
-                            "Pain prevents me from doing this activity",
-                          ].map((option, optionIndex) => (
-                            <label
-                              key={optionIndex}
-                              className="flex items-center space-x-3"
-                            >
-                              <input
-                                type="radio"
-                                name={`activity-${index}`}
-                                value={optionIndex}
-                                className="text-green-600"
-                              />
-                              <span className="text-sm">{option}</span>
-                            </label>
-                          ))}
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                )}
-
-                {/* ISI Questionnaire */}
-                {selectedQuestionnaire.name.includes("ISI") && (
-                  <div className="space-y-6">
-                    <p className={`${styles.textMuted} mb-4`}>
-                      Please rate the severity of your sleep problems over the
-                      last month.
-                    </p>
-
-                    {[
-                      "Difficulty falling asleep",
-                      "Difficulty staying asleep",
-                      "Problems waking up too early",
-                      "How satisfied/dissatisfied are you with your current sleep pattern?",
-                      "How noticeable to others do you think your sleep problem is in terms of impairing the quality of your life?",
-                      "How worried/distressed are you about your current sleep problem?",
-                      "To what extent do you consider your sleep problem to interfere with your daily functioning?",
-                    ].map((question, index) => (
-                      <div key={index}>
-                        <label className="block text-lg font-medium mb-3">
-                          {question}
-                        </label>
-                        <div className="grid grid-cols-5 gap-2 text-sm">
-                          {[
-                            "None",
-                            "Mild",
-                            "Moderate",
-                            "Severe",
-                            "Very Severe",
-                          ].map((level, levelIndex) => (
-                            <label
-                              key={levelIndex}
-                              className="flex flex-col items-center space-y-1"
-                            >
-                              <input
-                                type="radio"
-                                name={`isi-${index}`}
-                                value={levelIndex}
-                                className="text-green-600"
-                              />
-                              <span className="text-xs text-center">
-                                {level}
-                              </span>
-                            </label>
-                          ))}
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                )}
-
-                {/* MSPQ Questionnaire */}
-                {selectedQuestionnaire.name.includes("MSPQ") && (
-                  <div className="space-y-6">
-                    <p className={`${styles.textMuted} mb-4`}>
-                      Please indicate how much you have been bothered by each of
-                      the following symptoms.
-                    </p>
-
-                    {[
-                      "Dizziness",
-                      "Faintness or feeling about to faint",
-                      "Feeling hot or cold",
-                      "Numbness or tingling",
-                      "Feeling of weakness",
-                      "Heavy feelings in arms or legs",
-                      "Soreness in muscles",
-                      "Feeling of pressure in head",
-                      "Tightness in head",
-                      "Feeling of pressure in chest",
-                      "Breathing difficulties",
-                      "Feeling of bloatedness",
-                      "Nausea or feeling sick",
-                      "Feeling of butterflies in stomach",
-                      "Heart beating faster than usual",
-                      "Sweating",
-                    ].map((symptom, index) => (
-                      <div key={index}>
-                        <label className="block text-lg font-medium mb-3">
-                          {symptom}
-                        </label>
-                        <div className="grid grid-cols-4 gap-2 text-sm">
-                          {[
-                            "Not at all",
-                            "A little",
-                            "Moderately",
-                            "A lot",
-                          ].map((level, levelIndex) => (
-                            <label
-                              key={levelIndex}
-                              className="flex flex-col items-center space-y-1"
-                            >
-                              <input
-                                type="radio"
-                                name={`mspq-${index}`}
-                                value={levelIndex}
-                                className="text-green-600"
-                              />
-                              <span className="text-xs text-center">
-                                {level}
-                              </span>
-                            </label>
-                          ))}
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                )}
-
-                {/* DRAM Questionnaire */}
-                {selectedQuestionnaire.name.includes("DRAM") && (
-                  <div className="space-y-6">
-                    <p className={`${styles.textMuted} mb-4`}>
-                      This assessment helps us understand how emotional factors
-                      might be affecting your pain.
-                    </p>
-
-                    <div>
-                      <label className="block text-lg font-medium mb-3">
-                        How often do you feel anxious or worried about your
-                        health?
-                      </label>
-                      <div className="space-y-2">
-                        {[
-                          "Never",
-                          "Rarely",
-                          "Sometimes",
-                          "Often",
-                          "Always",
-                        ].map((frequency, index) => (
-                          <label
-                            key={index}
-                            className="flex items-center space-x-3"
-                          >
-                            <input
-                              type="radio"
-                              name="anxiety"
-                              value={index}
-                              className="text-green-600"
-                            />
-                            <span>{frequency}</span>
-                          </label>
-                        ))}
-                      </div>
-                    </div>
-
-                    <div>
-                      <label className="block text-lg font-medium mb-3">
-                        How much does your pain interfere with your daily
-                        activities?
-                      </label>
-                      <div className="space-y-2">
-                        {[
-                          "Not at all",
-                          "A little",
-                          "Moderately",
-                          "A lot",
-                          "Extremely",
-                        ].map((level, index) => (
-                          <label
-                            key={index}
-                            className="flex items-center space-x-3"
-                          >
-                            <input
-                              type="radio"
-                              name="interference"
-                              value={index}
-                              className="text-green-600"
-                            />
-                            <span>{level}</span>
-                          </label>
-                        ))}
-                      </div>
-                    </div>
-
-                    <div>
-                      <label className="block text-lg font-medium mb-2">
-                        Additional comments about how your pain affects you
-                        emotionally:
-                      </label>
-                      <textarea
-                        rows="4"
-                        placeholder="Please share any additional thoughts..."
-                        className={`w-full p-3 border rounded-lg ${styles.input}`}
-                      />
-                    </div>
-                  </div>
-                )}
-
-                <div className="flex justify-end space-x-3 mt-8">
-                  <button
-                    onClick={onCloseAnswerModal}
-                    className={`px-6 py-2 border border-gray-300 rounded-lg ${styles.buttonSecondary}`}
-                  >
-                    Cancel
-                  </button>
-                  <button
-                    onClick={() => {
-                      // Handle save logic here
-                      console.log("Saving questionnaire answers...");
-                      onCloseAnswerModal();
-                    }}
-                    className="px-6 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700"
-                  >
-                    Submit Answers
-                  </button>
-                </div>
-              </div>
-            )}
-          </Modal>
+          
         </motion.div>
       )}
     </>
