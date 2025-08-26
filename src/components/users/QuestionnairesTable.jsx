@@ -557,7 +557,7 @@ const QuestionnairesTable = ({ isDarkMode }) => {
                               {totalScore}
                             </span>
                             <span className="text-sm text-gray-500">/ 28</span>
-                          </div>
+                </div>
                           <div className={`p-3 ${styles.card} rounded`}>
                             <span className="font-medium">
                               Severity Level:{" "}
@@ -565,7 +565,7 @@ const QuestionnairesTable = ({ isDarkMode }) => {
                             <span className="text-lg font-medium text-orange-600">
                               {severityLevel}
                             </span>
-                          </div>
+              </div>
 
                           <div className="mt-6">
                             <h4 className="text-lg font-semibold mb-3">
@@ -575,19 +575,19 @@ const QuestionnairesTable = ({ isDarkMode }) => {
                               <div className={`p-3 ${styles.card} rounded`}>
                                 <span className="font-medium">
                                   Difficulty Falling Asleep:{" "}
-                                </span>
+                        </span>
                                 <span className="font-semibold">
                                   {isiAnswers.difficultyFallingAsleep || 0}/4
-                                </span>
-                              </div>
+                        </span>
+                      </div>
                               <div className={`p-3 ${styles.card} rounded`}>
                                 <span className="font-medium">
                                   Difficulty Staying Asleep:{" "}
                                 </span>
                                 <span className="font-semibold">
                                   {isiAnswers.difficultyStayingAsleep || 0}/4
-                                </span>
-                              </div>
+                        </span>
+                      </div>
                               <div className={`p-3 ${styles.card} rounded`}>
                                 <span className="font-medium">
                                   Problems Waking Up Early:{" "}
@@ -595,7 +595,7 @@ const QuestionnairesTable = ({ isDarkMode }) => {
                                 <span className="font-semibold">
                                   {isiAnswers.problemsWakingUpEarly || 0}/4
                                 </span>
-                              </div>
+                    </div>
                               <div className={`p-3 ${styles.card} rounded`}>
                                 <span className="font-medium">
                                   Sleep Satisfaction:{" "}
@@ -603,7 +603,7 @@ const QuestionnairesTable = ({ isDarkMode }) => {
                                 <span className="font-semibold">
                                   {isiAnswers.sleepSatisfaction || 0}/4
                                 </span>
-                              </div>
+                    </div>
                               <div className={`p-3 ${styles.card} rounded`}>
                                 <span className="font-medium">
                                   Sleep Problem Noticeable:{" "}
@@ -611,7 +611,7 @@ const QuestionnairesTable = ({ isDarkMode }) => {
                                 <span className="font-semibold">
                                   {isiAnswers.sleepProblemNoticeable || 0}/4
                                 </span>
-                              </div>
+                    </div>
                               <div className={`p-3 ${styles.card} rounded`}>
                                 <span className="font-medium">
                                   Worried About Sleep:{" "}
@@ -619,7 +619,7 @@ const QuestionnairesTable = ({ isDarkMode }) => {
                                 <span className="font-semibold">
                                   {isiAnswers.worriedAboutSleep || 0}/4
                                 </span>
-                              </div>
+                  </div>
                               <div className={`p-3 ${styles.card} rounded`}>
                                 <span className="font-medium">
                                   Sleep Interferes with Daily:{" "}
@@ -627,8 +627,8 @@ const QuestionnairesTable = ({ isDarkMode }) => {
                                 <span className="font-semibold">
                                   {isiAnswers.sleepInterferesWithDaily || 0}/4
                                 </span>
-                              </div>
-                            </div>
+                        </div>
+                      </div>
                           </div>
                         </>
                       );
@@ -669,9 +669,9 @@ const QuestionnairesTable = ({ isDarkMode }) => {
                             <span className="font-medium">Total Score: </span>
                             <span className="text-2xl font-bold text-green-600">
                               {totalScore}
-                            </span>
+                              </span>
                             <span className="text-sm text-gray-500">/ 88</span>
-                          </div>
+                        </div>
                           <div className={`p-3 ${styles.card} rounded`}>
                             <span className="font-medium">
                               Severity Level:{" "}
@@ -679,7 +679,7 @@ const QuestionnairesTable = ({ isDarkMode }) => {
                             <span className="text-lg font-medium text-orange-600">
                               {severityLevel}
                             </span>
-                          </div>
+                      </div>
 
                           <div className="mt-6">
                             <h4 className="text-lg font-semibold mb-3">
@@ -689,11 +689,11 @@ const QuestionnairesTable = ({ isDarkMode }) => {
                               <div className={`p-3 ${styles.card} rounded`}>
                                 <span className="font-medium">
                                   Heart Rate Increase:{" "}
-                                </span>
+                              </span>
                                 <span className="font-semibold">
                                   {mspqAnswers.heartRateIncrease || 0}/3
                                 </span>
-                              </div>
+                        </div>
                               <div className={`p-3 ${styles.card} rounded`}>
                                 <span className="font-medium">
                                   Feeling Hot All Over:{" "}
@@ -701,7 +701,7 @@ const QuestionnairesTable = ({ isDarkMode }) => {
                                 <span className="font-semibold">
                                   {mspqAnswers.feelingHotAllOver || 0}/3
                                 </span>
-                              </div>
+                      </div>
                               <div className={`p-3 ${styles.card} rounded`}>
                                 <span className="font-medium">
                                   Dizziness:{" "}
@@ -780,7 +780,7 @@ const QuestionnairesTable = ({ isDarkMode }) => {
                               {totalScore}
                             </span>
                             <span className="text-sm text-gray-500">/ 69</span>
-                          </div>
+                      </div>
                           <div className={`p-3 ${styles.card} rounded`}>
                             <span className="font-medium">
                               Depression Level:{" "}
@@ -788,7 +788,7 @@ const QuestionnairesTable = ({ isDarkMode }) => {
                             <span className="text-lg font-medium text-orange-600">
                               {severityLevel}
                             </span>
-                          </div>
+                    </div>
 
                           <div className="mt-6">
                             <h4 className="text-lg font-semibold mb-3">
@@ -802,7 +802,7 @@ const QuestionnairesTable = ({ isDarkMode }) => {
                                 <span className="font-semibold">
                                   {dramAnswers.feelDownheartedAndSad || 0}/3
                                 </span>
-                              </div>
+                      </div>
                               <div className={`p-3 ${styles.card} rounded`}>
                                 <span className="font-medium">
                                   Have Crying Spells:{" "}
@@ -810,7 +810,7 @@ const QuestionnairesTable = ({ isDarkMode }) => {
                                 <span className="font-semibold">
                                   {dramAnswers.haveCryingSpells || 0}/3
                                 </span>
-                              </div>
+                    </div>
                               <div className={`p-3 ${styles.card} rounded`}>
                                 <span className="font-medium">
                                   Feel That Nobody Cares:{" "}
@@ -818,7 +818,7 @@ const QuestionnairesTable = ({ isDarkMode }) => {
                                 <span className="font-semibold">
                                   {dramAnswers.feelThatNobodyCares || 0}/3
                                 </span>
-                              </div>
+                    </div>
                               <div className={`p-3 ${styles.card} rounded`}>
                                 <span className="font-medium">
                                   Get Tired For No Reason:{" "}
