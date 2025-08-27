@@ -146,9 +146,9 @@ export default function PatientPainMapper({ onDataChange, initialData = [] }) {
             x={p.coordinates.x}
             y={p.coordinates.y + 4}
             textAnchor="middle"
-            fontSize="12"
+            fontSize="16"
             fill={getTextColor(p.intensity)}
-            fontWeight="bold"
+            fontWeight="500"
             pointerEvents="none"
           >
             {Math.round(p.intensity * 10)}
@@ -257,7 +257,7 @@ export default function PatientPainMapper({ onDataChange, initialData = [] }) {
                       <div className="flex items-center gap-2">
                         <span className="text-xs px-2 py-0.5 rounded border capitalize text-gray-800">{p.view}</span>
                         <span
-                          className="text-xs px-2 py-0.5 rounded font-semibold"
+                          className="text-sm px-2 py-0.5 rounded font-medium"
                           style={{
                             backgroundColor: `hsl(${(1 - p.intensity) * 120}, 70%, 50%)`,
                             color: p.intensity <= 0.5 ? "#000000" : "#ffffff"
