@@ -182,6 +182,8 @@ const QuestionnaireViewer = () => {
             icon={<FileText style={{ marginRight: "10px", color: "#56BB6E" }} />}
           />
           <main className={`max-w-7xl mx-auto py-6 px-4 lg:px-8 ${textColor}`}>
+
+
             {/* Patient Info Bar */}
             <div className={`mb-6 p-4 rounded-lg border ${borderColor} ${isDarkMode ? 'bg-gray-800' : 'bg-gray-50'}`}>
               <div className="flex items-center justify-between">

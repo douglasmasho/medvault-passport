@@ -10,6 +10,14 @@ const MSPQViewer = ({ data }) => {
   const borderColor = isDarkMode ? "border-gray-700" : "border-gray-200";
   const cardBgColor = isDarkMode ? "bg-gray-700" : "bg-gray-50";
 
+  // MSPQ options mapping
+  const mspqOptions = [
+    "Not at all",
+    "A little, slightly",
+    "A great deal, quite a bit",
+    "Extremely"
+  ];
+
   // Calculate MSPQ score and severity level
   const calculateMSPQScore = () => {
     // All 22 questions are scored
@@ -84,16 +92,18 @@ const MSPQViewer = ({ data }) => {
               { name: "Muscles twitching or jumping", field: "musclesTwitchingOrJumping" },
               { name: "Tense feeling across forehead", field: "tenseFeelingAcrossForehead" },
               { name: "Tense feeling in jaw muscles", field: "tenseFeelingInJawMuscles" }
-                         ].map((question, index) => {
-               const score = data[question.field] || 0;
-                             return (
-                 <div key={question.field} className={`${cardBgColor} p-3 rounded ${borderColor} border`}>
-                   <div className={`text-sm ${textSecondaryColor} mb-1`}>Q{index + 1}</div>
-                   <div className={`font-medium ${textColor} mb-1`}>{question.name}</div>
-                   <div className={`font-semibold ${textColor}`}>{score}/4</div>
-                 </div>
-               );
-            })}
+                                                   ].map((question, index) => {
+                const score = data[question.field] || 0;
+                const selectedOption = mspqOptions[score] || "Not answered";
+                              return (
+                  <div key={question.field} className={`${cardBgColor} p-3 rounded ${borderColor} border`}>
+                    <div className={`text-sm ${textSecondaryColor} mb-1`}>Q{index + 1}</div>
+                    <div className={`font-medium ${textColor} mb-1`}>{question.name}</div>
+                    <div className={`font-semibold ${textColor} mb-1`}>{score}/4</div>
+                    <div className={`${textSecondaryColor} italic`}>{selectedOption}</div>
+                  </div>
+                );
+             })}
           </div>
         </div>
       </div>

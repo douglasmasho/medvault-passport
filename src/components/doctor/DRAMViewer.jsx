@@ -10,6 +10,14 @@ const DRAMViewer = ({ data }) => {
   const borderColor = isDarkMode ? "border-gray-700" : "border-gray-200";
   const cardBgColor = isDarkMode ? "bg-gray-700" : "bg-gray-50";
 
+  // DRAM options mapping
+  const dramOptions = [
+    "Rarely or none of the time (less than 1 day per week)",
+    "Some or little of the time (1-2 days per week)",
+    "A moderate amount of time (3-4 days per week)",
+    "Most of the time (5-7 days per week)"
+  ];
+
   // Calculate DRAM scores and risk level
   const calculateDRAMScores = () => {
     // All 23 questions are scored
@@ -86,16 +94,18 @@ const DRAMViewer = ({ data }) => {
                { name: "My life is pretty full", field: "myLifeIsPrettyFull" },
                { name: "I feel that others would be better off if I were dead", field: "feelThatOthersWouldBeBetterOff" },
                { name: "I am still able to enjoy the things I used to", field: "amStillAbleToEnjoyThings" }
-             ].map((question, index) => {
-               const score = data[question.field] || 0;
-                             return (
-                 <div key={question.field} className={`${cardBgColor} p-3 rounded ${borderColor} border`}>
-                   <div className={`text-sm ${textSecondaryColor} mb-1`}>Q{index + 1}</div>
-                   <div className={`font-medium ${textColor} mb-1`}>{question.name}</div>
-                   <div className={`font-semibold ${textColor}`}>{score}/3</div>
-                 </div>
-               );
-            })}
+                           ].map((question, index) => {
+                const score = data[question.field] || 0;
+                const selectedOption = dramOptions[score] || "Not answered";
+                              return (
+                  <div key={question.field} className={`${cardBgColor} p-3 rounded ${borderColor} border`}>
+                    <div className={`text-sm ${textSecondaryColor} mb-1`}>Q{index + 1}</div>
+                    <div className={`font-medium ${textColor} mb-1`}>{question.name}</div>
+                    <div className={`font-semibold ${textColor} mb-1`}>{score}/3</div>
+                    <div className={`${textSecondaryColor} italic`}>{selectedOption}</div>
+                  </div>
+                );
+             })}
           </div>
         </div>
       </div>

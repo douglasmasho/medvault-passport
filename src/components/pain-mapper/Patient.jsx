@@ -109,15 +109,32 @@ export default function PatientPainMapper({ onDataChange, initialData = [] }) {
 
   const renderPins = () =>
     painData.map((p) => {
-      const r = 8 + p.intensity * 12
+      // Make smallest size what was previously at score 5, scale between 5 and 10
+      // Previous: r = 8 + p.intensity * 12
+      // At intensity 0.5 (score 5): r = 8 + 0.5 * 12 = 14
+      // At intensity 1.0 (score 10): r = 8 + 1.0 * 12 = 20
+      // New scale: map intensity 0-1.0 to radius 16-22 (slightly bigger)
+      const minRadius = 16 // 16px (slightly bigger minimum)
+      const maxRadius = 22 // 22px (slightly bigger maximum)
+      const r = minRadius + p.intensity * (maxRadius - minRadius)
       const hovered = hoveredPain === p.id
+      const bgColor = `hsl(${(1 - p.intensity) * 120}, 70%, 50%)`
+      
+      // Determine text color based on background brightness
+      const getTextColor = (intensity) => {
+        // For light colors (green/yellow), use dark text
+        if (intensity <= 0.5) return "#000000" // Dark text for light backgrounds
+        // For dark colors (red), use light text
+        return "#ffffff" // Light text for dark backgrounds
+      }
+      
       return (
         <g key={p.id}>
           <circle
             cx={p.coordinates.x}
             cy={p.coordinates.y}
             r={r}
-            fill={`hsl(${(1 - p.intensity) * 120}, 70%, 50%)`}
+            fill={bgColor}
             opacity="0.85"
             stroke={hovered ? "#fff" : "#333"}
             strokeWidth={hovered ? "3" : "2"}
@@ -130,7 +147,7 @@ export default function PatientPainMapper({ onDataChange, initialData = [] }) {
             y={p.coordinates.y + 4}
             textAnchor="middle"
             fontSize="12"
-            fill="#fff"
+            fill={getTextColor(p.intensity)}
             fontWeight="bold"
             pointerEvents="none"
           >
@@ -240,9 +257,10 @@ export default function PatientPainMapper({ onDataChange, initialData = [] }) {
                       <div className="flex items-center gap-2">
                         <span className="text-xs px-2 py-0.5 rounded border capitalize text-gray-800">{p.view}</span>
                         <span
-                          className="text-white text-xs px-2 py-0.5 rounded"
+                          className="text-xs px-2 py-0.5 rounded font-semibold"
                           style={{
                             backgroundColor: `hsl(${(1 - p.intensity) * 120}, 70%, 50%)`,
+                            color: p.intensity <= 0.5 ? "#000000" : "#ffffff"
                           }}
                         >
                           {Math.round(p.intensity * 10)}/10

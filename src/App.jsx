@@ -88,7 +88,7 @@ function App() {
           <Route path="/onboarding/:orgID" element={<OnBoardingPage />} />
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/settings" element={<SettingsPage />} />
-                        <Route path="/questionnaire/vas" element={<VAS />} />
+              <Route path="/questionnaire/vas" element={<VAS />} />
               <Route path="/questionnaire/odi" element={<ODI />} />
               <Route path="/questionnaire/isi" element={<ISI />} />
               <Route path="/questionnaire/mspq" element={<MSPQ />} />

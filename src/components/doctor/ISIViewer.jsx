@@ -10,6 +10,17 @@ const ISIViewer = ({ data }) => {
   const borderColor = isDarkMode ? "border-gray-700" : "border-gray-200";
   const cardBgColor = isDarkMode ? "bg-gray-700" : "bg-gray-50";
 
+  // ISI options mapping for each question
+  const isiOptions = {
+    difficultyFallingAsleep: ["None", "Mild", "Moderate", "Severe", "Very Severe"],
+    difficultyStayingAsleep: ["None", "Mild", "Moderate", "Severe", "Very Severe"],
+    problemsWakingUpEarly: ["None", "Mild", "Moderate", "Severe", "Very Severe"],
+    sleepSatisfaction: ["Very Satisfied", "Satisfied", "Moderately Satisfied", "Dissatisfied", "Very Dissatisfied"],
+    sleepProblemNoticeable: ["Not at all Noticeable", "A Little Noticeable", "Somewhat Noticeable", "Much Noticeable", "Very much Noticeable"],
+    worriedAboutSleep: ["Not at all Worried", "A Little Worried", "Somewhat Worried", "Much Worried", "Very much Worried"],
+    sleepInterferesWithDaily: ["Not at all Interfering", "A Little Interfering", "Somewhat Interfering", "Much Interfering", "Very much Interfering"]
+  };
+
   // Calculate ISI score and severity level
   const calculateISIScore = () => {
     const totalScore =
@@ -65,16 +76,18 @@ const ISIViewer = ({ data }) => {
                { name: "Noticeable to others", field: "sleepProblemNoticeable" },
                { name: "Worried about sleep", field: "worriedAboutSleep" },
                { name: "Interference with daily functioning", field: "sleepInterferesWithDaily" }
-             ].map((question, index) => {
-               const score = data[question.field] || 0;
-                             return (
-                 <div key={question.field} className={`${cardBgColor} p-3 rounded ${borderColor} border`}>
-                   <div className={`text-sm ${textSecondaryColor} mb-1`}>Q{index + 1}</div>
-                   <div className={`font-medium ${textColor} mb-1`}>{question.name}</div>
-                   <div className={`font-semibold ${textColor}`}>{score}/4</div>
-                 </div>
-               );
-            })}
+                           ].map((question, index) => {
+                const score = data[question.field] || 0;
+                const selectedOption = isiOptions[question.field] ? isiOptions[question.field][score] : "Not answered";
+                              return (
+                  <div key={question.field} className={`${cardBgColor} p-3 rounded ${borderColor} border`}>
+                    <div className={`text-sm ${textSecondaryColor} mb-1`}>Q{index + 1}</div>
+                    <div className={`font-medium ${textColor} mb-1`}>{question.name}</div>
+                    <div className={`font-semibold ${textColor} mb-1`}>{score}/4</div>
+                    <div className={`${textSecondaryColor} italic`}>{selectedOption}</div>
+                  </div>
+                );
+             })}
           </div>
         </div>
       </div>
