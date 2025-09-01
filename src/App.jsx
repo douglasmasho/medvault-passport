@@ -15,6 +15,7 @@ import { Home, Clock, Settings } from "lucide-react";
 import { useDarkMode } from "./contexts/darkModeContext"; // Import dark mode context
 import { useAuth } from "./contexts/authContext";
 import QuestionnairesPage from "./pages/QuestionnairesPage";
+import AppointmentsPage from "./pages/AppointmentsPage";
 import { useEffect } from "react";
 import VAS from "./pages/Questionnaires/VAS";
 import ODI from "./pages/Questionnaires/ODI";
@@ -49,12 +50,12 @@ function App() {
       icon: <Home />,
       activeIcon: <Home color="#fff" />,
     },
-    // {
-    //   title: "Appointments",
-    //   onClick: () => navigate("/appointments"),
-    //   icon: <Clock />,
-    //   activeIcon: <Clock color="#fff" />,
-    // },
+    {
+      title: "Appointments",
+      onClick: () => navigate("/appointments"),
+      icon: <Clock />,
+      activeIcon: <Clock color="#fff" />,
+    },
     {
       title: "Settings",
       onClick: ({ id }) => navigate("/settings"),
@@ -85,6 +86,7 @@ function App() {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/forgotpassword" element={<ForgotPasswordPage />} />
           <Route path="/questionnaires" element={<QuestionnairesPage />} />
+          <Route path="/appointments" element={<AppointmentsPage />} />
           <Route path="/onboarding/:orgID" element={<OnBoardingPage />} />
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/settings" element={<SettingsPage />} />

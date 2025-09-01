@@ -1,0 +1,166 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Function to check if the user is an authorized admin
+    function isAuthorizedAdmin() {
+      let userDoc = get(/databases/$(database)/documents/users/$(request.auth.uid));
+      let orgID = userDoc.data.orgID;
+      let orgAuthDoc = get(/databases/$(database)/documents/orgAuthDetails/$(orgID));
+      let accessLevelDoc = get(/databases/$(database)/documents/accessLevels/indAccessLevels/$(orgID)/$(request.auth.uid));
+      return request.auth != null &&
+             request.auth.token.email_verified == true &&
+             orgID != null &&
+             orgAuthDoc.data.authorizedUsers.hasAny([request.auth.uid]) &&
+             (accessLevelDoc.data.level == "admin" || accessLevelDoc.data.level == "superAdmin");
+    }
+    
+    function isAuthorizedSuperAdmin() {
+      let userDoc = get(/databases/$(database)/documents/users/$(request.auth.uid));
+      let orgID = userDoc.data.orgID;
+      let levelDoc = get(/databases/$(database)/documents/accessLevels/indAccessLevels/$(orgID)/$(request.auth.uid));
+      let orgAuthDoc = get(/databases/$(database)/documents/orgAuthDetails/$(orgID));
+      return request.auth != null &&
+             request.auth.token.email_verified == true &&
+             orgID != null &&
+             levelDoc.data.level == "superAdmin" &&
+             orgAuthDoc.data.authorizedUsers.hasAny([request.auth.uid]);
+    }
+    
+    function isAuthorized() {
+      let userDoc = get(/databases/$(database)/documents/users/$(request.auth.uid));
+      let orgID = userDoc.data.orgID;
+      let orgAuthDoc = get(/databases/$(database)/documents/orgAuthDetails/$(orgID));
+      return request.auth != null &&
+             request.auth.token.email_verified == true &&
+             orgID != null &&
+             orgAuthDoc.data.authorizedUsers.hasAny([request.auth.uid]);
+    }
+
+    // Function to check if orgID is in the patientOrg link
+    function isOrgAuthorized(pid){
+      let user = get(/databases/$(database)/documents/users/$(request.auth.uid)).data;
+      let patientOrgLink = get(/databases/$(database)/documents/patientOrg/$(pid));
+      let patientOrgLinkArr = patientOrgLink.data.orgs;
+      return request.auth != null &&
+             user.orgID != null &&
+             patientOrgLinkArr != null &&
+             patientOrgLinkArr.hasAny([user.orgID]);
+    }
+    
+
+    // Only certain people can create orgs
+    match /orgs/{orgID} {
+      allow read: if true;
+      allow create: if request.auth.uid == "Wja86ZDSUqfDy9Sfhidi5qRdXtg2";
+      allow update: if isAuthorizedSuperAdmin();
+    }
+
+    // Authenticated user can access their own user document
+    match /users/{docId} {
+      allow read, write: if request.auth != null && request.auth.uid == docId;
+      // Allow reading provider users for appointment booking
+      allow read: if request.auth != null && 
+        resource.data.role == "provider";
+    }
+    
+    // Authenticated user can access their own user document
+    match /accessLevels/indAccessLevels/{orgID}/{docId} {
+      allow read, write: if request.auth != null && request.auth.uid == docId;
+    }
+    
+    // Authenticated user can access their own questionnaire documents
+    match /questionnaires/{docId} {
+      allow read, write: if request.auth != null && request.auth.uid == docId;
+      allow read: if isOrgAuthorized(docId) && isAuthorized();
+    }
+
+    // Providers can manage their own document if they have the correct role
+    match /providers/{docId} {
+      allow read, write: if request.auth != null &&
+        request.auth.uid == docId &&
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == "provider";
+    }
+
+    // Staff can manage their own document if they have the correct role
+    match /staff/{docId} {
+      allow read, write: if request.auth != null &&
+        request.auth.uid == docId &&
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == "staff";
+    }
+    
+    // Aggregated access levels can only be seen/edited by superAdmins
+    match /accessLevels/{orgID} {
+      // Allow read, write, update if the user is admin in the same org
+      allow read, update: if isAuthorizedSuperAdmin();
+    }
+    
+    // orgFiles is a subcollection of collections, under orgID
+    match /orgFiles/collections/{orgID}/{docID} {
+      // Allow read, write, update if the user is admin in the same org
+      allow read, write: if isAuthorizedAdmin();
+
+      // Allow read if the user is a standard user in the same org
+      allow read: if isAuthorized();
+    }
+    
+    // orgFiles is a subcollection of collections, under orgID
+    match /orgFiles/instances/{orgID}/{docID} {
+      // Allow read, write, update if the user is admin in the same org
+      allow create, read, write, update: if isAuthorizedAdmin();
+
+      // Allow read if the user is a standard user in the same org
+      allow read: if isAuthorized();
+    }
+    
+   // orgFiles is a subcollection of collections, under orgID
+    match /orgFiles/instances/{orgID}/{docID}/attachments/{attachmentID} {
+      // Allow read, write, update if the user is admin in the same org
+      allow create, read, write, update: if isAuthorizedAdmin();
+
+      // Allow read if the user is a standard user in the same org
+      allow read: if isAuthorized();
+    }
+    
+    // orgFiles is a subcollection of collections, under orgID
+    match /orgFiles/questionnaires/{orgID}/{docID} {
+      // Allow read, write, update if the user is in the same org
+      allow read: if isAuthorized();
+    }
+    
+    match /orgFiles/newPatients/{orgID}/{docID} {
+     allow create: if request.auth != null; // any user can submit
+     allow update, read, delete: if isAuthorizedAdmin(); // only admins manage
+    }
+    
+    // New rules for appointments collection
+    match /appointments/{appointmentId} {
+      // Patients can only read their own appointments
+      allow read: if request.auth != null && request.auth.uid == resource.data.patientId;
+
+      // Providers and Admins can read appointments if they belong to the same org
+      allow read: if isAuthorized() && resource.data.orgId == get(/databases/$(database)/documents/users/$(request.auth.uid)).data.orgID;
+
+      // Patients can only create appointments for themselves
+      allow create: if request.auth != null && request.auth.uid == request.resource.data.patientId;
+
+      // Only the patient or the provider can update/delete their appointment
+      allow update, delete: if request.auth != null && (request.auth.uid == resource.data.patientId || request.auth.uid == resource.data.providerId);
+    }
+
+    // New rules for providerAvailability collection
+    match /providerAvailability/{slotId} {
+      // All authenticated users can read this collection to see availability
+      allow read: if request.auth != null;
+
+      // Only the provider can create/update/delete their own slots
+      allow create, update, delete: if request.auth != null && request.auth.uid == resource.data.providerId;
+    }
+
+    // Rules for organizations collection (needed for provider search)
+    match /organizations/{orgId} {
+      // All authenticated users can read organization details for provider search
+      allow read: if request.auth != null;
+    }
+
+  }
+}

@@ -22,7 +22,7 @@ const dropIn = {
   },
 };
 
-const Modal = ({ handleClose, text }) => {
+const Modal = ({ handleClose, text, children, title }) => {
   return (
     <Backdrop onClick={handleClose} variants={dropIn}>
       <motion.div
@@ -32,7 +32,8 @@ const Modal = ({ handleClose, text }) => {
         animate="visible"
         exit="exit"
       >
-        orgfjproejgoprjge
+        {title && <h3 className="text-xl font-semibold mb-4 text-white">{title}</h3>}
+        {children || text || <p className="text-white">Modal content</p>}
       </motion.div>
     </Backdrop>
   );

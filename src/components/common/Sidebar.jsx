@@ -32,7 +32,7 @@ const SIDEBAR_ITEMS = [
     href: "/",
   },
   // { name: "Dashboard", icon: LayoutDashboard, color: "#56BB6E", href: "/overview", submenu: false },
-  // { name: "Appointments", icon: Clock, color: "#56BB6E", href: "/appointments", submenu: false },
+  { name: "Appointments", icon: Clock, color: "#56BB6E", href: "/appointments", submenu: false },
   { name: "Questionnaires", icon: FileQuestion, color: "#56BB6E", href: "/questionnaires", submenu: false },
   { name: "Create File", icon: Hospital, color: "#56BB6E", href: "/onboarding/123-456", submenu: false },
 
