@@ -41,15 +41,14 @@ const PasswordInput = ({ isRegistering, isDarkMode, setPassword, password, passw
       />
       {
         passwordStrength !== "strong" ?
-        <p style={{width: "107%"}} className="mb-3 text-sm  justify-text">Password must be at least 8 characters and include at least one uppercase (capital) letter, one lowercase (small) letter, one number and one special character (@$!%*?&.).</p>
+        <p  className="mb-3 text-sm  justify-text">Password must be at least 8 characters and include at least one uppercase (capital) letter, one lowercase (small) letter, one number and one special character (@$!%*?&.).</p>
         : null
       }
 
       {/* {passwordError && <p className="text-red-500 text-sm mt-1">{passwordError}</p>} */}
-      <div className="center-hrz" style={{width: "107%"}}>
-      <span className="mr-2">{passwordStrength}</span>
-
-      <div className="w-full h-2 mt-2 rounded-full bg-gray-300">
+      <div className="center-hrz pr-1" >
+      <span className="mr-2">{passwordStrength}</span> <br />
+      <div className="w-full h-2 mt-2  rounded-full bg-gray-300">
         <div
           className={`h-2 rounded-full transition-all duration-300 ${
             passwordStrength === "strong"

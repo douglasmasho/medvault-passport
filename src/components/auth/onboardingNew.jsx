@@ -24,7 +24,6 @@ const OnBoardingNew = ({ orgID, isRegistering2, setShowNothing }) => {
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setconfirmPassword] = useState("");
-  const [idNumber, setIdNumber] = useState("");
   const [isRegistering, setIsRegistering] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [fullName, setFullName] = useState("");
@@ -66,7 +65,6 @@ const OnBoardingNew = ({ orgID, isRegistering2, setShowNothing }) => {
           uid,
           bloodType,
           phone,
-          idNumber,
           dob: startDate.getTime(),
           role: "patient",
           profilePic: "https://i.ibb.co/z6xFjgk/defaultpic.png",
@@ -209,21 +207,6 @@ const OnBoardingNew = ({ orgID, isRegistering2, setShowNothing }) => {
                     Female
                   </option>
                 </select>
-              </div>
-              <div>
-                <label className="text-sm ">ID Number</label>
-                <input
-                  type="text"
-                  autoComplete="id-number"
-                  required
-                  value={idNumber}
-                  onChange={(e) => {
-                    setIdNumber(e.target.value);
-                  }}
-                  className={`w-full mt-2 px-3 py-2 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg transition duration-300 ${
-                    isDarkMode ? "text-white" : "text-black"
-                  }`}
-                />
               </div>
               <div>
                 <label className="text-sm ">Blood Type (Skip if unknown)</label>

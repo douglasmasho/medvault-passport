@@ -26,7 +26,6 @@ const Register = () => {
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setconfirmPassword] = useState("");
-  const [idNumber, setIdNumber] = useState("");
   const [isRegistering, setIsRegistering] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [fullName, setFullName] = useState("");
@@ -65,7 +64,6 @@ const Register = () => {
           uid,
           bloodType,
           phone,
-          idNumber,
           dob: startDate.getTime(),
           myFiles: [],
           role: "patient",
@@ -197,24 +195,7 @@ const Register = () => {
                   </option>
                 </select>
               </div>
-              <div>
-                <label className="text-sm ">ID Number</label>
-                <input
-                  type="text"
-                  autoComplete="id-number"
-                  required
-                  value={idNumber}
-                  onChange={(e) => {
-                    setIdNumber(e.target.value);
-                  }}
-                  className={`mt-2 px-3 py-2 ${
-                    isDarkMode
-                      ? "bg-gray-700 text-white border-gray-600"
-                      : "bg-transparent border text-black"
-                  } outline-none focus:border-indigo-600 shadow-sm rounded-lg transition duration-300`}
-                  style={{ width: "100%" }}
-                />
-              </div>
+            
               <div>
                 <label className="text-sm ">Blood Type (Skip if unknown)</label>
                 <select

@@ -8,7 +8,7 @@ import {
 } from "lucide-react";
 import { motion } from "framer-motion";
 import Header from "../components/common/Header";
-
+import { getAuth } from "firebase/auth";
 import { useAuth } from "../contexts/authContext/index";
 import { Navigate } from "react-router-dom";
 import PatientsTable from "../components/users/PatientsTable";
@@ -25,7 +25,6 @@ const OverviewPage = () => {
   const { userLoggedIn, currentUser } = useAuth();
   const [loggedInUser, setLoggedInUser] = useState(null);
   const { isDarkMode, toggleDarkMode } = useDarkMode();
-
   // Set dynamic colors based on the mode
   const backgroundColor = isDarkMode ? "bg-gray-900" : "bg-white";
   const cardBackgroundColor = isDarkMode ? "bg-gray-900" : "bg-gray-100";
