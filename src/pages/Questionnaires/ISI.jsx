@@ -174,54 +174,61 @@ const ISI = () => {
 
   const ISIQuestion = ({ question, value, onChange, title, description, options }) => (
     <div
-      className="isi-question-container"
+      className="isi-question-container px-4 md:px-8 py-4 md:py-8"
       style={{
-        padding: "2rem",
+        padding: "1rem",
         margin: "0 auto",
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
-        minHeight: "100%",
         maxWidth: "800px",
+        width: "100%",
       }}
     >
       <h3
+        className="text-lg md:text-xl"
         style={{
-          fontSize: "1.5rem",
-          marginBottom: "1rem",
+          fontSize: "1.125rem",
+          marginBottom: "0.75rem",
           color: "black",
           textAlign: "center",
           fontWeight: "bold",
+          padding: "0 0.5rem",
         }}
       >
         {title}
       </h3>
 
       <p
+        className="text-sm md:text-base"
         style={{
-          fontSize: "1rem",
-          marginBottom: "2rem",
+          fontSize: "0.875rem",
+          marginBottom: "1.5rem",
           color: "black",
           textAlign: "center",
+          padding: "0 0.5rem",
         }}
       >
         {description}
       </p>
 
       <div
+        className="w-full"
         style={{
           width: "100%",
           maxWidth: "600px",
+          padding: "0 0.5rem",
         }}
       >
         {options.map((option, index) => (
           <div
             key={index}
+            className="p-3 md:p-4"
             style={{
               display: "flex",
               alignItems: "flex-start",
-              padding: "1rem",
+              padding: "0.75rem",
               marginBottom: "0.5rem",
               border: value === index ? "2px solid #56BB6E" : "1px solid #ddd",
               borderRadius: "8px",
@@ -237,18 +244,21 @@ const ISI = () => {
               value={index}
               checked={value === index}
               onChange={() => onChange(index)}
+              className="mt-1"
               style={{
-                marginRight: "1rem",
+                marginRight: "0.75rem",
                 marginTop: "0.25rem",
+                flexShrink: 0,
               }}
             />
             <label
+              className="text-sm md:text-base"
               style={{
                 flex: 1,
                 color: "black",
                 cursor: "pointer",
-                fontSize: "0.9rem",
-                lineHeight: "1.4",
+                fontSize: "0.875rem",
+                lineHeight: "1.5",
               }}
             >
               {option}
@@ -364,18 +374,21 @@ const ISI = () => {
 
     return (
       <div
+        className="px-4 md:px-8 py-4 md:py-8"
         style={{
-          padding: "2rem",
+          padding: "1rem",
           textAlign: "center",
           maxWidth: "600px",
           margin: "0 auto",
+          width: "100%",
         }}
       >
         <h2
+          className="text-xl md:text-2xl"
           style={{
-            fontSize: "2rem",
+            fontSize: "1.5rem",
             fontWeight: "bold",
-            marginBottom: "2rem",
+            marginBottom: "1.5rem",
             color: "#059669",
           }}
         >
@@ -383,17 +396,19 @@ const ISI = () => {
         </h2>
 
         <div
+          className="p-4 md:p-8"
           style={{
             backgroundColor: "#f3f4f6",
-            padding: "2rem",
+            padding: "1rem",
             borderRadius: "12px",
-            marginBottom: "2rem",
+            marginBottom: "1.5rem",
             textAlign: "left",
           }}
         >
           <h3
+            className="text-lg md:text-xl"
             style={{
-              fontSize: "1.5rem",
+              fontSize: "1.25rem",
               fontWeight: "bold",
               marginBottom: "1rem",
               color: "#059669",
@@ -403,11 +418,12 @@ const ISI = () => {
           </h3>
 
           <div
+            className="grid grid-cols-1 sm:grid-cols-2 gap-4"
             style={{
               display: "grid",
-              gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
+              gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))",
               gap: "1rem",
-              marginBottom: "2rem",
+              marginBottom: "1.5rem",
             }}
           >
             <div
@@ -495,6 +511,7 @@ const ISI = () => {
         </div>
 
         <button
+          className="w-full md:w-auto px-6 md:px-8 py-3 text-sm md:text-base"
           onClick={() => {
             setCompletedData(null);
             navigate("/questionnaires");
@@ -502,10 +519,10 @@ const ISI = () => {
           style={{
             backgroundColor: "#059669",
             color: "#ffffff",
-            padding: "1rem 2rem",
+            padding: "0.75rem 1.5rem",
             borderRadius: "8px",
             border: "none",
-            fontSize: "1rem",
+            fontSize: "0.875rem",
             fontWeight: "bold",
             cursor: "pointer",
             transition: "all 0.2s ease",
@@ -530,13 +547,12 @@ const ISI = () => {
       ) : (
         <div className="questionnaire__container">
           <div
-            className="questionnaire__question"
+            className="questionnaire__question p-4 md:p-8"
             style={{
               background:
                 "linear-gradient(135deg, #10b981 0%, #059669 50%, #047857 100%)",
               borderRadius: "12px",
-              padding: "2rem",
-              margin: "1rem",
+              padding: "1rem",
               boxShadow:
                 "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)",
             }}
@@ -575,7 +591,7 @@ const ISI = () => {
                   {currentQuestionIndex !== 0 ? (
                     <motion.button
                       key="back"
-                      className="button button-outline button-first"
+                      className="button button-outline button-first questionnaire-back"
                       onClick={() => {
                         setCurrentQuestionIndex((prevIndex) => prevIndex - 1);
                       }}
@@ -617,7 +633,7 @@ const ISI = () => {
             <img
               src={LogoLight}
               alt="Medvault Logo"
-              className="h-10 mb-8 self-start"
+              className="h-10 mb-8 self-start questionnaire-logo"
             />
           </div>
           <div

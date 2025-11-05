@@ -172,21 +172,24 @@ const VAS = () => {
     <div
       className="vas-question-container"
       style={{
-        padding: "2rem",
+        padding: "1rem",
         margin: "0 auto",
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
         minHeight: "100%",
+        width: "100%",
       }}
     >
       <p
+        className="text-sm md:text-base"
         style={{
-          fontSize: "1rem",
-          marginBottom: "2rem",
+          fontSize: "0.875rem",
+          marginBottom: "1.5rem",
           color: isDarkMode ? "black" : "black",
           textAlign: "center",
+          padding: "0 0.5rem",
         }}
       >
         {description}
@@ -197,23 +200,25 @@ const VAS = () => {
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
-          marginBottom: "2rem",
-          padding: "0 1rem",
+          marginBottom: "1.5rem",
+          padding: "0 0.5rem",
           width: "100%",
           maxWidth: "500px",
         }}
       >
         <span
+          className="text-xs md:text-sm"
           style={{
-            fontSize: "0.875rem",
+            fontSize: "0.75rem",
             color: isDarkMode ? "black" : "black",
           }}
         >
           No Pain
         </span>
         <span
+          className="text-xs md:text-sm"
           style={{
-            fontSize: "0.875rem",
+            fontSize: "0.75rem",
             color: isDarkMode ? "black" : "black",
           }}
         >
@@ -222,23 +227,26 @@ const VAS = () => {
       </div>
 
       <div
+        className="flex flex-wrap justify-center gap-1 md:gap-2"
         style={{
           display: "flex",
-          justifyContent: "space-between",
+          justifyContent: "center",
           alignItems: "center",
-          marginBottom: "2rem",
+          marginBottom: "1.5rem",
           width: "100%",
           maxWidth: "500px",
-          gap: "0.5rem",
+          gap: "0.25rem",
+          padding: "0 0.5rem",
         }}
       >
         {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((num, index) => (
           <button
             key={num}
             onClick={() => onChange(num)}
+            className="w-8 h-8 md:w-10 md:h-10 text-sm md:text-base"
             style={{
-              width: "40px",
-              height: "40px",
+              width: "32px",
+              height: "32px",
               borderRadius: "50%",
               border: `2px solid ${
                 num === value
@@ -257,7 +265,7 @@ const VAS = () => {
                   : "transparent",
               color:
                 num === value ? "#ffffff" : isDarkMode ? "#9ca3af" : "#374151",
-              fontSize: "1rem",
+              fontSize: "0.875rem",
               fontWeight: "bold",
               cursor: "pointer",
               display: "flex",
@@ -265,6 +273,7 @@ const VAS = () => {
               justifyContent: "center",
               outline: "none",
               transition: "all 0.1s ease",
+              flexShrink: 0,
             }}
             onMouseEnter={(e) => {
               if (num !== value) {
@@ -289,13 +298,14 @@ const VAS = () => {
       <div
         style={{
           textAlign: "center",
-          padding: "1.5rem",
-          minWidth: "120px",
+          padding: "1rem",
+          minWidth: "100px",
         }}
       >
         <span
+          className="text-3xl md:text-4xl"
           style={{
-            fontSize: "2.5rem",
+            fontSize: "2rem",
             fontWeight: "bold",
             color: isDarkMode ? "#10b981" : "#059669",
           }}
@@ -303,8 +313,9 @@ const VAS = () => {
           {value}
         </span>
         <span
+          className="text-lg md:text-xl"
           style={{
-            fontSize: "1.25rem",
+            fontSize: "1rem",
             color: isDarkMode ? "#9ca3af" : "#6b7280",
             marginLeft: "0.5rem",
           }}
@@ -385,18 +396,21 @@ const VAS = () => {
 
     return (
       <div
+        className="px-4 md:px-8 py-4 md:py-8"
         style={{
-          padding: "2rem",
+          padding: "1rem",
           textAlign: "center",
           maxWidth: "600px",
           margin: "0 auto",
+          width: "100%",
         }}
       >
         <h2
+          className="text-xl md:text-2xl"
           style={{
-            fontSize: "2rem",
+            fontSize: "1.5rem",
             fontWeight: "bold",
-            marginBottom: "2rem",
+            marginBottom: "1.5rem",
             color: isDarkMode ? "green" : "green",
           }}
         >
@@ -404,17 +418,19 @@ const VAS = () => {
         </h2>
 
         <div
+          className="p-4 md:p-8"
           style={{
             backgroundColor: isDarkMode ? "#374151" : "#f3f4f6",
-            padding: "2rem",
+            padding: "1rem",
             borderRadius: "12px",
-            marginBottom: "2rem",
+            marginBottom: "1.5rem",
             textAlign: "left",
           }}
         >
           <h3
+            className="text-lg md:text-xl"
             style={{
-              fontSize: "1.5rem",
+              fontSize: "1.25rem",
               fontWeight: "bold",
               marginBottom: "1rem",
               color: isDarkMode ? "#10b981" : "#059669",
@@ -424,11 +440,12 @@ const VAS = () => {
           </h3>
 
           <div
+            className="grid grid-cols-1 sm:grid-cols-2 gap-4"
             style={{
               display: "grid",
-              gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
+              gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))",
               gap: "1rem",
-              marginBottom: "2rem",
+              marginBottom: "1.5rem",
             }}
           >
             <div
@@ -570,6 +587,7 @@ const VAS = () => {
         </div>
 
         <button
+          className="w-full md:w-auto px-6 md:px-8 py-3 text-sm md:text-base"
           onClick={() => {
             setCompletedData(null); // Reset completion state
             navigate("/questionnaires");
@@ -577,10 +595,10 @@ const VAS = () => {
           style={{
             backgroundColor: isDarkMode ? "#10b981" : "#059669",
             color: "#ffffff",
-            padding: "1rem 2rem",
+            padding: "0.75rem 1.5rem",
             borderRadius: "8px",
             border: "none",
-            fontSize: "1rem",
+            fontSize: "0.875rem",
             fontWeight: "bold",
             cursor: "pointer",
             transition: "all 0.2s ease",
@@ -605,13 +623,12 @@ const VAS = () => {
       ) : (
         <div className="questionnaire__container">
           <div
-            className="questionnaire__question"
+            className="questionnaire__question p-4 md:p-8"
             style={{
               background:
                 "linear-gradient(135deg, #10b981 0%, #059669 50%, #047857 100%)",
               borderRadius: "12px",
-              padding: "2rem",
-              margin: "1rem",
+              padding: "1rem",
               boxShadow:
                 "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)",
             }}
@@ -658,7 +675,7 @@ const VAS = () => {
                   {currentQuestionIndex !== 0 ? (
                     <motion.button
                       key="back"
-                      className="button button-outline button-first"
+                      className="button button-outline button-first questionnaire-back"
                       onClick={() => {
                         setCurrentQuestionIndex((prevIndex) => prevIndex - 1);
                       }}
@@ -701,7 +718,7 @@ const VAS = () => {
             <img
               src={LogoLight}
               alt="Medvault Logo"
-              className="h-10 mb-8 self-start"
+              className="h-10 mb-8 self-start questionnaire-logo"
             />
           </div>
           <div

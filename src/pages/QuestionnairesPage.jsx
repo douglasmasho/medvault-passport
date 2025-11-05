@@ -62,7 +62,7 @@ const QuestionnairesPage = () => {
               <h2 className={`bigger-text u-margin-bottom-small ${styles.text}`}>
                 Answer Questionnaires
               </h2>
-              <p>Please note that answering a questionnaire you already answered before will overwrite it.</p>
+              <p>You can answer questionnaires multiple times. Each response will be saved as a new version, preserving your complete health history.</p>
               <br />
               <div className="grid grid-3 u-margin-bottom-medium">
                 <motion.div

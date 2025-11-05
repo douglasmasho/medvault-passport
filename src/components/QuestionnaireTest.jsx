@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../contexts/authContext/index';
-import { getUserQuestionnaires, getOrgQuestionnaires, getPatientFile } from '../firebase/questionnaires';
+import { getUserQuestionnaires, getOrgQuestionnaires, getPatientFile, normalizeQuestionnairesToArray } from '../firebase/questionnaires';
 import { safeGetFromStorage } from '../utils/localStorage';
 import toast from 'react-hot-toast';
 
 const QuestionnaireTest = () => {
   const { currentUser } = useAuth();
   const [userQuestionnaires, setUserQuestionnaires] = useState([]);
+  const [rawUserQuestionnaires, setRawUserQuestionnaires] = useState({});
   const [orgQuestionnaires, setOrgQuestionnaires] = useState([]);
   const [patientFile, setPatientFile] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -19,7 +20,25 @@ const QuestionnaireTest = () => {
       // Get user questionnaires
       const userData = await getUserQuestionnaires(currentUser.uid);
       console.log('User questionnaires data:', userData);
-      setUserQuestionnaires(userData);
+      
+      // Store raw data for debug display
+      setRawUserQuestionnaires(userData);
+      
+      // Flatten the new structure (object with type keys) into an array for display
+      const flattenedQuestionnaires = [];
+      Object.entries(userData).forEach(([type, questionnaires]) => {
+        // Use utility function to handle both array and single object formats
+        const versions = normalizeQuestionnairesToArray(questionnaires);
+        versions.forEach((q, index) => {
+          flattenedQuestionnaires.push({
+            ...q,
+            type: q.type || type,
+            version: versions.length > 1 ? index + 1 : null
+          });
+        });
+      });
+      
+      setUserQuestionnaires(flattenedQuestionnaires);
 
       // Get user profile to find orgID and fileID
       const userProfile = safeGetFromStorage("medvault_passport_profile", {});
@@ -71,13 +90,14 @@ const QuestionnaireTest = () => {
         <div className="bg-white p-4 rounded-lg shadow">
           <h2 className="text-lg font-semibold mb-4">User Questionnaires</h2>
           <div className="text-sm text-gray-600 mb-2">
-            Count: {userQuestionnaires.length}
+            Total Versions: {userQuestionnaires.length}
           </div>
           {userQuestionnaires.map((q, index) => (
-            <div key={index} className="mb-3 p-3 bg-gray-50 rounded">
+            <div key={q.id || index} className="mb-3 p-3 bg-gray-50 rounded">
               <div className="font-medium">ID: {q.id}</div>
-              <div>Type: {q.type}</div>
-              <div>Created: {new Date(q.timestamp).toLocaleDateString()}</div>
+              <div>Type: {q.type?.toUpperCase()}</div>
+              {q.version && <div className="text-xs text-blue-600">Version {q.version}</div>}
+              <div>Created: {q.timestamp ? new Date(q.timestamp).toLocaleDateString() : 'N/A'}</div>
               {q.summary && (
                 <div className="mt-2 text-xs">
                   <div>Worst Pain: {q.summary.worstPain}/10</div>
@@ -154,7 +174,13 @@ const QuestionnaireTest = () => {
           <div><strong>Organization Questionnaires:</strong> /orgFiles/questionnaires/{orgID}/{questionnaireId}</div>
           <div><strong>Patient Files:</strong> /orgFiles/collections/{fileID}</div>
           <div className="mt-4">
-            <strong>Raw User Data:</strong>
+            <strong>Raw User Data (Object Structure):</strong>
+            <pre className="text-xs bg-white p-2 rounded mt-2 overflow-auto max-h-40">
+              {JSON.stringify(rawUserQuestionnaires, null, 2)}
+            </pre>
+          </div>
+          <div className="mt-4">
+            <strong>Flattened Questionnaires (Array):</strong>
             <pre className="text-xs bg-white p-2 rounded mt-2 overflow-auto max-h-40">
               {JSON.stringify(userQuestionnaires, null, 2)}
             </pre>

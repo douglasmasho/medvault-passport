@@ -9,6 +9,8 @@ import { useAuth } from "../../contexts/authContext";
 import { useDarkMode } from "../../contexts/darkModeContext";
 import moment from "moment";
 import { useNavigate } from "react-router-dom";
+import { nanoid } from "nanoid";
+import { normalizeQuestionnairesToArray } from "../../firebase/questionnaires";
 
 const QuestionnairesTable = ({ isDarkMode }) => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -98,15 +100,38 @@ const QuestionnairesTable = ({ isDarkMode }) => {
 
         // Process each questionnaire type
         Object.entries(data).forEach(([type, questionnaireData]) => {
-          if (questionnaireData && typeof questionnaireData === "object") {
-            transformedQuestionnaires.push({
-              id: questionnaireData.id || type,
-              name: questionnaireTypes[type] || type.toUpperCase(),
-              dateAnswered:
-                questionnaireData.timestamp || questionnaireData.createdAt,
-              type: type,
-              answers: questionnaireData,
-              originalData: questionnaireData,
+          if (questionnaireData) {
+            // Handle both array and single object formats (for backward compatibility)
+            // Use utility function to ensure consistent handling
+            const questionnaires = normalizeQuestionnairesToArray(questionnaireData);
+            
+            // Sort questionnaires by date (newest first) before processing
+            const sortedQuestionnaires = [...questionnaires].sort((a, b) => {
+              const dateA = new Date(a.timestamp || a.createdAt || 0);
+              const dateB = new Date(b.timestamp || b.createdAt || 0);
+              return dateB - dateA; // Newest first
+            });
+            
+            const totalVersions = sortedQuestionnaires.length;
+            
+            // Transform each questionnaire in the sorted array
+            sortedQuestionnaires.forEach((qData, index) => {
+              if (qData && typeof qData === "object") {
+                // If there are multiple versions, include version number in the name
+                // Version 1 = oldest, highest number = newest
+                const versionInfo = totalVersions > 1 
+                  ? ` (Version ${totalVersions - index})`
+                  : "";
+                
+                transformedQuestionnaires.push({
+                  id: qData.id || `${type}-${nanoid(6)}`,
+                  name: (questionnaireTypes[type] || type.toUpperCase()) + versionInfo,
+                  dateAnswered: qData.timestamp || qData.createdAt,
+                  type: type,
+                  answers: qData,
+                  originalData: qData,
+                });
+              }
             });
           }
         });
@@ -162,9 +187,22 @@ const QuestionnairesTable = ({ isDarkMode }) => {
         const data = questionnaireDoc.data();
         const updatedData = { ...data };
 
-        // Remove the specific questionnaire type from the document
+        // Handle both array and single object formats - remove the specific questionnaire by ID
         if (updatedData[questionnaire.type]) {
-          delete updatedData[questionnaire.type];
+          // Normalize to array format for consistent handling
+          const questionnaires = normalizeQuestionnairesToArray(updatedData[questionnaire.type]);
+          
+          // Filter out the questionnaire with matching ID
+          const filtered = questionnaires.filter((q) => q.id !== questionnaire.id);
+          
+          // Update or remove the field
+          if (filtered.length === 0) {
+            // If no questionnaires remain, remove the field entirely
+            delete updatedData[questionnaire.type];
+          } else {
+            // Save the filtered array
+            updatedData[questionnaire.type] = filtered;
+          }
         }
 
         // Update the document in Firestore

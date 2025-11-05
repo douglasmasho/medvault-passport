@@ -162,7 +162,7 @@ export default function PatientPainMapper({ onDataChange, initialData = [] }) {
   const maxPain = totalAreas ? Math.round(Math.max(...painData.map((p) => p.intensity)) * 10) : 0
 
   return (
-    <div className=" h-screen flex bg-gray-50">
+    <div className="vas-screen h-screen flex bg-gray-50">
       <div className="flex-1 p-4">
         <div className="relative w-full h-full flex items-center justify-center">
           <div className="relative">
@@ -217,7 +217,7 @@ export default function PatientPainMapper({ onDataChange, initialData = [] }) {
       </div>
 
       {/* Right panel */}
-      <div className="w-96 p-6 bg-white border-l border-gray-200 overflow-y-auto">
+      <div className="w-96 p-6 bg-white border-l border-gray-200 overflow-y-auto vas-display">
         <div className="space-y-6">
           <div>
             <div className="text-lg font-semibold mb-2 text-gray-800">Mark Your Pain</div>

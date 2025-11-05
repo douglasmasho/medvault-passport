@@ -22,6 +22,7 @@ import ISI from "./pages/Questionnaires/ISI";
 import MSPQ from "./pages/Questionnaires/MSPQ";
 import DRAM from "./pages/Questionnaires/DRAM";
 import QuestionnaireViewer from "./components/doctor/QuestionnaireViewer";
+import ShowVaultCodePage from "./pages/ShowVaultCodePage";
 
 const routesArr = ["", "appointments", "settings"];
 
@@ -94,6 +95,7 @@ function App() {
               <Route path="/questionnaire/mspq" element={<MSPQ />} />
               <Route path="/questionnaire/dram" element={<DRAM />} />
               <Route path="/questionnaires/:type/:uid" element={<QuestionnaireViewer />} />
+              <Route path="/show-vault-code" element={<ShowVaultCodePage />} />
         </Routes>
       </div>
       {

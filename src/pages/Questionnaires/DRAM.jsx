@@ -141,13 +141,13 @@ const DRAM = () => {
   const CompletionScreen = () => {
     const scoreResults = calculateDRAMScore(dramAnswers);
     return (
-      <div style={{ padding: "2rem", textAlign: "center", maxWidth: "600px", margin: "0 auto" }}>
-        <h2 style={{ fontSize: "2rem", fontWeight: "bold", marginBottom: "2rem", color: "#059669" }}>
+      <div className="px-4 md:px-8 py-4 md:py-8" style={{ padding: "1rem", textAlign: "center", maxWidth: "600px", margin: "0 auto", width: "100%" }}>
+        <h2 className="text-xl md:text-2xl" style={{ fontSize: "1.5rem", fontWeight: "bold", marginBottom: "1.5rem", color: "#059669" }}>
           {isEditMode ? "DRAM Questionnaire Updated!" : "DRAM Questionnaire Completed!"}
         </h2>
-        <div style={{ backgroundColor: "#f3f4f6", padding: "2rem", borderRadius: "12px", marginBottom: "2rem", textAlign: "left" }}>
-          <h3 style={{ fontSize: "1.5rem", fontWeight: "bold", marginBottom: "1rem", color: "#059669" }}>Summary</h3>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: "1rem", marginBottom: "2rem" }}>
+        <div className="p-4 md:p-8" style={{ backgroundColor: "#f3f4f6", padding: "1rem", borderRadius: "12px", marginBottom: "1.5rem", textAlign: "left" }}>
+          <h3 className="text-lg md:text-xl" style={{ fontSize: "1.25rem", fontWeight: "bold", marginBottom: "1rem", color: "#059669" }}>Summary</h3>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))", gap: "1rem", marginBottom: "1.5rem" }}>
             <div style={{ padding: "1rem", backgroundColor: "#ffffff", borderRadius: "8px", border: "1px solid #e5e7eb" }}>
               <div style={{ fontSize: "0.875rem", color: "#6b7280" }}>Total Score</div>
               <div style={{ fontSize: "1.5rem", fontWeight: "bold", color: "#059669" }}>{scoreResults.totalScore}/69</div>
@@ -163,10 +163,11 @@ const DRAM = () => {
           </div>
         </div>
         <button
+          className="w-full md:w-auto px-6 md:px-8 py-3 text-sm md:text-base"
           onClick={() => { setCompletedData(null); navigate("/questionnaires"); }}
           style={{
-            backgroundColor: "#059669", color: "#ffffff", padding: "1rem 2rem", borderRadius: "8px",
-            border: "none", fontSize: "1rem", fontWeight: "bold", cursor: "pointer", transition: "all 0.2s ease",
+            backgroundColor: "#059669", color: "#ffffff", padding: "0.75rem 1.5rem", borderRadius: "8px",
+            border: "none", fontSize: "0.875rem", fontWeight: "bold", cursor: "pointer", transition: "all 0.2s ease",
           }}
           onMouseEnter={(e) => { e.target.style.backgroundColor = "#047857"; }}
           onMouseLeave={(e) => { e.target.style.backgroundColor = "#059669"; }}
@@ -184,12 +185,11 @@ const DRAM = () => {
       ) : (
         <div className="questionnaire__container">
           <div
-            className="questionnaire__question"
+            className="questionnaire__question p-4 md:p-8"
             style={{
               background: "linear-gradient(135deg, #10b981 0%, #059669 50%, #047857 100%)",
               borderRadius: "12px",
-              padding: "2rem",
-              margin: "1rem",
+              padding: "1rem",
               boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)",
             }}
           >
@@ -226,7 +226,7 @@ const DRAM = () => {
                 </motion.button>
               </div>
             </div>
-            <img src={LogoLight} alt="Medvault Logo" className="h-10 mb-8 self-start" />
+            <img src={LogoLight} alt="Medvault Logo" className="h-10 mb-8 self-start questionnaire-logo" />
           </div>
           <div
             className="questionnaire__answer"
@@ -258,29 +258,96 @@ const DRAM = () => {
                     flexDirection: "column"
                   }}>
                     {/* Header */}
-                    <div style={{ 
-                      padding: "1.5rem", 
+                    <div className="p-3 md:p-6" style={{ 
+                      padding: "1rem", 
                       backgroundColor: "#f8f9fa", 
                       borderBottom: "2px solid #e9ecef",
                       textAlign: "center",
                       flexShrink: 0
                     }}>
-                      <h2 style={{ fontSize: "1.5rem", fontWeight: "bold", color: "#333", marginBottom: "0.5rem" }}>
+                      <h2 className="text-base md:text-xl" style={{ fontSize: "1.125rem", fontWeight: "bold", color: "#333", marginBottom: "0.5rem" }}>
                         Distress and Risk Assessment Method
                       </h2>
-                      <p style={{ fontSize: "1rem", color: "#666", marginBottom: "1rem" }}>
+                      <p className="text-sm md:text-base" style={{ fontSize: "0.875rem", color: "#666", marginBottom: "0.75rem" }}>
                         Main C, Wood P, Hillis S, et al (1992)
                       </p>
-                      <p style={{ fontSize: "0.9rem", color: "#666" }}>
+                      <p className="text-xs md:text-sm" style={{ fontSize: "0.75rem", color: "#666" }}>
                         Please indicate for each of these questions which answer best describes how you have been feeling recently.
                       </p>
                     </div>
 
-                    {/* Table Container */}
-                    <div style={{ 
+                    {/* Mobile Card Layout */}
+                    <div className="block md:hidden" style={{ 
+                      flex: 1,
+                      overflowY: "auto",
+                      padding: "1rem"
+                    }}>
+                      {dramQuestions.map((q) => (
+                        <div
+                          key={q.question}
+                          className="mb-4 p-4 border rounded-lg"
+                          style={{
+                            marginBottom: "1rem",
+                            padding: "1rem",
+                            border: "1px solid #e9ecef",
+                            borderRadius: "8px",
+                            backgroundColor: "white"
+                          }}
+                        >
+                          <div className="mb-3 font-bold text-sm" style={{ 
+                            fontWeight: "bold", 
+                            marginBottom: "0.75rem",
+                            fontSize: "0.875rem",
+                            color: "#333"
+                          }}>
+                            {q.number}. {q.text}
+                          </div>
+                          <div className="space-y-2">
+                            {options.map((option, index) => (
+                              <label
+                                key={index}
+                                className="flex items-center p-2 border rounded cursor-pointer"
+                                style={{
+                                  display: "flex",
+                                  alignItems: "flex-start",
+                                  padding: "0.5rem",
+                                  border: dramAnswers[q.question] === index ? "2px solid #56BB6E" : "1px solid #ddd",
+                                  borderRadius: "6px",
+                                  cursor: "pointer",
+                                  backgroundColor: dramAnswers[q.question] === index ? "#f0f9ff" : "transparent",
+                                  marginBottom: "0.5rem",
+                                  transition: "all 0.2s ease"
+                                }}
+                                onClick={() => handleDramChange(q.question, index)}
+                              >
+                                <input
+                                  type="radio"
+                                  name={q.question}
+                                  value={index}
+                                  checked={dramAnswers[q.question] === index}
+                                  onChange={() => handleDramChange(q.question, index)}
+                                  className="mt-1 mr-2"
+                                  style={{
+                                    marginRight: "0.5rem",
+                                    marginTop: "0.25rem",
+                                    cursor: "pointer",
+                                    flexShrink: 0
+                                  }}
+                                />
+                                <span className="text-xs" style={{ fontSize: "0.75rem", color: "#333", lineHeight: "1.4" }}>
+                                  {option}
+                                </span>
+                              </label>
+                            ))}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+
+                    {/* Desktop Table Container */}
+                    <div className="hidden md:flex" style={{ 
                       flex: 1,
                       overflow: "hidden",
-                      display: "flex",
                       flexDirection: "column"
                     }}>
                       {/* Fixed Header Row */}

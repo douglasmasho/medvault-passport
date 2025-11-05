@@ -14,7 +14,8 @@ import {
   Home,
   Clock,
   FileQuestion,
-  Hospital
+  Hospital,
+  QrCode
 } from "lucide-react";
 import { useState, useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
@@ -35,6 +36,7 @@ const SIDEBAR_ITEMS = [
   // { name: "Appointments", icon: Clock, color: "#56BB6E", href: "/appointments", submenu: false },
   { name: "Questionnaires", icon: FileQuestion, color: "#56BB6E", href: "/questionnaires", submenu: false },
   { name: "Create File", icon: Hospital, color: "#56BB6E", href: "/onboarding/123-456", submenu: false },
+  { name: "Show Vault Code", icon: QrCode, color: "#56BB6E", href: "/show-vault-code", submenu: false },
 
 ];
 

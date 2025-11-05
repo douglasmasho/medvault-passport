@@ -13,6 +13,44 @@ import {
 } from "firebase/firestore";
 import { nanoid } from "nanoid";
 
+/**
+ * Utility function to normalize questionnaire data to array format
+ * Handles backward compatibility with single object format
+ * @param {any} questionnaireData - Can be an array, single object, or null/undefined
+ * @returns {Array} - Always returns an array
+ */
+export const normalizeQuestionnairesToArray = (questionnaireData) => {
+  if (!questionnaireData) {
+    return [];
+  }
+  if (Array.isArray(questionnaireData)) {
+    return questionnaireData;
+  }
+  if (typeof questionnaireData === "object") {
+    return [questionnaireData];
+  }
+  return [];
+};
+
+/**
+ * Utility function to get the most recent questionnaire from an array or single object
+ * @param {any} questionnaireData - Can be an array, single object, or null/undefined
+ * @returns {object|null} - Returns the most recent questionnaire or null
+ */
+export const getMostRecentQuestionnaire = (questionnaireData) => {
+  const questionnaires = normalizeQuestionnairesToArray(questionnaireData);
+  if (questionnaires.length === 0) {
+    return null;
+  }
+  // Sort by timestamp (newest first) and return the first one
+  const sorted = [...questionnaires].sort((a, b) => {
+    const dateA = new Date(a.timestamp || a.createdAt || 0);
+    const dateB = new Date(b.timestamp || b.createdAt || 0);
+    return dateB - dateA;
+  });
+  return sorted[0];
+};
+
 // Create a new questionnaire
 export const createQuestionnaire = async (questionnaireData, uid) => {
   try {
@@ -35,12 +73,24 @@ export const createQuestionnaire = async (questionnaireData, uid) => {
 
     // 1. Save to /questionnaires/{uid} - user's personal questionnaires
     const userQuestionnaireRef = doc(db, "questionnaires", uid);
-    const fieldName = questionnaireData.type?.toLowerCase() || "VAS";
+    const fieldName = questionnaireData.type?.toLowerCase() || "vas";
     console.log("Saving to Firestore with fieldName:", fieldName);
     console.log("Document path:", `questionnaires/${uid}`);
     
+    // Get the current document to check if field exists
+    const currentDoc = await getDoc(userQuestionnaireRef);
+    const currentData = currentDoc.exists() ? currentDoc.data() : {};
+    
+    // Get existing array for this questionnaire type, or create new array
+    // Use utility function to handle both array and single object formats
+    const existingArray = normalizeQuestionnairesToArray(currentData[fieldName]);
+    
+    // Add the new questionnaire to the array
+    const updatedArray = [...existingArray, questionnaireObj];
+    
+    // Save the updated array
     await setDoc(userQuestionnaireRef, {
-      [fieldName]: questionnaireObj
+      [fieldName]: updatedArray
     }, { merge: true });
     
     console.log("Successfully saved to Firestore!");
@@ -127,15 +177,21 @@ export const deleteQuestionnaire = async (questionnaireId, uid, orgID, fileID) =
 };
 
 // Get questionnaires for a user
+// Returns all questionnaires organized by type, with each type containing an array of versions
+// Note: For backward compatibility, individual types may be single objects or arrays
 export const getUserQuestionnaires = async (uid) => {
   try {
     const userQuestionnaireRef = doc(db, "questionnaires", uid);
     const docSnap = await getDoc(userQuestionnaireRef);
     
     if (docSnap.exists()) {
-      return docSnap.data().questionnaires || [];
+      const data = docSnap.data();
+      // Return the entire document data structure
+      // Structure: { vas: [...], odi: [...], isi: [...], etc. }
+      // Each field contains an array of questionnaire versions (or single object for backward compatibility)
+      return data;
     }
-    return [];
+    return {};
   } catch (error) {
     console.error("Error getting user questionnaires:", error);
     throw error;

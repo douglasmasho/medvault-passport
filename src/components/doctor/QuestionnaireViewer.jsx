@@ -9,6 +9,7 @@ import { Navigate } from "react-router-dom";
 import { useAuth } from "../../contexts/authContext";
 import { useDarkMode } from "../../contexts/darkModeContext";
 import Header from "../common/Header";
+import { getMostRecentQuestionnaire } from "../../firebase/questionnaires";
 
 // Import individual questionnaire viewers
 import VASViewer from "./VASViewer";
@@ -66,8 +67,18 @@ const QuestionnaireViewer = () => {
           return;
         }
 
-        console.log("Setting questionnaire data:", data);
-        setQuestionnaireData(data);
+        // Handle both array and single object formats (for backward compatibility)
+        // Get the most recent questionnaire using utility function
+        const questionnaireDataToDisplay = getMostRecentQuestionnaire(data);
+        
+        if (!questionnaireDataToDisplay) {
+          setError(`No ${type?.toUpperCase()} questionnaire data found for this patient`);
+          setLoading(false);
+          return;
+        }
+
+        console.log("Setting questionnaire data:", questionnaireDataToDisplay);
+        setQuestionnaireData(questionnaireDataToDisplay);
       } catch (err) {
         console.error("Error fetching questionnaire data:", err);
         setError("Failed to load questionnaire data");

@@ -46,4 +46,10 @@ svg{
   color: black;
 }
 
-
+.vas-screen{
+  @include respond(tab-port){
+    flex-direction: column;
+    height: auto !important;
+    padding-bottom: 80px;
+  }
+}
