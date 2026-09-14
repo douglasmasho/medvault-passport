@@ -23,6 +23,7 @@
     "filepond-plugin-image-exif-orientation": "^1.0.11",
     "filepond-plugin-image-preview": "^4.6.12",
     "firebase": "^10.13.1",
+    "firebase-admin": "^14.3.0",
     "framer-motion": "^11.3.19",
     "lottie-react": "^2.4.0",
     "lucide-react": "^0.417.0",
